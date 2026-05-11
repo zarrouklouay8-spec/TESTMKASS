@@ -1,306 +1,3046 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mkass — Réservez votre coiffeur</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-<style>
+  <style>
 :root{
-  --ink:#101010;
-  --muted:#656760;
-  --soft:#f7f6f1;
-  --line:#dedbd2;
-  --card:#ffffff;
-  --footer:#efeeeb;
-
-  /* Palette from your reference */
-  --green:#28d36b;
-  --mint:rgba(11,100,87,.10);
-  --sand:#e8dfd5;
-
-  --radius:24px;
-}
-html.dark{
-  --ink:#f6f6f1;
-  --muted:#b7b8b0;
-  --soft:#0f1210;
-  --line:rgba(255,255,255,.14);
-  --card:#171b18;
-  --footer:#151815;
-  --mint:rgba(40,211,107,.14);
+  --ink:#0A0A0A;--ink2:#141414;--ink3:#1E1E1E;--ink4:#252525;
+  --lime:#C8FF00;--lime2:#B4E800;--lime-dim:rgba(200,255,0,0.12);--lime-faint:rgba(200,255,0,0.05);
+  --white:#FFFFFF;--off:#F5F5F0;--gray:#8A8A8A;--gray2:#3A3A3A;--gray3:#2A2A2A;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.14);
+  --success:#4ADE80;--warn:#FBB040;--danger:#FF6B6B;--info:#60A5FA;
+  --r:12px;--rs:8px;--rl:20px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{font-family:'Plus Jakarta Sans',Inter,Arial,sans-serif;background:var(--soft);color:var(--ink)}
-button,input{font-family:inherit}
-button{cursor:pointer}
-.page{min-height:100vh;background:var(--soft)}
-html.dark .word,html.dark .word em,html.dark h1,html.dark .section-head h2{color:#fff}
-html.dark .nav-links{color:#f0f0ea}
-html.dark .floating{background:rgba(23,27,24,.92);border-color:rgba(255,255,255,.16)}
-html.dark .floating h3,html.dark .floating .rating{color:#fff}
-html.dark .floating p{color:#d0d1c9}
-html.dark .floating button{color:#07110b}
-html.dark .header{background:rgba(15,18,16,.92);border-bottom-color:rgba(255,255,255,.1)}
-html.dark .ghost,html.dark .search,html.dark .venue,html.dark .chip,html.dark .download{background:var(--card);color:#fff;border-color:var(--line)}
-html.dark .field input,html.dark .field small,html.dark .venue-name,html.dark .price strong,html.dark .footer-col h4,html.dark .footer-col a{color:#fff}
-html.dark .hero-copy p,html.dark .addr,html.dark .type,html.dark .price,html.dark .footer-text,html.dark .footer-bottom{color:var(--muted)}
-html.dark .footer{background:var(--footer);border-top-color:var(--line)}
-html.dark .footer-bottom{border-top-color:var(--line)}
-html.dark .service{background:rgba(255,255,255,.08);color:#e8e8e3}
-html.dark .chip.active{background:#fff;border-color:#fff;color:#111}
-html.dark .icon.searchIcon::before,html.dark .icon.pinIcon::before{border-color:#fff}
-html.dark .icon.searchIcon::after,html.dark .icon.pinIcon::after{background:#fff}
+body{font-family:'Instrument Sans',sans-serif;background:var(--ink);color:var(--white);min-height:100vh;overflow-x:hidden}
+h1,h2,h3,.logo-text,.syne{font-family:'Syne',sans-serif}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--ink2)}::-webkit-scrollbar-thumb{background:var(--gray2);border-radius:3px}
+input,button,select,textarea{font-family:'Instrument Sans',sans-serif}
 
-/* HEADER */
-.header{
-  height:76px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 clamp(18px,4vw,56px);
-  background:rgba(247,246,241,.94);
-  backdrop-filter:blur(18px);
-  border-bottom:1px solid rgba(16,16,16,.08);
-  position:sticky;
-  top:0;
-  z-index:20;
+/* NAV */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;height:60px;background:var(--ink2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:300}
+.logo{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none}
+.logo-mark{width:34px;height:34px;background:var(--lime);border-radius:7px;display:flex;align-items:center;justify-content:center;}
+.logo-text{font-size:20px;font-weight:800;letter-spacing:-0.04em}
+.logo-text em{color:var(--lime);font-style:normal}
+.nav-tabs{display:flex;gap:2px}
+.ntab{padding:7px 14px;border-radius:var(--rs);border:none;background:transparent;color:var(--gray);font-size:13px;cursor:pointer;transition:all 0.15s}
+.ntab:hover{color:var(--white);background:var(--gray3)}
+.ntab.active{color:var(--lime);background:var(--lime-dim)}
+.nav-r{display:flex;gap:8px;align-items:center}
+.nav-pill{padding:7px 16px;border:1px solid var(--border2);border-radius:var(--rs);background:transparent;color:var(--white);font-size:13px;cursor:pointer;transition:all 0.15s}
+.nav-pill:hover{border-color:var(--lime);color:var(--lime)}
+.nav-pill.lime{background:var(--lime);border-color:var(--lime);color:var(--ink);font-weight:600}
+
+/* VIEWS */
+.view{display:none;animation:fi 0.2s ease}
+.view.active{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── UNIVERSAL COMPONENTS ── */
+.btn{padding:11px 22px;border:none;border-radius:var(--rs);font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s;display:inline-flex;align-items:center;gap:6px}
+.btn-lime{background:var(--lime);color:var(--ink)}
+.btn-lime:hover{background:var(--lime2)}
+.btn-lime:disabled{background:var(--gray2);color:var(--gray);cursor:default}
+.btn-ghost{background:transparent;color:var(--gray);border:1.5px solid var(--border2)}
+.btn-ghost:hover{border-color:var(--white);color:var(--white)}
+.btn-danger{background:rgba(255,107,107,0.15);color:var(--danger);border:1px solid rgba(255,107,107,0.25)}
+.btn-danger:hover{background:rgba(255,107,107,0.25)}
+.btn-sm{padding:7px 14px;font-size:12px}
+.card{background:var(--ink2);border:1px solid var(--border);border-radius:var(--r)}
+.f-label{display:block;font-size:11px;color:var(--gray);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:5px}
+.f-input{width:100%;padding:10px 13px;background:var(--ink3);border:1.5px solid var(--border2);border-radius:var(--rs);color:var(--white);font-size:14px;outline:none;transition:border-color 0.2s}
+.f-input:focus{border-color:var(--lime)}
+.f-input::placeholder{color:var(--gray)}
+.f-row{margin-bottom:1.1rem}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:99px;font-size:11px;font-weight:500}
+.badge-open{background:rgba(74,222,128,0.15);color:var(--success)}
+.badge-busy{background:rgba(251,176,64,0.15);color:var(--warn)}
+.badge-closed{background:rgba(255,107,107,0.12);color:var(--danger)}
+.badge-confirmed{background:rgba(74,222,128,0.15);color:var(--success)}
+.badge-pending{background:rgba(251,176,64,0.15);color:var(--warn)}
+.badge-done{background:rgba(138,138,138,0.12);color:var(--gray)}
+.badge-cancelled{background:rgba(255,107,107,0.12);color:var(--danger)}
+.toast{position:fixed;bottom:22px;right:22px;background:var(--ink2);border:1px solid var(--border2);border-left:3px solid var(--lime);color:var(--white);padding:11px 18px;border-radius:var(--rs);font-size:13px;z-index:999;transform:translateY(70px);opacity:0;transition:all 0.3s;pointer-events:none}
+.toast.show{transform:translateY(0);opacity:1}
+.section-label{font-size:11px;color:var(--gray);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem}
+
+/* ════════ EXPLORE ════════ */
+.hero{padding:4rem 2rem 3rem;text-align:center;position:relative;overflow:hidden;background:var(--ink)}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(200,255,0,0.07) 0%,transparent 70%);pointer-events:none}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:var(--lime-dim);border:1px solid rgba(200,255,0,0.2);padding:4px 14px;border-radius:99px;font-size:11px;color:var(--lime);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1.25rem}
+.hero-dot{width:6px;height:6px;background:var(--lime);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.hero h1{font-size:clamp(36px,6vw,72px);font-weight:800;line-height:1;letter-spacing:-0.04em;margin-bottom:0.75rem}
+.hero h1 em{color:var(--lime);font-style:normal}
+.hero p{font-size:15px;color:var(--gray);max-width:400px;margin:0 auto 2rem;line-height:1.65}
+.search-wrap{display:flex;gap:0;background:var(--ink3);border:1.5px solid var(--border2);border-radius:var(--r);padding:5px 5px 5px 16px;max-width:500px;margin:0 auto;transition:border-color 0.2s}
+.search-wrap:focus-within{border-color:var(--lime)}
+.search-wrap input{flex:1;background:transparent;border:none;outline:none;font-size:14px;color:var(--white)}
+.search-wrap input::placeholder{color:var(--gray)}
+.search-wrap .btn-lime{border-radius:var(--rs);font-size:13px;padding:9px 18px}
+.chips{display:flex;gap:8px;padding:1.25rem 2rem 0;overflow-x:auto;scrollbar-width:none;flex-wrap:wrap}
+.chips::-webkit-scrollbar{display:none}
+.chip{padding:6px 15px;border-radius:99px;border:1px solid var(--border2);background:transparent;color:var(--gray);font-size:12px;cursor:pointer;transition:all 0.15s;white-space:nowrap}
+.chip:hover{border-color:var(--white);color:var(--white)}
+.chip.active{background:var(--lime);border-color:var(--lime);color:var(--ink);font-weight:600}
+
+/* SHOP GRID */
+.shops-wrap{padding:1.5rem 2rem}
+.shops-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.shops-meta h2{font-size:16px;font-weight:700;letter-spacing:-0.02em}
+.shops-meta span{font-size:12px;color:var(--gray)}
+.shops-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(295px,1fr));gap:14px}
+.shop-card{background:var(--ink2);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;cursor:pointer;transition:all 0.2s}
+.shop-card:hover{border-color:rgba(200,255,0,0.25);transform:translateY(-2px)}
+.shop-cover{height:155px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--ink3)}
+.shop-cover img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.shop-cover-placeholder{font-size:64px;position:relative;z-index:1;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.5))}
+.shop-cover-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.5) 0%,transparent 60%)}
+.cover-badge{position:absolute;top:10px;right:10px;z-index:2}
+.cover-dist{position:absolute;bottom:10px;left:10px;z-index:2;background:rgba(0,0,0,0.65);backdrop-filter:blur(6px);padding:3px 9px;border-radius:99px;font-size:11px}
+.shop-body{padding:1.1rem}
+.shop-row1{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:3px}
+.shop-name{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;letter-spacing:-0.02em}
+.shop-rating{display:flex;align-items:center;gap:3px;font-size:12px;color:var(--gray)}
+.shop-rating .star{color:var(--lime);font-size:11px}
+.shop-type-lbl{font-size:12px;color:var(--gray);margin-bottom:9px}
+.shop-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px}
+.shop-tag{padding:3px 9px;background:var(--gray3);border-radius:99px;font-size:11px;color:var(--gray)}
+.shop-tag.lime{background:var(--lime-dim);color:var(--lime)}
+.shop-foot{display:flex;align-items:center;justify-content:space-between}
+.shop-from{font-size:12px;color:var(--gray)}
+.shop-from strong{color:var(--white)}
+.book-btn{padding:7px 15px;background:var(--lime);color:var(--ink);border:none;border-radius:var(--rs);font-family:'Syne',sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:all 0.15s}
+.book-btn:hover{background:var(--lime2)}
+
+/* MODAL */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:500;display:flex;align-items:flex-end;justify-content:center;animation:fi 0.2s}
+.overlay.hidden{display:none}
+.modal{background:var(--ink2);border:1px solid var(--border2);border-radius:var(--rl) var(--rl) 0 0;width:100%;max-width:660px;max-height:92vh;overflow-y:auto;padding:1.75rem;animation:su 0.3s ease}
+@keyframes su{from{transform:translateY(30px)}to{transform:translateY(0)}}
+.modal-handle{width:36px;height:3px;background:var(--gray2);border-radius:2px;margin:0 auto 1.5rem}
+.modal-cover{height:180px;border-radius:var(--r);overflow:hidden;position:relative;margin-bottom:1.25rem;background:var(--ink3);display:flex;align-items:center;justify-content:center}
+.modal-cover img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.modal-cover-ph{font-size:72px;position:relative;z-index:1}
+.modal-hdr{display:flex;gap:12px;align-items:flex-start;margin-bottom:1.25rem}
+.modal-icon{width:52px;height:52px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
+.modal-title{font-family:'Syne',sans-serif;font-size:21px;font-weight:800;letter-spacing:-0.03em}
+.modal-addr{font-size:12px;color:var(--gray);margin-top:3px}
+.map-link{cursor:pointer;transition:color .15s}
+.map-link:hover{color:var(--lime);text-decoration:underline}
+.modal-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.5rem}
+.mstat{background:var(--gray3);border-radius:var(--rs);padding:11px;text-align:center}
+.mstat-val{font-family:'Syne',sans-serif;font-size:20px;font-weight:700}
+.mstat-val.lime{color:var(--lime)}
+.mstat-lbl{font-size:11px;color:var(--gray);margin-top:2px}
+
+/* MULTI-SERVICE SELECT IN MODAL */
+.modal-svcs-title{font-size:13px;font-weight:600;color:var(--white);margin-bottom:10px}
+.modal-svc-list{display:flex;flex-direction:column;gap:6px;margin-bottom:1.25rem}
+.modal-svc-item{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--gray3);border-radius:var(--rs);border:1.5px solid transparent;cursor:pointer;transition:all 0.15s}
+.modal-svc-item:hover{border-color:var(--border2)}
+.modal-svc-item.picked{border-color:var(--lime);background:var(--lime-faint)}
+.modal-svc-left{display:flex;align-items:center;gap:10px}
+.modal-svc-check{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--gray);display:flex;align-items:center;justify-content:center;font-size:10px;transition:all 0.15s;flex-shrink:0}
+.modal-svc-item.picked .modal-svc-check{background:var(--lime);border-color:var(--lime);color:var(--ink);font-weight:800}
+.modal-svc-name{font-size:13px;font-weight:500}
+.modal-svc-dur{font-size:11px;color:var(--gray)}
+.modal-svc-price{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--lime)}
+.modal-total-bar{display:flex;align-items:center;justify-content:space-between;background:var(--lime-dim);border:1px solid rgba(200,255,0,0.2);border-radius:var(--rs);padding:11px 14px;margin-bottom:1rem;font-size:13px}
+.modal-total-bar strong{font-family:'Syne',sans-serif;font-size:18px;color:var(--lime)}
+.modal-book-btn{display:block;width:100%;padding:15px;background:var(--lime);color:var(--ink);border:none;border-radius:var(--r);font-family:'Syne',sans-serif;font-size:16px;font-weight:800;cursor:pointer;transition:background 0.15s;letter-spacing:-0.02em}
+.modal-book-btn:hover{background:var(--lime2)}
+.modal-book-btn:disabled{background:var(--gray2);color:var(--gray);cursor:default}
+.reviews-section{margin-top:1.5rem}
+.reviews-lbl{font-size:11px;color:var(--gray);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem}
+.review{border-top:1px solid var(--border);padding:1rem 0}
+.review:first-of-type{border-top:none;padding-top:0}
+.rev-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.rev-av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--ink);flex-shrink:0}
+.rev-name{font-size:13px;font-weight:500}
+.rev-date{font-size:11px;color:var(--gray)}
+.rev-stars{color:var(--lime);font-size:12px;letter-spacing:1px}
+.rev-text{font-size:13px;color:var(--gray);line-height:1.6}
+
+/* ════════ BOOKING VIEW ════════ */
+.bk-wrap{max-width:800px;margin:0 auto;padding:2rem 1.5rem}
+.bk-salon-bar{display:flex;align-items:center;gap:12px;background:var(--ink2);border:1px solid var(--border);border-radius:var(--r);padding:1rem 1.25rem;margin-bottom:2rem}
+.bk-salon-icon{width:44px;height:44px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;background:var(--gray3)}
+.bk-salon-name{font-family:'Syne',sans-serif;font-size:16px;font-weight:700}
+.bk-salon-addr{font-size:12px;color:var(--gray);margin-top:2px}
+.steps-bar{display:flex;align-items:center;margin-bottom:2rem}
+.stp{display:flex;align-items:center;gap:7px;flex:1}
+.stp-n{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--gray2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--gray);flex-shrink:0;transition:all 0.3s}
+.stp.active .stp-n{background:var(--lime);border-color:var(--lime);color:var(--ink)}
+.stp.done .stp-n{background:var(--gray2);border-color:var(--gray2);color:var(--white)}
+.stp-lbl{font-size:11px;color:var(--gray)}
+.stp.active .stp-lbl{color:var(--white);font-weight:500}
+.stp-line{flex:1;height:1px;background:var(--gray2);margin:0 6px}
+.sp{display:none;animation:fi 0.25s ease}
+.sp.active{display:block}
+.sp-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;letter-spacing:-0.03em;margin-bottom:1.25rem}
+
+/* selected services summary */
+.sel-summary{background:var(--lime-dim);border:1px solid rgba(200,255,0,0.18);border-radius:var(--rs);padding:10px 14px;margin-bottom:1.5rem;display:flex;flex-direction:column;gap:4px}
+.sel-summary-row{display:flex;justify-content:space-between;font-size:12px}
+.sel-summary-row.total{font-size:14px;font-weight:600;padding-top:6px;border-top:1px solid rgba(200,255,0,0.2);margin-top:2px}
+.sel-summary-row.total span:last-child{color:var(--lime);font-family:'Syne',sans-serif;font-size:16px}
+
+/* Multi-select service grid in booking */
+.msvc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:9px}
+.msvc-card{background:var(--ink2);border:1.5px solid var(--border);border-radius:var(--r);padding:1.1rem;cursor:pointer;transition:all 0.18s;position:relative}
+.msvc-card:hover{border-color:var(--border2)}
+.msvc-card.picked{border-color:var(--lime);background:var(--lime-faint)}
+.msvc-chk{position:absolute;top:9px;right:9px;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--gray2);display:flex;align-items:center;justify-content:center;font-size:10px;transition:all 0.15s;color:transparent}
+.msvc-card.picked .msvc-chk{background:var(--lime);border-color:var(--lime);color:var(--ink);font-weight:800}
+.msvc-cat{font-size:10px;color:var(--gray);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px}
+.msvc-name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:-0.02em;margin-bottom:2px}
+.msvc-dur{font-size:11px;color:var(--gray);margin-bottom:8px}
+.msvc-price{font-family:'Syne',sans-serif;font-size:19px;font-weight:700;color:var(--lime)}
+
+/* Calendar */
+.cal-layout{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:560px){.cal-layout{grid-template-columns:1fr}}
+.cal-box{background:var(--ink2);border:1px solid var(--border);border-radius:var(--r);padding:1.1rem}
+.cal-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.cal-month{font-family:'Syne',sans-serif;font-size:14px;font-weight:700}
+.cal-arr{width:26px;height:26px;border:1px solid var(--border2);border-radius:6px;background:transparent;color:var(--white);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
+.cal-arr:hover{border-color:var(--lime);color:var(--lime)}
+.cal-wds{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:4px}
+.cal-wd{font-size:10px;color:var(--gray);text-align:center;padding:3px 0;text-transform:uppercase}
+.cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.cday{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:12px;border-radius:6px;cursor:pointer;transition:all 0.12s;border:1.5px solid transparent}
+.cday:hover:not(.off):not(.emp){background:var(--gray3)}
+.cday.today{color:var(--lime);font-weight:600}
+.cday.sel{background:var(--lime);color:var(--ink);font-weight:700}
+.cday.off{color:var(--gray2);cursor:default}
+.cday.emp{cursor:default}
+.slots-box{background:var(--ink2);border:1px solid var(--border);border-radius:var(--r);padding:1.1rem}
+.slots-lbl{font-size:11px;color:var(--gray);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px}
+.slots-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.slot{padding:9px 4px;text-align:center;border:1.5px solid var(--border);border-radius:var(--rs);font-size:12px;cursor:pointer;transition:all 0.12s;background:transparent;color:var(--white)}
+.slot:hover:not(.taken){border-color:var(--lime);color:var(--lime)}
+.slot.sel{background:var(--lime);color:var(--ink);border-color:var(--lime);font-weight:600}
+.slot.taken{color:var(--gray2);border-color:var(--gray3);cursor:default;text-decoration:line-through;font-size:11px}
+.no-msg{font-size:13px;color:var(--gray);text-align:center;padding:1.5rem 0}
+.step-acts{display:flex;gap:10px;margin-top:1.75rem}
+
+/* success */
+.succ{text-align:center;padding:2.5rem 1rem}
+.succ-icon{width:72px;height:72px;border-radius:50%;background:rgba(74,222,128,0.12);border:2px solid rgba(74,222,128,0.3);display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;font-size:32px}
+.succ h2{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;letter-spacing:-0.04em;margin-bottom:0.4rem}
+.ref-pill{display:inline-block;background:var(--ink2);border:1px solid var(--border2);border-radius:var(--rs);padding:8px 24px;font-family:'Syne',sans-serif;font-size:20px;font-weight:700;letter-spacing:0.08em;color:var(--lime);margin:1rem 0 1.25rem}
+.succ-detail{background:var(--ink2);border:1px solid var(--border);border-radius:var(--r);padding:1.1rem;max-width:340px;margin:0 auto 1.75rem;text-align:left}
+.sd-row{display:flex;justify-content:space-between;font-size:13px;padding:5px 0;border-bottom:1px solid var(--border)}
+.sd-row:last-child{border-bottom:none}
+.sd-row span:first-child{color:var(--gray)}
+
+/* ════════ DASHBOARD ════════ */
+.dash-grid{display:grid;grid-template-columns:230px 1fr;min-height:calc(100vh - 60px)}
+@media(max-width:680px){.dash-grid{grid-template-columns:1fr}}
+.sidebar{background:var(--ink2);border-right:1px solid var(--border);padding:1.25rem 0.9rem;display:flex;flex-direction:column;gap:2px}
+.sb-lbl{font-size:10px;color:var(--gray);text-transform:uppercase;letter-spacing:0.12em;padding:8px 10px 3px}
+.sb-btn{display:flex;align-items:center;gap:9px;padding:8px 11px;border-radius:var(--rs);color:var(--gray);font-size:13px;cursor:pointer;transition:all 0.12s;border:none;background:transparent;width:100%;text-align:left}
+.sb-btn:hover{background:var(--gray3);color:var(--white)}
+.sb-btn.active{background:var(--lime-dim);color:var(--lime)}
+.sb-badge{margin-left:auto;padding:2px 7px;background:var(--lime-dim);border-radius:99px;font-size:10px;color:var(--lime);font-weight:600}
+.dash-main{background:var(--ink);padding:1.75rem;overflow-y:auto}
+.dash-hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.75rem;gap:1rem;flex-wrap:wrap}
+.dash-title{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;letter-spacing:-0.04em}
+.dash-sub{font-size:12px;color:var(--gray);margin-top:3px}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:11px;margin-bottom:1.75rem}
+.stat-c{background:var(--ink2);border:1px solid var(--border);border-radius:var(--r);padding:1.1rem}
+.stat-lbl{font-size:10px;color:var(--gray);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:7px}
+.stat-val{font-family:'Syne',sans-serif;font-size:30px;font-weight:800;letter-spacing:-0.04em}
+.stat-val.lime{color:var(--lime)}
+.stat-val.warn{color:var(--warn)}
+.stat-val.info{color:var(--info)}
+.stat-sub{font-size:11px;color:var(--gray);margin-top:3px}
+.dtab{display:none}
+.dtab.active{display:block}
+.t-card{background:var(--ink2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.t-hdr{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:8px}
+.t-hdr h3{font-family:'Syne',sans-serif;font-size:14px;font-weight:700}
+.ftabs{display:flex;gap:4px;flex-wrap:wrap}
+.ftab{padding:4px 11px;border-radius:6px;border:1px solid var(--border);background:transparent;font-size:11px;cursor:pointer;color:var(--gray);transition:all 0.12s}
+.ftab:hover{border-color:var(--white);color:var(--white)}
+.ftab.active{background:var(--lime);border-color:var(--lime);color:var(--ink);font-weight:600}
+table{width:100%;border-collapse:collapse}
+thead th{padding:9px 14px;text-align:left;font-size:10px;color:var(--gray);text-transform:uppercase;letter-spacing:0.1em;font-weight:500;background:var(--ink3);border-bottom:1px solid var(--border)}
+tbody tr{border-bottom:1px solid var(--border);transition:background 0.1s}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:var(--ink3)}
+tbody td{padding:11px 14px;font-size:13px;vertical-align:middle}
+.av-cell{display:flex;align-items:center;gap:9px}
+.av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--ink);flex-shrink:0}
+.cl-name{font-weight:500;font-size:13px}
+.cl-ph{font-size:11px;color:var(--gray)}
+.ab{padding:3px 9px;border-radius:5px;border:1px solid var(--border2);background:transparent;font-size:11px;cursor:pointer;color:var(--white);transition:all 0.12s;margin-right:3px}
+.ab:hover{background:var(--gray3)}
+.ab.ok:hover{background:rgba(74,222,128,0.12);border-color:rgba(74,222,128,0.35);color:var(--success)}
+.ab.bad:hover{background:rgba(255,107,107,0.12);border-color:rgba(255,107,107,0.25);color:var(--danger)}
+.empty-row td{text-align:center;color:var(--gray);padding:2.5rem}
+
+/* WALK-IN / PAYMENT PANEL */
+.walkin-panel{background:var(--ink2);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;max-width:480px;margin-bottom:1.75rem}
+.walkin-panel h3{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:1.25rem;letter-spacing:-0.02em}
+.walkin-svc-check{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:1rem}
+.wsc{display:flex;align-items:center;gap:7px;padding:8px 10px;background:var(--gray3);border-radius:var(--rs);border:1.5px solid transparent;cursor:pointer;transition:all 0.12s;font-size:12px}
+.wsc.picked{border-color:var(--lime);background:var(--lime-faint);color:var(--lime)}
+.wsc input[type=checkbox]{display:none}
+.total-display{background:var(--ink3);border-radius:var(--rs);padding:10px 14px;display:flex;justify-content:space-between;align-items:center;font-size:13px;margin-bottom:1rem}
+.total-display strong{font-family:'Syne',sans-serif;font-size:18px;color:var(--lime)}
+.pay-types{display:flex;gap:6px;margin-bottom:1rem}
+.pt{padding:7px 14px;border:1.5px solid var(--border2);border-radius:var(--rs);background:transparent;color:var(--gray);font-size:12px;cursor:pointer;transition:all 0.12s}
+.pt:hover{border-color:var(--white);color:var(--white)}
+.pt.active{border-color:var(--lime);color:var(--lime);background:var(--lime-dim)}
+
+/* MANAGE SERVICES */
+.svc-manage-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:1.5rem}
+.svc-manage-card{background:var(--ink2);border:1px solid var(--border);border-radius:var(--r);padding:1.1rem;position:relative}
+.svc-manage-card .smc-cat{font-size:10px;color:var(--gray);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:5px}
+.svc-manage-card .smc-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:2px}
+.svc-manage-card .smc-dur{font-size:11px;color:var(--gray);margin-bottom:8px}
+.svc-manage-card .smc-price{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:var(--lime)}
+.smc-actions{display:flex;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.add-svc-form{background:var(--ink2);border:1px solid var(--lime-dim);border-radius:var(--r);padding:1.25rem;max-width:440px}
+.add-svc-form h3{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:1rem}
+.form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* COVER UPLOAD */
+.cover-upload{position:relative;height:140px;border:2px dashed var(--border2);border-radius:var(--r);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;margin-bottom:1.25rem;overflow:hidden;background:var(--ink3)}
+.cover-upload:hover{border-color:var(--lime)}
+.cover-upload img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cover-upload input{display:none}
+.cover-upload-txt{position:relative;z-index:1;text-align:center;pointer-events:none}
+.cover-upload-txt p{font-size:13px;color:var(--gray);margin-top:6px}
+.cover-overlay-btn{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.5);opacity:0;transition:opacity 0.2s}
+.cover-upload:hover .cover-overlay-btn{opacity:1}
+
+/* SALON SETTINGS */
+.settings-form{background:var(--ink2);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;max-width:460px}
+
+/* LOGIN */
+.login-screen{display:flex;align-items:center;justify-content:center;min-height:calc(100vh - 60px);padding:2rem}
+.login-card{background:var(--ink2);border:1px solid var(--border2);border-radius:var(--rl);padding:2.25rem;width:100%;max-width:370px}
+.login-logo{display:flex;align-items:center;gap:9px;margin-bottom:2rem}
+.login-logo .logo-mark{width:40px;height:40px}
+.login-logo .logo-text{font-size:24px}
+.login-card h2{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;letter-spacing:-0.03em;margin-bottom:4px}
+.login-card p{font-size:13px;color:var(--gray);margin-bottom:1.5rem}
+.salon-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:1.25rem}
+.salon-opt{display:flex;align-items:center;gap:10px;padding:9px 13px;background:var(--gray3);border-radius:var(--rs);border:2px solid transparent;cursor:pointer;transition:all 0.15s}
+.salon-opt:hover{border-color:var(--border2)}
+.salon-opt.sel{border-color:var(--lime);background:var(--lime-faint)}
+.so-icon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:15px;background:var(--gray2)}
+.so-name{font-size:13px;font-weight:500}
+.so-addr{font-size:11px;color:var(--gray)}
+
+/* ADMIN */
+.admin-notice{background:rgba(96,165,250,0.1);border:1px solid rgba(96,165,250,0.25);border-radius:var(--rs);padding:10px 14px;font-size:13px;color:var(--info);margin-bottom:1.5rem;display:flex;align-items:center;gap:8px}
+.new-salon-form{background:var(--ink2);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;max-width:460px}
+.new-salon-form h3{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:1.25rem}
+
+/* BALANCE HISTORY */
+.balance-header{display:flex;align-items:center;justify-content:space-between;background:var(--lime-dim);border:1px solid rgba(200,255,0,0.2);border-radius:var(--r);padding:1.25rem 1.5rem;margin-bottom:1.5rem}
+.balance-title{font-size:13px;color:var(--gray)}
+.balance-amount{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;color:var(--lime);letter-spacing:-0.04em}
+.balance-sub{font-size:11px;color:var(--gray);margin-top:3px}
+.hist-item{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border);font-size:13px}
+.hist-item:last-child{border-bottom:none}
+.hist-left{display:flex;align-items:center;gap:10px}
+.hist-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.hist-label{font-weight:500}
+.hist-meta{font-size:11px;color:var(--gray)}
+.hist-amount{font-family:'Syne',sans-serif;font-weight:700}
+.hist-amount.positive{color:var(--success)}
+
+/* CUSTOMER BOOKINGS PAGE */
+.my-bookings-wrap{max-width:760px;margin:0 auto;padding:2rem 1.5rem}
+.my-bookings-hero{background:var(--ink2);border:1px solid var(--border);border-radius:var(--rl);padding:1.5rem;margin-bottom:1.25rem}
+.my-bookings-title{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;letter-spacing:-0.04em;margin-bottom:.35rem}
+.my-bookings-sub{color:var(--gray);font-size:14px;line-height:1.6;margin-bottom:1rem}
+.my-bookings-form{display:flex;gap:10px}
+.my-bookings-form .f-input{flex:1}
+.booking-card{background:var(--ink2);border:1px solid var(--border);border-radius:var(--r);padding:1rem;margin-bottom:10px}
+.booking-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px}
+.booking-card-title{font-family:'Syne',sans-serif;font-weight:700;font-size:16px}
+.booking-card-meta{color:var(--gray);font-size:12px;margin-top:3px}
+.booking-card-row{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-top:1px solid var(--border);font-size:13px}
+.booking-card-row span:first-child{color:var(--gray)}
+.booking-empty{background:var(--ink2);border:1px solid var(--border);border-radius:var(--r);padding:2rem 1rem;text-align:center;color:var(--gray);font-size:14px}
+@media (max-width:680px){
+  .my-bookings-wrap{padding:1rem 1rem 6rem}
+  .my-bookings-hero{border-radius:22px;padding:1.1rem}
+  .my-bookings-title{font-size:26px}
+  .my-bookings-form{flex-direction:column}
+  .my-bookings-form .btn{min-height:50px;justify-content:center}
+  .booking-card{border-radius:20px}
 }
-.brand,.footer-logo{display:flex;align-items:center;gap:10px}
-.mark{width:38px;height:38px;border-radius:11px;background:var(--green);display:grid;place-items:center;box-shadow:0 1px 0 rgba(255,255,255,.45) inset}
-.mark svg{width:23px;height:23px}
-.word{font-family:'Space Grotesk','Plus Jakarta Sans',Inter,sans-serif;font-size:26px;font-weight:700;letter-spacing:-.055em;color:#000;line-height:1;text-transform:uppercase}
-.word em{font-style:normal;color:#000}
-.nav-links{display:flex;align-items:center;gap:30px;font-family:Inter,Arial,sans-serif;font-size:14px;font-weight:650;color:#32332f}
-.nav-links span{cursor:pointer;white-space:nowrap}.nav-links span:hover{opacity:.62}
-.nav-actions{display:flex;align-items:center;gap:10px}
-.theme-toggle{height:42px;width:42px;border-radius:999px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;position:relative}
-.theme-toggle::before{content:"";width:17px;height:17px;border-radius:50%;background:#111;display:block;box-shadow:inset -5px -3px 0 rgba(255,255,255,.75)}
-html.dark .theme-toggle{background:var(--card);border-color:var(--line)}
-html.dark .theme-toggle::before{background:var(--green);box-shadow:0 0 0 4px rgba(40,211,107,.14)}
-.ghost{height:42px;padding:0 18px;border:1px solid var(--line);background:#fff;border-radius:999px;font-family:Inter,Arial,sans-serif;font-size:14px;font-weight:600;color:#111}
-.primary{height:42px;padding:0 18px;border:0;background:var(--green);color:#07110b;border-radius:999px;font-family:Inter,Arial,sans-serif;font-size:14px;font-weight:700;box-shadow:0 10px 22px rgba(40,211,107,.18)}
 
-/* HERO */
-.hero-wrap{max-width:1280px;margin:0 auto;padding:54px clamp(18px,4vw,56px) 28px}
-.hero{
-  display:grid;
-  grid-template-columns:minmax(0,1.04fr) minmax(330px,.96fr);
-  gap:46px;
-  align-items:center;
+
+
+/* ═══════════════════════════
+   MKASS PREMIUM MOBILE APP NAV + UX
+   Desktop remains unchanged
+═══════════════════════════ */
+@media (max-width:680px){
+  body{padding-bottom:96px;background:#070707;}
+
+  .nav{
+    height:70px;
+    padding:0 14px;
+    background:rgba(14,14,14,.96);
+    border-bottom:1px solid rgba(255,255,255,.08);
+    backdrop-filter:blur(16px);
+  }
+
+  .logo-mark{width:46px;height:46px;border-radius:12px;}
+  .logo-mark svg{width:25px;height:25px;}
+  .logo-text{font-size:27px;}
+
+  .nav-r{
+    display:flex !important;
+    align-items:center;
+    margin-left:auto;
+  }
+
+  #nav-login-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:46px;
+    padding:0 18px;
+    border-radius:16px;
+    border:1.5px solid rgba(200,255,0,.55);
+    color:var(--lime);
+    background:rgba(10,10,10,.6);
+    font-weight:700;
+    font-size:14px;
+  }
+  #nav-login-btn::before{content:'👤';margin-right:7px;font-size:15px;}
+  body.admin-logged #nav-login-btn{display:none !important;}
+
+  .nav-tabs{
+    position:fixed;
+    left:14px;
+    right:14px;
+    bottom:12px;
+    height:72px;
+    padding:7px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:7px;
+    background:rgba(18,18,18,.94);
+    border:1px solid rgba(255,255,255,.14);
+    border-radius:24px;
+    box-shadow:0 18px 50px rgba(0,0,0,.58), inset 0 1px 0 rgba(255,255,255,.05);
+    backdrop-filter:blur(18px);
+    z-index:999;
+  }
+
+  .ntab{
+    display:flex !important;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
+    min-width:0;
+    min-height:56px;
+    padding:6px 3px;
+    border-radius:18px;
+    font-size:12px;
+    font-weight:700;
+    color:#b7b7b7;
+    background:transparent;
+  }
+
+  .ntab.active{
+    color:var(--lime);
+    background:linear-gradient(135deg,rgba(200,255,0,.16),rgba(200,255,0,.07));
+    box-shadow:inset 0 0 0 1px rgba(200,255,0,.05);
+  }
+
+  .ntab::before{font-size:20px;line-height:1;display:block;}
+  #nt-explore::before{content:'⌕';}
+  #nt-my-bookings::before{content:'▣';}
+  #nt-login-mobile::before{content:'♙';}
+  #nt-dash::before{content:'▰';}
+
+  body:not(.admin-logged) #nt-dash{display:none !important;}
+  body.admin-logged #nt-login-mobile{display:none !important;}
+  body.admin-logged #nt-dash{display:flex !important;}
+
+  .hero{
+    padding:2rem 14px 1.2rem;
+    text-align:left;
+    background:radial-gradient(90% 55% at 55% 0%,rgba(200,255,0,.1),transparent 65%), var(--ink);
+  }
+  .hero-tag{margin-bottom:1.4rem;font-size:12px;padding:6px 14px;}
+  .hero h1{font-size:54px;line-height:.86;letter-spacing:-.065em;margin-bottom:1.1rem;}
+  .hero p{margin:0 0 1.8rem;max-width:330px;font-size:17px;line-height:1.55;color:#b8b8b8;}
+
+  .search-wrap{
+    width:100%;
+    max-width:none;
+    height:68px;
+    margin:0;
+    padding:7px 7px 7px 18px;
+    border-radius:22px;
+    background:linear-gradient(135deg,rgba(255,255,255,.09),rgba(255,255,255,.04));
+    border:1px solid rgba(255,255,255,.16);
+  }
+  .search-wrap input{font-size:16px;}
+  .search-wrap .btn-lime{min-width:122px;height:54px;border-radius:18px;font-size:15px;}
+
+  .chips{
+    padding:1rem 14px 0;
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    gap:10px;
+  }
+  .chip{min-height:48px;padding:0 20px;font-size:14px;border-radius:22px;background:#0b0b0b;}
+  .chip.active{background:var(--lime);color:#050505;}
+
+  .shops-wrap{padding:1.4rem 14px 1.2rem;}
+  .shops-meta{margin-bottom:1rem;}
+  .shops-meta h2{font-size:22px;letter-spacing:-.04em;}
+  .shops-meta span{font-size:14px;color:var(--lime);}
+  .shops-grid{
+    display:flex;
+    overflow-x:auto;
+    gap:14px;
+    scroll-snap-type:x mandatory;
+    padding-bottom:8px;
+  }
+  .shop-card{
+    flex:0 0 82%;
+    scroll-snap-align:start;
+    border-radius:24px;
+    background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.035));
+    border:1px solid rgba(255,255,255,.14);
+  }
+  .shop-cover{height:210px;}
+  .shop-body{padding:16px;}
+  .shop-name{font-size:20px;}
+  .book-btn{min-height:42px;border-radius:15px;padding:0 16px;font-size:13px;}
+
+  .manager-mobile-cta{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-top:18px;
+    padding:18px;
+    border-radius:24px;
+    background:linear-gradient(135deg,rgba(31,80,64,.55),rgba(13,18,15,.95));
+    border:1px solid rgba(200,255,0,.18);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
+    cursor:pointer;
+  }
+  .manager-mobile-icon{
+    width:58px;height:58px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    border:1.5px solid rgba(200,255,0,.65);
+    color:var(--lime);font-size:26px;flex-shrink:0;
+  }
+  .manager-mobile-copy{display:flex;flex-direction:column;gap:4px;flex:1;min-width:0;}
+  .manager-mobile-copy strong{font-size:19px;line-height:1.15;}
+  .manager-mobile-copy span{font-size:13px;color:#b9b9b9;line-height:1.35;}
+  .manager-mobile-btn{
+    min-height:48px;
+    padding:0 18px;
+    border:none;
+    border-radius:16px;
+    background:var(--lime);
+    color:#050505;
+    font-weight:800;
+    font-size:14px;
+    flex-shrink:0;
+  }
+  body.admin-logged .manager-mobile-cta{display:none;}
+
+  .modal{border-radius:26px 26px 0 0;padding:1.1rem;}
+  .modal-cover{height:190px;border-radius:20px;}
+  .modal-book-btn{position:sticky;bottom:0;min-height:56px;border-radius:18px;}
+
+  .bk-wrap{padding:1rem 14px 120px;}
+  .bk-salon-bar,.cal-box,.slots-box,.card{border-radius:22px;}
+  .stp-lbl{display:none;}
+  .sp-title{font-size:30px;line-height:1;}
+  .msvc-grid,.cal-layout{grid-template-columns:1fr;}
+  .msvc-card{min-height:96px;border-radius:22px;}
+  .slots-grid{grid-template-columns:repeat(2,1fr);gap:10px;}
+  .slot{min-height:52px;border-radius:16px;font-size:15px;}
+  .step-acts{position:fixed;left:0;right:0;bottom:96px;padding:12px 14px;background:linear-gradient(to top,#070707 72%,transparent);z-index:850;}
+  .step-acts .btn{flex:1;justify-content:center;min-height:54px;border-radius:17px;}
+
+  .my-bookings-wrap{padding:1.2rem 14px 110px;}
+  .my-bookings-hero,.booking-card{border-radius:24px;}
+  .my-bookings-title{font-size:32px;line-height:1;}
+  .my-bookings-form{flex-direction:column;}
+  .my-bookings-form .btn{min-height:54px;justify-content:center;border-radius:17px;}
+
+  .dash-grid{grid-template-columns:1fr;}
+  .sidebar{flex-direction:row;overflow-x:auto;border-right:none;border-bottom:1px solid var(--border);padding:.7rem;gap:6px;}
+  .sb-lbl,#sb-admin-link,.sidebar>div:last-child{display:none !important;}
+  .sb-btn{white-space:nowrap;width:auto;min-height:42px;border-radius:14px;}
+  .dash-main{padding:1rem 14px 110px;}
+  .t-card{overflow-x:auto;border-radius:22px;}
+  table{min-width:760px;}
 }
-.hero-copy{max-width:650px}
-.label{display:inline-flex;align-items:center;gap:9px;padding:8px 13px;background:var(--card);border:1px solid var(--line);border-radius:999px;font-size:13px;font-weight:850;color:var(--green);margin-bottom:24px}
-.label::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green)}
-h1{font-family:'Plus Jakarta Sans',Inter,Arial,sans-serif;font-size:clamp(44px,5.7vw,76px);line-height:.98;letter-spacing:-.055em;font-weight:800;margin-bottom:20px;color:#000;max-width:720px}
-h1 span{color:var(--green);font-weight:800}
-.hero-copy p{font-size:18px;line-height:1.6;color:#55574f;max-width:550px;margin-bottom:30px}
-.search{
-  background:#fff;
-  border:1px solid rgba(16,16,16,.10);
-  border-radius:24px;
-  box-shadow:0 28px 70px rgba(28,36,30,.12);
-  padding:8px;
-  display:grid;
-  grid-template-columns:1fr 1fr auto;
-  align-items:center;
-  max-width:780px;
-  position:relative;
-  z-index:3;
+
+@media (min-width:681px){
+  .manager-mobile-cta{display:none;}
+  #nt-login-mobile{display:none !important;}
 }
-.field{height:58px;display:flex;align-items:center;gap:13px;padding:0 17px;border-right:1px solid #eceae3}
-.field:last-of-type{border-right:none}
-.icon{width:22px;height:22px;position:relative;flex-shrink:0;opacity:.85}
-.icon.searchIcon::before{content:"";position:absolute;left:2px;top:2px;width:12px;height:12px;border:2px solid #111;border-radius:50%}
-.icon.searchIcon::after{content:"";position:absolute;left:14px;top:15px;width:8px;height:2px;background:#111;transform:rotate(45deg);border-radius:2px}
-.icon.pinIcon::before{content:"";position:absolute;left:5px;top:2px;width:12px;height:12px;border:2px solid #111;border-radius:50%}
-.icon.pinIcon::after{content:"";position:absolute;left:10px;top:15px;width:2px;height:6px;background:#111;border-radius:2px}
-.field small{display:block;font-family:Inter,Arial,sans-serif;font-size:11px;color:#86877f;font-weight:600;text-transform:uppercase;letter-spacing:.08em}
-.field input{border:0;outline:0;width:100%;font-family:Inter,Arial,sans-serif;font-size:15px;font-weight:500;color:#111;background:transparent;margin-top:2px}
-.searchBtn{height:58px;border:0;border-radius:18px;background:var(--green);color:#07110b;padding:0 26px;font-family:Inter,Arial,sans-serif;font-size:15px;font-weight:700;white-space:nowrap}
-.hero-visual{height:520px;border-radius:34px;position:relative;overflow:hidden;background:#ddd;box-shadow:0 30px 90px rgba(0,0,0,.13)}
-.hero-visual img{width:100%;height:100%;object-fit:cover;display:block}
-.floating{position:absolute;left:22px;right:22px;bottom:22px;background:rgba(255,255,255,.92);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.72);border-radius:24px;padding:16px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.floating h3{font-size:17px;letter-spacing:-.03em;margin-bottom:4px;color:#111}.floating p{font-size:13px;color:#666}.floating .rating{font-weight:900;color:#111}.floating button{border:0;background:var(--green);height:44px;padding:0 16px;border-radius:14px;font-family:Inter,Arial,sans-serif;font-size:14px;font-weight:700;color:#07110b}
 
-/* TRUST ROW - outside picture, not overlay */
-.trust-row{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:28px;padding:0 2px}
-.trust-item{display:flex;align-items:center;gap:11px;color:#4b4d46;font-size:14px;font-weight:750}
-.trust-icon{width:28px;height:28px;border-radius:50%;background:var(--mint);border:1px solid rgba(11,100,87,.12);position:relative;flex-shrink:0}
-.trust-icon::after{content:"";position:absolute;left:9px;top:7px;width:8px;height:12px;border-right:2px solid var(--green);border-bottom:2px solid var(--green);transform:rotate(40deg)}
 
-/* LISTINGS */
-.section{max-width:1280px;margin:0 auto;padding:24px clamp(18px,4vw,56px) 58px}
-.section-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:18px;gap:20px}
-.section-head h2{font-family:'Plus Jakarta Sans',Inter,Arial,sans-serif;font-size:34px;letter-spacing:-.04em;font-weight:800;color:#000}
-.section-head p{font-size:14px;color:#686962;font-weight:750}
-.filters{display:flex;gap:10px;overflow:auto;padding-bottom:18px;scrollbar-width:none}.filters::-webkit-scrollbar{display:none}
-.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:11px 15px;font-family:Inter,Arial,sans-serif;font-size:14px;font-weight:600;white-space:nowrap;color:#222}
-.chip.active{background:#111;border-color:#111;color:#fff}
-.venues{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.venue{background:#fff;border:1px solid var(--line);border-radius:26px;overflow:hidden;box-shadow:0 12px 34px rgba(0,0,0,.055);transition:.18s}
-.venue:hover{transform:translateY(-2px);box-shadow:0 18px 45px rgba(0,0,0,.075)}
-.photo{height:230px;position:relative;background:#ddd;overflow:hidden}.photo img{width:100%;height:100%;object-fit:cover;transition:.25s}.venue:hover .photo img{transform:scale(1.035)}
-.save{position:absolute;right:14px;top:14px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.94);display:grid;place-items:center;font-size:19px;color:#111}
-.status{position:absolute;left:14px;top:14px;background:rgba(255,255,255,.94);border-radius:999px;padding:8px 11px;font-size:12px;font-weight:900;color:var(--green)}
-.dist{position:absolute;left:14px;bottom:14px;background:rgba(17,17,17,.82);color:#fff;border-radius:999px;padding:8px 11px;font-size:12px;font-weight:900}
-.venue-body{padding:16px}.venue-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.venue-name{font-family:Inter,Arial,sans-serif;font-size:20px;font-weight:700;letter-spacing:-.015em}.rate{font-family:Inter,Arial,sans-serif;font-size:13px;font-weight:700;white-space:nowrap}.type{font-family:Inter,Arial,sans-serif;font-size:13px;font-weight:500;color:#777;margin-top:4px}.addr{font-family:Inter,Arial,sans-serif;font-size:13px;font-weight:500;color:#676761;margin-top:8px;line-height:1.4}.services{display:flex;gap:7px;flex-wrap:wrap;margin-top:13px}.service{background:#f4f3ee;border-radius:999px;padding:7px 9px;font-family:Inter,Arial,sans-serif;font-size:12px;font-weight:600;color:#444}.service.hot{background:var(--mint);color:var(--green)}.venue-action{display:flex;align-items:center;justify-content:space-between;margin-top:16px}.price{font-size:13px;color:#777}.price strong{display:block;font-size:15px;color:#111;margin-top:2px}.book{height:42px;border:0;border-radius:14px;background:#111;color:#fff;padding:0 16px;font-family:Inter,Arial,sans-serif;font-size:14px;font-weight:700}.book.green{background:var(--green);color:#07110b}
+/* ═══════════════════════════
+   FINAL NAV PLACEMENT FIX
+   Phone: nav tabs at the BOTTOM of the screen
+   Desktop: nav tabs centered in the top bar area
+═══════════════════════════ */
 
-/* FOOTER */
-.footer{background:var(--footer);margin-top:20px;border-top:1px solid #e2e0da}
-.footer-inner{max-width:1280px;margin:0 auto;padding:70px clamp(18px,4vw,56px) 54px;display:grid;grid-template-columns:280px 1fr;gap:72px}.footer-brand{display:flex;flex-direction:column;align-items:flex-start;gap:24px}.footer-text{font-size:14px;line-height:1.6;color:#55574f;max-width:245px}.footer-logo .mark{width:34px;height:34px;border-radius:10px}.footer-logo .word{font-size:24px}.download{height:61px;width:285px;padding:0 22px;border-radius:999px;background:#fff;border:1px solid #d4d3cf;color:#111;font-family:Inter,Arial,sans-serif;font-size:20px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;gap:12px;text-decoration:none;line-height:1;box-shadow:0 1px 0 rgba(255,255,255,.9) inset;white-space:nowrap}.download-text{display:inline-block;transform:translateY(-1px)}.store{display:inline-flex;align-items:center;gap:9px;transform:translateY(-1px)}.apple-svg{width:24px;height:29px;display:block;fill:#111}.g-logo{font-family:Inter,Arial,sans-serif;font-size:29px;font-weight:900;line-height:1;color:#111;letter-spacing:-.085em}html.dark .apple-svg{fill:#fff}html.dark .g-logo{color:#fff}.footer-grid{display:grid;grid-template-columns:repeat(4,minmax(150px,1fr));gap:40px}.footer-col h4{font-family:Inter,Arial,sans-serif;font-size:17px;font-weight:700;letter-spacing:-.015em;margin-bottom:22px}.footer-col a{display:block;color:#111;text-decoration:none;font-family:Inter,Arial,sans-serif;font-size:15px;font-weight:500;margin-bottom:16px;line-height:1.35}.footer-col a:hover{opacity:.62}.footer-bottom{border-top:1px solid #deddd8;max-width:1280px;margin:0 auto;padding:24px clamp(18px,4vw,56px);display:flex;justify-content:space-between;color:#60605a;font-size:14px;font-weight:650}.lang{color:var(--green)}
-.mobile-nav{display:none}
-
-@media(max-width:900px){
-  .nav-links,.nav-actions{display:none}.header{height:68px;padding:0 18px}.word{font-size:25px}.hero-wrap{padding:28px 18px 18px}.hero{display:block}.label{margin-bottom:18px}h1{font-size:40px;line-height:1.02;letter-spacing:-.045em}.hero-copy p{font-size:15px;margin-bottom:20px}.search{display:block;border-radius:22px}.field{border-right:0;border-bottom:1px solid #eceae3;height:56px}.field:nth-child(2){border-bottom:0}.searchBtn{width:100%;height:52px;margin-top:6px}.hero-visual{display:none}.trust-row{grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}.trust-item{font-size:12px}.section{padding:10px 18px 94px}.section-head{align-items:flex-start}.section-head h2{font-size:28px}.section-head p{display:none}.venues{grid-template-columns:1fr;gap:14px}.photo{height:220px}.venue{border-radius:24px}.footer{margin-top:8px}.footer-inner{padding:46px 20px 34px;grid-template-columns:1fr;gap:38px}.footer-grid{grid-template-columns:1fr;gap:24px}.footer-col h4{margin-bottom:14px}.footer-col a{margin-bottom:12px}.footer-bottom{padding:20px 20px 28px;display:block}.footer-bottom .copy{margin-top:18px}.mobile-nav{position:fixed;left:14px;right:14px;bottom:max(14px, env(safe-area-inset-bottom));height:72px;background:rgba(16,16,16,.96);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.14);border-radius:24px;display:grid;grid-template-columns:repeat(3,1fr);gap:7px;padding:7px;z-index:40;box-shadow:0 18px 50px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.05)}.mobile-nav button{border:0;background:transparent;border-radius:18px;font-family:Inter,Arial,sans-serif;font-size:13px;font-weight:800;color:#a8a8a2;display:flex;align-items:center;justify-content:center;text-align:center}.mobile-nav button.active{color:var(--green);background:rgba(40,211,107,.15);box-shadow:inset 0 0 0 1px rgba(40,211,107,.06)}.mobile-nav span{display:none!important}.page{padding-bottom:104px}
+/* Desktop: keep tabs visually at top center even though HTML is outside nav */
+@media (min-width:681px){
+  .nav-tabs{
+    position:fixed !important;
+    top:11px !important;
+    left:50% !important;
+    right:auto !important;
+    bottom:auto !important;
+    transform:translateX(-50%) !important;
+    z-index:400 !important;
+  }
 }
+
+/* Phone: bottom app navigation */
+@media (max-width:680px){
+
+  body{
+    padding-bottom:112px !important;
+  }
+
+  .nav{
+    height:70px !important;
+    padding:0 14px !important;
+    justify-content:flex-start !important;
+  }
+
+  .logo{
+    margin-right:auto !important;
+  }
+
+  /* Hide top-right login on phone.
+     Login lives in the bottom tab bar. */
+  .nav-r,
+  #nav-login-btn{
+    display:none !important;
+  }
+
+  .nav-tabs{
+    position:fixed !important;
+    top:auto !important;
+    bottom:14px !important;
+    left:14px !important;
+    right:14px !important;
+    width:auto !important;
+    height:72px !important;
+    margin:0 !important;
+    padding:7px !important;
+
+    display:grid !important;
+    grid-template-columns:repeat(3,1fr) !important;
+    gap:7px !important;
+
+    background:rgba(18,18,18,.96) !important;
+    border:1px solid rgba(255,255,255,.14) !important;
+    border-radius:24px !important;
+    box-shadow:0 18px 50px rgba(0,0,0,.58), inset 0 1px 0 rgba(255,255,255,.05) !important;
+    backdrop-filter:blur(18px) !important;
+    z-index:99999 !important;
+    transform:none !important;
+  }
+
+  .ntab{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    flex-direction:row !important;
+    gap:0 !important;
+
+    min-height:56px !important;
+    padding:0 6px !important;
+    border-radius:18px !important;
+
+    font-size:13px !important;
+    font-weight:700 !important;
+    text-align:center !important;
+    color:#b7b7b7 !important;
+    background:transparent !important;
+    border:none !important;
+  }
+
+  .ntab.active{
+    color:var(--lime) !important;
+    background:linear-gradient(135deg,rgba(200,255,0,.18),rgba(200,255,0,.07)) !important;
+    box-shadow:inset 0 0 0 1px rgba(200,255,0,.05) !important;
+  }
+
+  /* Remove all nav icons / emoji */
+  .ntab::before{
+    content:none !important;
+    display:none !important;
+  }
+
+  body:not(.admin-logged) #nt-dash{
+    display:none !important;
+  }
+
+  body.admin-logged #nt-login-mobile{
+    display:none !important;
+  }
+
+  body.admin-logged #nt-dash{
+    display:flex !important;
+  }
+}
+
+
+
+/* ═══════════════════════════
+   MKASS PREMIUM MARKETPLACE REDESIGN
+   Frontend-only: keeps existing IDs/functions/API logic intact
+═══════════════════════════ */
+:root{
+  --mk-ink:#101010;
+  --mk-muted:#656760;
+  --mk-soft:#f7f6f1;
+  --mk-line:#dedbd2;
+  --mk-card:#ffffff;
+  --mk-footer:#efeeeb;
+  --mk-green:#28d36b;
+  --mk-mint:rgba(40,211,107,.12);
+}
+html.dark{
+  --mk-ink:#f6f6f1;
+  --mk-muted:#b7b8b0;
+  --mk-soft:#0f1210;
+  --mk-line:rgba(255,255,255,.14);
+  --mk-card:#171b18;
+  --mk-footer:#151815;
+  --mk-mint:rgba(40,211,107,.14);
+  color-scheme:dark;
+}
+html,body{font-family:'Plus Jakarta Sans',Inter,Arial,sans-serif;background:var(--mk-soft);color:var(--mk-ink)}
+body{background:var(--mk-soft)!important;color:var(--mk-ink)!important}
+.view{background:var(--mk-soft)}
+.nav{height:76px;background:rgba(247,246,241,.94)!important;backdrop-filter:blur(18px);border-bottom:1px solid rgba(16,16,16,.08)!important;padding:0 clamp(18px,4vw,56px)!important}
+html.dark .nav{background:rgba(15,18,16,.92)!important;border-bottom-color:rgba(255,255,255,.1)!important}
+.logo-mark{background:var(--mk-green)!important;border-radius:11px!important;width:38px!important;height:38px!important}
+.logo-mark svg{width:23px;height:23px}.mkass-word,.logo-text{font-family:'Space Grotesk','Plus Jakarta Sans',Inter,sans-serif!important;font-size:26px!important;font-weight:700!important;letter-spacing:-.055em!important;line-height:1!important;text-transform:uppercase!important;color:#000!important}.logo-text em{display:none!important}html.dark .mkass-word,html.dark .logo-text{color:#fff!important}
+.nav-r{display:flex;align-items:center;gap:10px}.theme-toggle{height:42px;width:42px;border-radius:999px;border:1px solid var(--mk-line);background:#fff;display:grid;place-items:center;position:relative}.theme-toggle:before{content:"";width:17px;height:17px;border-radius:50%;background:#111;display:block;box-shadow:inset -5px -3px 0 rgba(255,255,255,.75)}html.dark .theme-toggle{background:var(--mk-card)}html.dark .theme-toggle:before{background:var(--mk-green);box-shadow:0 0 0 4px rgba(40,211,107,.14)}
+.nav-pill{height:42px;border-radius:999px!important;background:#fff!important;border:1px solid var(--mk-line)!important;color:#111!important;font-family:Inter,Arial,sans-serif!important;font-weight:600!important}html.dark .nav-pill{background:var(--mk-card)!important;color:#fff!important}
+@media(min-width:681px){.nav-tabs{top:25px!important;background:transparent!important;border:none!important;box-shadow:none!important;gap:30px!important}.ntab{font-family:Inter,Arial,sans-serif!important;color:#32332f!important;background:transparent!important;font-size:14px!important;font-weight:650!important;padding:0!important}.ntab.active{color:#101010!important;background:transparent!important}.ntab:before{display:none!important;content:none!important}html.dark .ntab{color:#f0f0ea!important;opacity:.95!important}html.dark .ntab.active{color:var(--mk-green)!important}}
+.mk-hero-wrap{max-width:1280px;margin:0 auto;padding:54px clamp(18px,4vw,56px) 28px}.mk-hero{display:grid;grid-template-columns:minmax(0,1.04fr) minmax(330px,.96fr);gap:46px;align-items:center}.mk-hero-copy{max-width:650px}.mk-label{display:inline-flex;align-items:center;gap:9px;padding:8px 13px;background:var(--mk-card);border:1px solid var(--mk-line);border-radius:999px;font-size:13px;font-weight:850;color:var(--mk-green);margin-bottom:24px}.mk-label span{width:8px;height:8px;border-radius:50%;background:var(--mk-green)}.mk-hero h1{font-family:'Plus Jakarta Sans',Inter,Arial,sans-serif;font-size:clamp(44px,5.7vw,76px);line-height:.98;letter-spacing:-.055em;font-weight:800;margin-bottom:20px;color:#000;max-width:720px}.mk-hero h1 em{font-style:normal;color:var(--mk-green);font-weight:800}.mk-hero p{font-size:18px;line-height:1.6;color:#55574f;max-width:550px;margin-bottom:30px}html.dark .mk-hero h1{color:#fff}html.dark .mk-hero p{color:var(--mk-muted)}
+.mk-search{background:#fff;border:1px solid rgba(16,16,16,.10);border-radius:24px;box-shadow:0 28px 70px rgba(28,36,30,.12);padding:8px;display:grid;grid-template-columns:1fr 1fr auto;align-items:center;max-width:780px;position:relative;z-index:3}.mk-field{height:58px;display:flex;align-items:center;gap:13px;padding:0 17px;border-right:1px solid #eceae3}.mk-field:last-of-type{border-right:none}.mk-field small{display:block;font-family:Inter,Arial,sans-serif;font-size:11px;color:#86877f;font-weight:600;text-transform:uppercase;letter-spacing:.08em}.mk-field input{border:0;outline:0;width:100%;font-family:Inter,Arial,sans-serif;font-size:15px;font-weight:500;color:#111;background:transparent;margin-top:2px}.mk-search-btn{height:58px;border:0;border-radius:18px;background:var(--mk-green);color:#07110b;padding:0 26px;font-family:Inter,Arial,sans-serif;font-size:15px;font-weight:700;white-space:nowrap}.mk-icon{width:22px;height:22px;position:relative;flex-shrink:0;opacity:.85}.mk-search-ico:before{content:"";position:absolute;left:2px;top:2px;width:12px;height:12px;border:2px solid #111;border-radius:50%}.mk-search-ico:after{content:"";position:absolute;left:14px;top:15px;width:8px;height:2px;background:#111;transform:rotate(45deg);border-radius:2px}.mk-pin:before{content:"";position:absolute;left:5px;top:2px;width:12px;height:12px;border:2px solid #111;border-radius:50%}.mk-pin:after{content:"";position:absolute;left:10px;top:15px;width:2px;height:6px;background:#111;border-radius:2px}html.dark .mk-search{background:var(--mk-card);border-color:var(--mk-line)}html.dark .mk-field input,html.dark .mk-field small{color:#fff}html.dark .mk-search-ico:before,html.dark .mk-pin:before{border-color:#fff}html.dark .mk-search-ico:after,html.dark .mk-pin:after{background:#fff}
+.mk-hero-visual{height:520px;border-radius:34px;position:relative;overflow:hidden;background:#ddd;box-shadow:0 30px 90px rgba(0,0,0,.13)}.mk-hero-visual img{width:100%;height:100%;object-fit:cover;display:block}.mk-floating-card{position:absolute;left:22px;right:22px;bottom:22px;background:rgba(255,255,255,.92);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.72);border-radius:24px;padding:16px;display:flex;align-items:center;justify-content:space-between;gap:16px}.mk-floating-card h3{font-size:17px;letter-spacing:-.03em;margin-bottom:4px;color:#111}.mk-floating-card p{font-size:13px;color:#666;margin:0}.mk-rating{font-weight:900;color:#111}.mk-floating-card button{border:0;background:var(--mk-green);height:44px;padding:0 16px;border-radius:14px;font-family:Inter,Arial,sans-serif;font-size:14px;font-weight:700;color:#07110b}html.dark .mk-floating-card{background:rgba(23,27,24,.92);border-color:rgba(255,255,255,.16)}html.dark .mk-floating-card h3,html.dark .mk-rating{color:#fff}html.dark .mk-floating-card p{color:#d0d1c9}
+.mk-trust-row{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:28px;padding:0 2px}.mk-trust-item{display:flex;align-items:center;gap:11px;color:#4b4d46;font-size:14px;font-weight:750}.mk-trust-item span{width:28px;height:28px;border-radius:50%;background:var(--mk-mint);border:1px solid rgba(40,211,107,.18);position:relative;flex-shrink:0}.mk-trust-item span:after{content:"";position:absolute;left:9px;top:7px;width:8px;height:12px;border-right:2px solid var(--mk-green);border-bottom:2px solid var(--mk-green);transform:rotate(40deg)}html.dark .mk-trust-item{color:var(--mk-muted)}
+.mk-filters{max-width:1280px;margin:0 auto;padding:24px clamp(18px,4vw,56px) 18px!important}.chip{border:1px solid var(--mk-line)!important;background:#fff!important;border-radius:999px!important;padding:11px 15px!important;font-family:Inter,Arial,sans-serif!important;font-size:14px!important;font-weight:600!important;white-space:nowrap;color:#222!important;min-height:auto!important}.chip.active{background:#111!important;border-color:#111!important;color:#fff!important}html.dark .chip{background:var(--mk-card)!important;color:#fff!important}html.dark .chip.active{background:#fff!important;color:#111!important}
+.shops-wrap{max-width:1280px;margin:0 auto;padding:0 clamp(18px,4vw,56px) 58px!important}.shops-meta{align-items:flex-end!important;margin-bottom:18px!important}.shops-meta h2{font-family:'Plus Jakarta Sans',Inter,Arial,sans-serif!important;font-size:34px!important;letter-spacing:-.04em!important;font-weight:800!important;color:#000!important}.mk-section-sub{font-size:14px;color:#686962;font-weight:750;margin-top:5px}.shops-meta span{font-size:14px!important;color:#686962!important;font-weight:750!important}html.dark .shops-meta h2{color:#fff!important}html.dark .mk-section-sub,html.dark .shops-meta span{color:var(--mk-muted)!important}.shops-grid{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:18px!important}.shop-card{background:#fff!important;border:1px solid var(--mk-line)!important;border-radius:26px!important;overflow:hidden!important;box-shadow:0 12px 34px rgba(0,0,0,.055)!important;transition:.18s!important}.shop-card:hover{transform:translateY(-2px)!important;box-shadow:0 18px 45px rgba(0,0,0,.075)!important}.shop-cover{height:230px!important;background:#ddd!important}.shop-cover-placeholder{font-size:0!important}.shop-cover-placeholder:after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,#e8dfd5,#f7f6f1)}.shop-cover-overlay{display:none!important}.cover-badge .badge{background:rgba(255,255,255,.94)!important;color:var(--mk-green)!important;border-radius:999px!important;padding:8px 11px!important;font-size:12px!important;font-weight:900!important}.cover-dist{background:rgba(17,17,17,.82)!important;color:#fff!important;border-radius:999px!important;padding:8px 11px!important;font-size:12px!important;font-weight:900!important}.shop-body{padding:16px!important}.shop-name{font-family:Inter,Arial,sans-serif!important;font-size:20px!important;font-weight:700!important;letter-spacing:-.015em!important;color:#111!important}.shop-rating{font-family:Inter,Arial,sans-serif!important;font-size:13px!important;font-weight:700!important;color:#111!important}.shop-rating .star{color:#111!important}.shop-type-lbl,.shop-from{font-family:Inter,Arial,sans-serif!important;font-size:13px!important;font-weight:500!important;color:#777!important}.shop-tags{margin-top:13px!important}.shop-tag{background:#f4f3ee!important;border-radius:999px!important;padding:7px 9px!important;font-family:Inter,Arial,sans-serif!important;font-size:12px!important;font-weight:600!important;color:#444!important}.shop-tag.lime{background:var(--mk-mint)!important;color:var(--mk-green)!important}.book-btn{height:42px!important;border:0!important;border-radius:14px!important;background:var(--mk-green)!important;color:#07110b!important;padding:0 16px!important;font-family:Inter,Arial,sans-serif!important;font-size:14px!important;font-weight:700!important}.shop-from strong{color:#111!important}html.dark .shop-card{background:var(--mk-card)!important;border-color:var(--mk-line)!important}html.dark .shop-name,html.dark .shop-rating,html.dark .shop-from strong{color:#fff!important}html.dark .shop-type-lbl,html.dark .shop-from{color:var(--mk-muted)!important}html.dark .shop-tag{background:rgba(255,255,255,.08)!important;color:#e8e8e3!important}
+.mk-footer{background:var(--mk-footer);margin-top:20px;border-top:1px solid #e2e0da}.mk-footer-inner{max-width:1280px;margin:0 auto;padding:70px clamp(18px,4vw,56px) 54px;display:grid;grid-template-columns:280px 1fr;gap:72px}.mk-footer-brand{display:flex;flex-direction:column;align-items:flex-start;gap:24px}.footer-logo{display:flex;align-items:center;gap:10px}.mk-footer-brand p{font-size:14px;line-height:1.6;color:#55574f;max-width:245px}.mk-download{height:61px;width:285px;padding:0 22px;border-radius:999px;background:#fff;border:1px solid #d4d3cf;color:#111;font-family:Inter,Arial,sans-serif;font-size:20px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;gap:12px;text-decoration:none;line-height:1;box-shadow:0 1px 0 rgba(255,255,255,.9) inset;white-space:nowrap}.mk-download-text{display:inline-block;transform:translateY(-1px)}.mk-store{display:inline-flex;align-items:center;gap:9px;transform:translateY(-1px)}.mk-apple{width:24px;height:29px;display:block;fill:#111}.mk-g-logo{font-family:Inter,Arial,sans-serif;font-size:29px;font-weight:900;line-height:1;color:#111;letter-spacing:-.085em}.mk-footer-grid{display:grid;grid-template-columns:repeat(4,minmax(150px,1fr));gap:40px}.mk-footer-grid h4{font-family:Inter,Arial,sans-serif;font-size:17px;font-weight:700;letter-spacing:-.015em;margin-bottom:22px;color:#111}.mk-footer-grid a{display:block;color:#111;text-decoration:none;font-family:Inter,Arial,sans-serif;font-size:15px;font-weight:500;margin-bottom:16px;line-height:1.35}.mk-footer-bottom{border-top:1px solid #deddd8;max-width:1280px;margin:0 auto;padding:24px clamp(18px,4vw,56px);display:flex;justify-content:space-between;color:#60605a;font-size:14px;font-weight:650}.mk-footer-bottom span:first-child{color:var(--mk-green)}html.dark .mk-footer{background:var(--mk-footer);border-top-color:var(--mk-line)}html.dark .mk-footer-brand p,html.dark .mk-footer-bottom{color:var(--mk-muted)}html.dark .mk-footer-grid h4,html.dark .mk-footer-grid a{color:#fff}html.dark .mk-download{background:var(--mk-card);color:#fff;border-color:var(--mk-line)}html.dark .mk-apple{fill:#fff}html.dark .mk-g-logo{color:#fff}
+@media(max-width:900px){.nav{height:68px!important;padding:0 18px!important}.nav-r{display:flex!important}.theme-toggle,#nav-login-btn{display:none!important}.mk-hero-wrap{padding:28px 18px 18px}.mk-hero{display:block}.mk-label{margin-bottom:18px}.mk-hero h1{font-size:40px;line-height:1.02;letter-spacing:-.045em}.mk-hero p{font-size:15px;margin-bottom:20px}.mk-search{display:block;border-radius:22px}.mk-field{border-right:0;border-bottom:1px solid #eceae3;height:56px}.mk-field:nth-child(2){border-bottom:0}.mk-search-btn{width:100%;height:52px;margin-top:6px}.mk-hero-visual{display:none}.mk-trust-row{grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}.mk-trust-item{font-size:12px}.mk-filters{padding:18px 18px 14px!important}.shops-wrap{padding:0 18px 94px!important}.shops-meta{align-items:flex-start!important}.shops-meta h2{font-size:28px!important}.mk-section-sub,.shops-meta span{display:none!important}.shops-grid{grid-template-columns:1fr!important;gap:14px!important}.shop-cover{height:220px!important}.shop-card{border-radius:24px!important}.mk-footer{margin-top:8px}.mk-footer-inner{padding:46px 20px 34px;grid-template-columns:1fr;gap:38px}.mk-footer-grid{grid-template-columns:1fr;gap:24px}.mk-footer-grid h4{margin-bottom:14px}.mk-footer-grid a{margin-bottom:12px}.mk-footer-bottom{padding:20px 20px 28px;display:block}.mk-footer-bottom span:last-child{display:block;margin-top:18px}.nav-tabs{position:fixed!important;left:14px!important;right:14px!important;bottom:max(14px, env(safe-area-inset-bottom))!important;top:auto!important;height:72px!important;background:rgba(16,16,16,.96)!important;backdrop-filter:blur(18px)!important;border:1px solid rgba(255,255,255,.14)!important;border-radius:24px!important;display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:7px!important;padding:7px!important;z-index:99999!important;box-shadow:0 18px 50px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.05)!important}.ntab{border:0!important;background:transparent!important;border-radius:18px!important;font-family:Inter,Arial,sans-serif!important;font-size:13px!important;font-weight:800!important;color:#a8a8a2!important;display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important}.ntab.active{color:var(--mk-green)!important;background:rgba(40,211,107,.15)!important;box-shadow:inset 0 0 0 1px rgba(40,211,107,.06)!important}.ntab:before{display:none!important;content:none!important}body{padding-bottom:104px!important}}
+
+
+/* ═══════════════════════════
+   MKASS FINAL INNER APP COLOR/FONT FIX
+   Fixes dark cards/text inside booking modal, reservations, login and dashboard.
+   Backend/API JS untouched.
+═══════════════════════════ */
+:root{
+  --mk-green:#28d36b !important;
+  --mk-soft:#f7f6f1 !important;
+  --mk-panel:#ffffff !important;
+  --mk-panel-2:#fbfaf7 !important;
+  --mk-text:#101010 !important;
+  --mk-soft-text:#656760 !important;
+  --mk-border:#dedbd2 !important;
+  --mk-input:#ffffff !important;
+}
+html.dark{
+  --mk-soft:#0f1210 !important;
+  --mk-panel:#171b18 !important;
+  --mk-panel-2:#111512 !important;
+  --mk-text:#f6f6f1 !important;
+  --mk-soft-text:#b7b8b0 !important;
+  --mk-border:rgba(255,255,255,.14) !important;
+  --mk-input:#1e231f !important;
+}
+body:not(.force-dark),
+#view-booking,
+#view-dashboard,
+#view-my-bookings,
+.login-screen,
+.signup-screen,
+.my-bookings-wrap,
+.bk-wrap,
+.dash-main,
+.dash-grid{
+  background:var(--mk-soft) !important;
+  color:var(--mk-text) !important;
+  font-family:'Plus Jakarta Sans',Inter,Arial,sans-serif !important;
+}
+
+/* readable panels everywhere */
+.login-card,.signup-card,.my-bookings-hero,.booking-empty,.booking-card,
+.bk-salon-bar,.cal-box,.slots-box,.card,.t-card,.stat-c,.walkin-panel,
+.add-svc-form,.settings-form,.new-salon-form,.balance-header,.svc-manage-card,
+.modal,.succ-detail,.mstat,.modal-svc-item,.wsc,.total-display,.hist-item,
+.cover-upload,.staff-row,.price-card,.pay-card{
+  background:var(--mk-panel) !important;
+  color:var(--mk-text) !important;
+  border-color:var(--mk-border) !important;
+}
+
+/* text hierarchy */
+.login-card h2,.signup-title,.my-bookings-title,.booking-card-title,
+.bk-salon-name,.sp-title,.dash-title,.t-hdr h3,.walkin-panel h3,
+.add-svc-form h3,.new-salon-form h3,.balance-amount,.stat-val,
+.svc-manage-card .smc-name,.modal-title,.succ h2,.mstat-val,
+.modal-svc-name,.modal-svc-price,.wsc span,.total-display strong,
+.total-display span,.staff-service-name,.cl-name,.hist-label{
+  color:var(--mk-text) !important;
+  font-family:'Plus Jakarta Sans',Inter,Arial,sans-serif !important;
+}
+.login-card p,.signup-sub,.my-bookings-sub,.booking-card-meta,
+.booking-card-row span:first-child,.bk-salon-addr,.dash-sub,.stat-sub,
+.stat-lbl,.f-label,.cl-ph,.empty-row td,.no-msg,.balance-title,.balance-sub,
+.hist-meta,.modal-addr,.rev-date,.rev-text,.svc-manage-card .smc-cat,
+.svc-manage-card .smc-dur,.mstat-lbl,.modal-svc-dur,.modal-svc-check,
+.walkin-panel label,.section-label{
+  color:var(--mk-soft-text) !important;
+  font-family:Inter,Arial,sans-serif !important;
+}
+
+/* inputs */
+.f-input,select.f-input,textarea.f-input,input.f-input,
+#mb-phone,#dash-user,#dash-pw,#wi-name{
+  background:var(--mk-input) !important;
+  border:1px solid var(--mk-border) !important;
+  color:var(--mk-text) !important;
+  border-radius:14px !important;
+}
+.f-input::placeholder,input::placeholder,textarea::placeholder{color:var(--mk-soft-text) !important;opacity:.75 !important}
+
+/* booking modal/service cards */
+.modal-svc-item,.wsc{
+  border:1px solid var(--mk-border) !important;
+  box-shadow:none !important;
+}
+.modal-svc-item:hover,.wsc:hover{border-color:var(--mk-green) !important;background:rgba(40,211,107,.06) !important}
+.modal-svc-item.picked,.wsc.picked{
+  background:rgba(40,211,107,.12) !important;
+  border-color:var(--mk-green) !important;
+  color:var(--mk-text) !important;
+}
+.modal-svc-item.picked .modal-svc-check,
+.msvc-card.picked .msvc-chk{
+  background:var(--mk-green) !important;
+  border-color:var(--mk-green) !important;
+  color:#07110b !important;
+}
+.modal-total-bar,.sel-summary,.total-display{
+  background:rgba(40,211,107,.10) !important;
+  border:1px solid rgba(40,211,107,.22) !important;
+  color:var(--mk-text) !important;
+}
+.modal-total-bar strong,.sel-summary-row.total span:last-child,
+.total-display strong,.mstat-val.lime,.stat-val.lime,.balance-amount,
+.hist-amount.positive,.smc-price,.msvc-price,.modal-svc-price{
+  color:var(--mk-green) !important;
+}
+
+/* walk-in payment controls */
+.pay-types .pt,.pt{
+  background:var(--mk-panel) !important;
+  border:1px solid var(--mk-border) !important;
+  color:var(--mk-soft-text) !important;
+  border-radius:999px !important;
+  font-family:Inter,Arial,sans-serif !important;
+}
+.pt.active{
+  background:rgba(40,211,107,.12) !important;
+  border-color:var(--mk-green) !important;
+  color:var(--mk-green) !important;
+}
+
+/* dashboard/sidebar/table */
+.sidebar{background:var(--mk-panel) !important;border-right:1px solid var(--mk-border) !important;color:var(--mk-text) !important}
+.sb-btn{color:var(--mk-soft-text) !important;background:transparent !important;font-family:Inter,Arial,sans-serif !important}
+.sb-btn:hover{background:var(--mk-panel-2) !important;color:var(--mk-text) !important}
+.sb-btn.active{background:rgba(40,211,107,.14) !important;color:var(--mk-green) !important}
+.t-hdr,tbody tr{border-color:var(--mk-border) !important}
+thead th{background:var(--mk-panel-2) !important;color:var(--mk-soft-text) !important;border-color:var(--mk-border) !important}
+tbody td{color:var(--mk-text) !important}
+.ab,.ftab{background:transparent !important;border-color:var(--mk-border) !important;color:var(--mk-text) !important}
+.ftab.active{background:#111 !important;color:#fff !important;border-color:#111 !important}
+html.dark .ftab.active{background:#fff !important;color:#111 !important;border-color:#fff !important}
+
+/* buttons */
+.btn-lime,.modal-book-btn,.book-btn,.search-wrap .btn-lime,.manager-mobile-btn,
+.my-bookings-form .btn,.login-card .btn-lime,.walkin-panel .btn-lime{
+  background:var(--mk-green) !important;
+  border-color:var(--mk-green) !important;
+  color:#07110b !important;
+  font-family:Inter,Arial,sans-serif !important;
+  font-weight:800 !important;
+}
+.btn-ghost{border-color:var(--mk-border) !important;color:var(--mk-text) !important;background:transparent !important}
+
+/* specific screenshot fixes */
+#modal-body .mstat{box-shadow:none !important;border-radius:14px !important;padding:14px 10px !important}
+#modal-body .modal-svc-list{gap:9px !important}
+.walkin-svc-check{gap:8px !important}
+.walkin-svc-check .wsc{min-height:42px !important;border-radius:10px !important}
+.walkin-panel{max-width:640px !important}
+.walkin-panel h3{font-size:22px !important}
+
+/* dark mode keeps readable contrast */
+html.dark .modal-svc-item,html.dark .wsc,html.dark .mstat,html.dark .total-display,
+html.dark .modal-total-bar,html.dark .sel-summary{background:var(--mk-panel-2) !important}
+html.dark .modal-svc-item.picked,html.dark .wsc.picked{background:rgba(40,211,107,.16) !important}
+
 </style>
+
+<style id="mkass-final-mobile-bottom-nav-no-icons">
+/* FINAL FIX: mobile nav must be bottom, without icons */
+@media (max-width: 900px){
+  body{
+    padding-bottom: 104px !important;
+  }
+
+  .nav{
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 300 !important;
+  }
+
+  .nav-tabs{
+    position: fixed !important;
+    top: auto !important;
+    bottom: max(12px, env(safe-area-inset-bottom)) !important;
+    left: 14px !important;
+    right: 14px !important;
+    width: auto !important;
+    margin: 0 !important;
+    height: 72px !important;
+    padding: 7px !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 7px !important;
+    background: rgba(18,18,18,.96) !important;
+    border: 1px solid rgba(255,255,255,.14) !important;
+    border-radius: 24px !important;
+    box-shadow: 0 18px 50px rgba(0,0,0,.58), inset 0 1px 0 rgba(255,255,255,.05) !important;
+    backdrop-filter: blur(18px) !important;
+    z-index: 99999 !important;
+    transform: none !important;
+  }
+
+  .ntab{
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-direction: row !important;
+    gap: 0 !important;
+    min-height: 56px !important;
+    padding: 6px 4px !important;
+    border-radius: 18px !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    text-align: center !important;
+  }
+
+  .ntab::before,
+  #nt-explore::before,
+  #nt-my-bookings::before,
+  #nt-login-mobile::before,
+  #nt-dash::before{
+    content: none !important;
+    display: none !important;
+  }
+
+  body:not(.admin-logged) #nt-dash{
+    display: none !important;
+  }
+
+  body.admin-logged #nt-login-mobile{
+    display: none !important;
+  }
+
+  body.admin-logged #nt-dash{
+    display: flex !important;
+  }
+
+  #nav-login-btn{
+    display: inline-flex !important;
+  }
+
+  body.admin-logged #nav-login-btn{
+    display: none !important;
+  }
+}
+
+/* ═══════════════════════════
+   MKASS INNER APP POLISH
+   Applies new palette/fonts to bookings, login, dashboard and forms.
+   Keeps existing IDs/functions/API logic intact.
+═══════════════════════════ */
+:root{
+  --lime:#28d36b !important;
+  --lime2:#22c965 !important;
+  --lime-dim:rgba(40,211,107,.16) !important;
+  --lime-faint:rgba(40,211,107,.06) !important;
+  --mk-panel:#ffffff;
+  --mk-panel-2:#fbfaf7;
+  --mk-text:#101010;
+  --mk-soft-text:#656760;
+  --mk-border:#dedbd2;
+  --mk-shadow:0 18px 48px rgba(16,16,16,.07);
+}
+html.dark{
+  --mk-panel:#171b18;
+  --mk-panel-2:#111512;
+  --mk-text:#f6f6f1;
+  --mk-soft-text:#b7b8b0;
+  --mk-border:rgba(255,255,255,.14);
+  --mk-shadow:none;
+}
+
+#view-booking,
+#view-dashboard,
+#view-my-bookings{
+  background:var(--mk-soft) !important;
+  color:var(--mk-text) !important;
+  font-family:'Plus Jakarta Sans',Inter,Arial,sans-serif !important;
+}
+
+.login-screen,
+.signup-screen,
+.my-bookings-wrap,
+.bk-wrap{
+  background:var(--mk-soft) !important;
+  color:var(--mk-text) !important;
+}
+
+.login-card,
+.signup-card,
+.my-bookings-hero,
+.booking-empty,
+.booking-card,
+.bk-salon-bar,
+.cal-box,
+.slots-box,
+.card,
+.t-card,
+.stat-c,
+.walkin-panel,
+.add-svc-form,
+.settings-form,
+.new-salon-form,
+.balance-header,
+.svc-manage-card,
+.modal,
+.succ-detail{
+  background:var(--mk-panel) !important;
+  border:1px solid var(--mk-border) !important;
+  color:var(--mk-text) !important;
+  border-radius:24px !important;
+  box-shadow:var(--mk-shadow) !important;
+}
+
+.login-card h2,
+.signup-title,
+.my-bookings-title,
+.booking-card-title,
+.bk-salon-name,
+.sp-title,
+.dash-title,
+.t-hdr h3,
+.walkin-panel h3,
+.add-svc-form h3,
+.new-salon-form h3,
+.balance-amount,
+.stat-val,
+.svc-manage-card .smc-name,
+.modal-title,
+.succ h2{
+  font-family:'Plus Jakarta Sans',Inter,Arial,sans-serif !important;
+  color:var(--mk-text) !important;
+  letter-spacing:-.035em !important;
+  font-weight:800 !important;
+}
+
+.login-card p,
+.signup-sub,
+.my-bookings-sub,
+.booking-card-meta,
+.booking-card-row span:first-child,
+.bk-salon-addr,
+.dash-sub,
+.stat-sub,
+.stat-lbl,
+.f-label,
+.cl-ph,
+.empty-row td,
+.no-msg,
+.balance-title,
+.balance-sub,
+.hist-meta,
+.modal-addr,
+.rev-date,
+.rev-text,
+.svc-manage-card .smc-cat,
+.svc-manage-card .smc-dur{
+  color:var(--mk-soft-text) !important;
+  font-family:Inter,Arial,sans-serif !important;
+}
+
+.f-input,
+select.f-input,
+textarea.f-input,
+input.f-input{
+  background:var(--mk-panel-2) !important;
+  border:1px solid var(--mk-border) !important;
+  color:var(--mk-text) !important;
+  border-radius:14px !important;
+  font-family:Inter,Arial,sans-serif !important;
+  font-weight:500 !important;
+}
+.f-input:focus{border-color:var(--mk-green) !important;box-shadow:0 0 0 4px rgba(40,211,107,.12) !important}
+.f-input::placeholder{color:var(--mk-soft-text) !important;opacity:.75}
+
+.btn-lime,
+.modal-book-btn,
+.book-btn,
+.search-wrap .btn-lime,
+.manager-mobile-btn{
+  background:var(--mk-green) !important;
+  border-color:var(--mk-green) !important;
+  color:#07110b !important;
+  font-family:Inter,Arial,sans-serif !important;
+  font-weight:800 !important;
+  border-radius:14px !important;
+}
+.btn-ghost{background:transparent !important;border-color:var(--mk-border) !important;color:var(--mk-text) !important}
+.btn-danger{border-color:rgba(255,107,107,.28) !important}
+
+/* Customer bookings page */
+.my-bookings-wrap{max-width:920px !important;padding-top:3rem !important}
+.my-bookings-hero{padding:2rem !important}
+.my-bookings-title{font-size:38px !important;line-height:1.05 !important}
+.my-bookings-form .btn{border-radius:14px !important}
+#my-bookings-list .booking-empty{padding:2.4rem 1rem !important;text-align:center !important}
+.booking-card{padding:1.15rem !important}
+.booking-card-row{border-top:1px solid var(--mk-border) !important;color:var(--mk-text) !important}
+
+/* Login / signup */
+.login-card{max-width:430px !important;padding:2.5rem !important}
+.login-logo .logo-text,
+.login-logo .mkass-word{color:var(--mk-text) !important}
+.login-logo .logo-mark{background:var(--mk-green) !important}
+.login-card h2{font-size:28px !important;margin-top:.8rem !important}
+.login-card [style*="background:var(--ink3)"]{
+  background:var(--mk-panel-2) !important;
+  border:1px solid var(--mk-border) !important;
+  color:var(--mk-soft-text) !important;
+  border-radius:16px !important;
+}
+.signup-link{border-color:var(--mk-border) !important;color:var(--mk-text) !important;background:var(--mk-panel-2) !important}
+.signup-link:hover{border-color:var(--mk-green) !important;color:var(--mk-green) !important}
+
+/* Dashboard */
+.dash-grid{background:var(--mk-soft) !important}
+.dash-main{background:var(--mk-soft) !important;color:var(--mk-text) !important;padding:2.25rem !important}
+.sidebar{
+  background:var(--mk-panel) !important;
+  border-right:1px solid var(--mk-border) !important;
+  color:var(--mk-text) !important;
+}
+.sb-lbl{color:var(--mk-soft-text) !important;font-family:Inter,Arial,sans-serif !important;font-weight:700 !important;letter-spacing:.12em !important}
+.sb-btn{
+  color:var(--mk-soft-text) !important;
+  font-family:Inter,Arial,sans-serif !important;
+  font-weight:650 !important;
+  border-radius:14px !important;
+}
+.sb-btn:hover{background:var(--mk-panel-2) !important;color:var(--mk-text) !important}
+.sb-btn.active{background:rgba(40,211,107,.14) !important;color:var(--mk-green) !important}
+.sb-btn > span:first-child{display:none !important}
+.sb-badge{background:var(--mk-green) !important;color:#07110b !important}
+#sb-salon-lbl{color:var(--mk-soft-text) !important;border-top-color:var(--mk-border) !important}
+.stats-row{gap:14px !important}
+.stat-c{padding:1.35rem !important}
+.stat-val.lime,
+.stat-val.warn,
+.stat-val.info,
+.balance-amount,
+.hist-amount.positive,
+.smc-price,
+.msvc-price,
+.modal-svc-price{
+  color:var(--mk-green) !important;
+}
+.t-hdr{border-bottom:1px solid var(--mk-border) !important;background:transparent !important}
+thead th{background:var(--mk-panel-2) !important;color:var(--mk-soft-text) !important;border-bottom:1px solid var(--mk-border) !important;font-family:Inter,Arial,sans-serif !important;font-weight:700 !important}
+tbody tr{border-bottom:1px solid var(--mk-border) !important}
+tbody tr:hover{background:var(--mk-panel-2) !important}
+tbody td{color:var(--mk-text) !important;font-family:Inter,Arial,sans-serif !important}
+.cl-name{color:var(--mk-text) !important;font-weight:700 !important}
+.ab{border-color:var(--mk-border) !important;color:var(--mk-text) !important;border-radius:10px !important}
+.ftab{border-color:var(--mk-border) !important;color:var(--mk-soft-text) !important;background:transparent !important;border-radius:999px !important;font-family:Inter,Arial,sans-serif !important;font-weight:650 !important}
+.ftab.active{background:#111 !important;color:#fff !important;border-color:#111 !important}
+html.dark .ftab.active{background:#fff !important;color:#111 !important;border-color:#fff !important}
+
+/* Booking flow */
+.steps-bar .stp-n{font-family:Inter,Arial,sans-serif !important;font-weight:800 !important}
+.stp.active .stp-n{background:var(--mk-green) !important;border-color:var(--mk-green) !important;color:#07110b !important}
+.stp.active .stp-lbl{color:var(--mk-text) !important}.stp-lbl{color:var(--mk-soft-text) !important}
+.sel-summary{background:rgba(40,211,107,.10) !important;border-color:rgba(40,211,107,.22) !important;color:var(--mk-text) !important;border-radius:18px !important}
+.msvc-card{background:var(--mk-panel) !important;border-color:var(--mk-border) !important;color:var(--mk-text) !important;border-radius:20px !important;box-shadow:none !important}
+.msvc-card.picked{border-color:var(--mk-green) !important;background:rgba(40,211,107,.08) !important}
+.msvc-name{color:var(--mk-text) !important}.msvc-cat,.msvc-dur{color:var(--mk-soft-text) !important}
+.slot,.cday,.cal-arr{border-color:var(--mk-border) !important;color:var(--mk-text) !important;background:transparent !important}
+.cday.sel,.slot.sel{background:var(--mk-green) !important;color:#07110b !important;border-color:var(--mk-green) !important}
+.slot.taken{color:rgba(101,103,96,.45) !important}
+
+/* Badges and chips */
+.badge-open,.badge-confirmed{background:rgba(40,211,107,.14) !important;color:var(--mk-green) !important}
+.badge-pending,.badge-busy{background:rgba(251,176,64,.14) !important;color:#c97900 !important}
+.badge-cancelled,.badge-closed{background:rgba(255,107,107,.13) !important;color:#e55353 !important}
+.badge-done{background:rgba(101,103,96,.12) !important;color:var(--mk-soft-text) !important}
+.chip.active{background:var(--mk-green) !important;border-color:var(--mk-green) !important;color:#07110b !important}
+html.dark .chip.active{background:var(--mk-green) !important;color:#07110b !important}
+
+/* Dark mode refinements */
+html.dark .login-card,
+html.dark .signup-card,
+html.dark .my-bookings-hero,
+html.dark .booking-empty,
+html.dark .booking-card,
+html.dark .bk-salon-bar,
+html.dark .cal-box,
+html.dark .slots-box,
+html.dark .card,
+html.dark .t-card,
+html.dark .stat-c,
+html.dark .walkin-panel,
+html.dark .add-svc-form,
+html.dark .settings-form,
+html.dark .new-salon-form,
+html.dark .balance-header,
+html.dark .svc-manage-card,
+html.dark .modal,
+html.dark .succ-detail,
+html.dark .sidebar{
+  background:var(--mk-panel) !important;
+  border-color:var(--mk-border) !important;
+}
+html.dark .dash-main,html.dark .dash-grid,html.dark .login-screen,html.dark .signup-screen{background:var(--mk-soft) !important}
+html.dark .btn-ghost,html.dark .ab{color:var(--mk-text) !important}
+html.dark .ftab.active{background:#fff !important;color:#111 !important}
+html.dark .login-card [style*="background:var(--ink3)"]{background:var(--mk-panel-2) !important;color:var(--mk-soft-text) !important}
+
+@media(max-width:680px){
+  .dash-main{padding:1rem 14px 110px !important}
+  .sidebar{background:var(--mk-panel) !important;border-bottom:1px solid var(--mk-border) !important}
+  .my-bookings-wrap{padding:1.2rem 14px 110px !important}
+  .my-bookings-hero{padding:1.25rem !important}
+  .my-bookings-title{font-size:30px !important}
+  .login-card{padding:1.5rem !important;border-radius:28px !important}
+}
+
+</style>
+
 </head>
 <body>
-<div class="page">
-  <header class="header">
-    <div class="brand">
-      <div class="mark">
-        <svg viewBox="0 0 24 24" fill="none"><circle cx="6" cy="6" r="3" stroke="#111" stroke-width="2"/><circle cx="6" cy="18" r="3" stroke="#111" stroke-width="2"/><path d="M8.5 8.5L20 20" stroke="#111" stroke-width="2" stroke-linecap="round"/><path d="M8.5 15.5L20 4" stroke="#111" stroke-width="2" stroke-linecap="round"/></svg>
-      </div>
-      <div class="word">MKASS</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="logo" onclick="showView('explore')">
+    <div class="logo-mark">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="6" cy="6" r="3" stroke="#0A0A0A" stroke-width="2"/>
+        <circle cx="6" cy="18" r="3" stroke="#0A0A0A" stroke-width="2"/>
+        <path d="M8.5 8.5L20 20" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round"/>
+        <path d="M8.5 15.5L20 4" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round"/>
+      </svg>
     </div>
-    <nav class="nav-links">
-      <span>Explorer</span>
-      <span>Mes réservations</span>
-      <span>Pour les professionnels</span>
-      <span>Tarifs</span>
-      <span>Aide</span>
-    </nav>
-    <div class="nav-actions">
-      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Changer le mode sombre"></button>
-      <button class="ghost">Se connecter</button>
-      <button class="primary">S'inscrire</button>
-    </div>
-  </header>
+    <div class="logo-text mkass-word">MKASS</div>
+  </div>
+  <div class="nav-r">
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Changer le mode sombre"></button>
+    <button class="nav-pill" id="nav-login-btn" onclick="showView('dashboard')">Se connecter</button>
+  </div>
+</nav>
 
-  <main>
-    <section class="hero-wrap">
-      <div class="hero">
-        <div class="hero-copy">
-          <div class="label">Tunis & environs</div>
-          <h1>Trouvez votre <span>coiffeur idéal</span></h1>
-          <p>Réservez en ligne dans les meilleurs salons et barbershops près de chez vous.</p>
-          <div class="search">
-            <div class="field"><div class="icon pinIcon"></div><div><small>Lieu</small><input value="Tunis" /></div></div>
-            <div class="field"><div class="icon searchIcon"></div><div><small>Service</small><input placeholder="Coupe, brushing, barbe..." /></div></div>
-            <button class="searchBtn">Rechercher</button>
+<!-- ═══════════════ EXPLORE ═══════════════ -->
+<div id="view-explore" class="view active">
+  <section class="mk-hero-wrap">
+    <div class="mk-hero">
+      <div class="mk-hero-copy">
+        <div class="mk-label"><span></span>Tunis &amp; environs</div>
+        <h1>Trouvez votre <em>coiffeur idéal</em></h1>
+        <p>Réservez en ligne dans les meilleurs salons et barbershops près de chez vous.</p>
+        <div class="mk-search">
+          <div class="mk-field">
+            <div class="mk-icon mk-pin"></div>
+            <div>
+              <small>Lieu</small>
+              <input type="text" value="Tunis" aria-label="Lieu">
+            </div>
           </div>
-        </div>
-        <div class="hero-visual">
-          <img src="https://images.unsplash.com/photo-1622287162716-f311baa1a2b8?q=80&w=1200&auto=format&fit=crop" alt="Barbershop moderne" />
-          <div class="floating">
-            <div><h3>Barber One</h3><p>Centre-ville · Disponible demain</p></div>
-            <div class="rating">★ 4,9</div>
-            <button>Réserver</button>
+          <div class="mk-field">
+            <div class="mk-icon mk-search-ico"></div>
+            <div>
+              <small>Service</small>
+              <input type="text" id="search-inp" placeholder="Coupe, brushing, barbe..." oninput="renderShops()">
+            </div>
           </div>
+          <button class="mk-search-btn" onclick="renderShops()">Rechercher</button>
         </div>
       </div>
-
-      <div class="trust-row" aria-label="Avantages Mkass">
-        <div class="trust-item"><span class="trust-icon"></span>Réservation instantanée</div>
-        <div class="trust-item"><span class="trust-icon"></span>Annulation gratuite</div>
-        <div class="trust-item"><span class="trust-icon"></span>Paiement au salon</div>
-        <div class="trust-item"><span class="trust-icon"></span>Avis vérifiés</div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <div>
-          <h2>Salons à proximité</h2>
-          <p>Les meilleurs établissements disponibles autour de vous</p>
+      <div class="mk-hero-visual">
+        <img src="https://images.unsplash.com/photo-1622287162716-f311baa1a2b8?q=80&w=1200&auto=format&fit=crop" alt="Barbershop moderne">
+        <div class="mk-floating-card">
+          <div>
+            <h3>Barber One</h3>
+            <p>Centre-ville · Disponible demain</p>
+          </div>
+          <div class="mk-rating">★ 4,9</div>
+          <button onclick="bookSalon('barber-one')">Réserver</button>
         </div>
-        <p>Voir tout →</p>
-      </div>
-
-      <div class="filters">
-        <button class="chip active">Tous</button>
-        <button class="chip">Près de moi</button>
-        <button class="chip">Ouvert maintenant</button>
-        <button class="chip">Les mieux notés</button>
-        <button class="chip">Barbershops</button>
-        <button class="chip">Salons femme</button>
-      </div>
-
-      <div class="venues">
-        <article class="venue">
-          <div class="photo">
-            <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?q=80&w=1000&auto=format&fit=crop" alt="Salon Nour" />
-            <div class="status">Disponible</div><div class="save">♡</div><div class="dist">0,3 km</div>
-          </div>
-          <div class="venue-body">
-            <div class="venue-top"><div><div class="venue-name">Salon Nour</div><div class="type">Salon de coiffure · Lafayette</div></div><div class="rate">★ 4,8</div></div>
-            <div class="addr">Rue de Marseille, Tunis · 124 avis</div>
-            <div class="services"><span class="service hot">Brushing</span><span class="service">Coloration</span><span class="service">Kératine</span></div>
-            <div class="venue-action"><div class="price">Prestations dès <strong>25 TND</strong></div><button class="book green">Réserver</button></div>
-          </div>
-        </article>
-
-        <article class="venue">
-          <div class="photo">
-            <img src="https://images.unsplash.com/photo-1517832606299-7ae9b720a186?q=80&w=1000&auto=format&fit=crop" alt="Barber One" />
-            <div class="status">Disponible</div><div class="save">♡</div><div class="dist">0,7 km</div>
-          </div>
-          <div class="venue-body">
-            <div class="venue-top"><div><div class="venue-name">Barber One</div><div class="type">Barbershop · Centre-ville</div></div><div class="rate">★ 4,9</div></div>
-            <div class="addr">Avenue Habib Bourguiba, Tunis · 89 avis</div>
-            <div class="services"><span class="service hot">Coupe homme</span><span class="service">Barbe</span><span class="service">Rasage</span></div>
-            <div class="venue-action"><div class="price">Prestations dès <strong>15 TND</strong></div><button class="book">Réserver</button></div>
-          </div>
-        </article>
-
-        <article class="venue">
-          <div class="photo">
-            <img src="https://images.unsplash.com/photo-1600948836101-f9ffda59d250?q=80&w=1000&auto=format&fit=crop" alt="Studio Bella" />
-            <div class="status">Très demandé</div><div class="save">♡</div><div class="dist">2,1 km</div>
-          </div>
-          <div class="venue-body">
-            <div class="venue-top"><div><div class="venue-name">Studio Bella</div><div class="type">Salon mixte · Lac 1</div></div><div class="rate">★ 4,6</div></div>
-            <div class="addr">Rue du Lac, Tunis · 67 avis</div>
-            <div class="services"><span class="service hot">Soin</span><span class="service">Extensions</span><span class="service">Nails</span></div>
-            <div class="venue-action"><div class="price">Prestations dès <strong>30 TND</strong></div><button class="book">Réserver</button></div>
-          </div>
-        </article>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <div class="footer-logo">
-          <div class="mark"><svg viewBox="0 0 24 24" fill="none"><circle cx="6" cy="6" r="3" stroke="#111" stroke-width="2"/><circle cx="6" cy="18" r="3" stroke="#111" stroke-width="2"/><path d="M8.5 8.5L20 20" stroke="#111" stroke-width="2" stroke-linecap="round"/><path d="M8.5 15.5L20 4" stroke="#111" stroke-width="2" stroke-linecap="round"/></svg></div>
-          <div class="word">MKASS</div>
-        </div>
-        <p class="footer-text">La plateforme de réservation en ligne pour trouver les meilleurs salons et barbiers près de chez vous.</p>
-        <a class="download" href="#" aria-label="Télécharger l'application Mkass"><span class="download-text">Télécharger l'app</span><span class="store"><svg class="apple-svg" viewBox="0 0 24 29" aria-hidden="true"><path d="M19.33 15.42c-.03-3.12 2.55-4.62 2.67-4.69-1.46-2.13-3.72-2.43-4.52-2.46-1.92-.2-3.74 1.13-4.71 1.13-.97 0-2.47-1.1-4.06-1.07-2.09.03-4.02 1.22-5.1 3.1-2.18 3.78-.56 9.37 1.57 12.43 1.04 1.5 2.28 3.19 3.91 3.13 1.57-.06 2.16-1.01 4.05-1.01s2.42 1.01 4.08.98c1.68-.03 2.75-1.53 3.78-3.04 1.19-1.74 1.68-3.43 1.71-3.52-.04-.02-3.35-1.28-3.38-4.98z"/><path d="M16.22 6.25c.86-1.04 1.44-2.48 1.28-3.92-1.24.05-2.73.83-3.62 1.86-.79.91-1.49 2.38-1.3 3.78 1.38.11 2.78-.7 3.64-1.72z"/></svg><span class="g-logo">G</span></span></a>
-      </div>
-
-      <div class="footer-grid">
-        <div class="footer-col"><h4>À propos de Mkass</h4><a href="#">Carrières</a><a href="#">Aide et assistance</a><a href="#">Blog</a><a href="#">Plan du site</a></div>
-        <div class="footer-col"><h4>Pour les professionnels</h4><a href="#">Pour les partenaires</a><a href="#">Tarifs</a><a href="#">Aide</a><a href="#">Statut</a></div>
-        <div class="footer-col"><h4>Mentions légales</h4><a href="#">Politique de confidentialité</a><a href="#">Conditions d'utilisation</a><a href="#">Cookies</a></div>
-        <div class="footer-col"><h4>Retrouvez-nous sur les réseaux sociaux</h4><a href="#">↗ Facebook</a><a href="#">↗ X (Twitter)</a><a href="#">↗ Linkedin</a><a href="#">↗ Instagram</a></div>
       </div>
     </div>
-    <div class="footer-bottom">
-      <div class="lang">◎ français (FR)</div>
-      <div class="copy">© 2026 Mkass. Tous droits réservés.</div>
+    <div class="mk-trust-row" aria-label="Avantages Mkass">
+      <div class="mk-trust-item"><span></span>Réservation instantanée</div>
+      <div class="mk-trust-item"><span></span>Annulation gratuite</div>
+      <div class="mk-trust-item"><span></span>Paiement au salon</div>
+      <div class="mk-trust-item"><span></span>Avis vérifiés</div>
     </div>
-  </footer>
+  </section>
 
-  <nav class="mobile-nav">
-    <button class="active">Explorer</button>
-    <button>Mes réservations</button>
-    <button>Se connecter</button>
-  </nav>
+  <div class="chips mk-filters" id="chips">
+    <button class="chip active" onclick="setChip(this,'all')">Tous</button>
+    <button class="chip" onclick="setChip(this,'near')">Près de moi</button>
+    <button class="chip" onclick="setChip(this,'open')">Ouvert maintenant</button>
+    <button class="chip" onclick="setChip(this,'top')">Les mieux notés</button>
+    <button class="chip" onclick="setChip(this,'barbershop')">Barbershops</button>
+    <button class="chip" onclick="setChip(this,'salon')">Salons femme</button>
+  </div>
+
+  <div class="shops-wrap">
+    <div class="shops-meta">
+      <div>
+        <h2>Salons à proximité</h2>
+        <p class="mk-section-sub">Les meilleurs établissements disponibles autour de vous</p>
+      </div>
+      <span id="shop-count"></span>
+    </div>
+    <div class="shops-grid" id="shops-grid"></div>
+    <div class="manager-mobile-cta" onclick="showView('dashboard')">
+      <div class="manager-mobile-icon">MK</div>
+      <div class="manager-mobile-copy">
+        <strong>Gérez votre salon facilement</strong>
+        <span>Connectez-vous en tant que gérant pour accéder à votre espace.</span>
+      </div>
+      <button class="manager-mobile-btn">Se connecter</button>
+    </div>
+  </div>
 </div>
+
+<!-- Shop modal -->
+<div class="overlay hidden" id="shop-modal" onclick="mayCloseModal(event)">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<!-- ═══════════════ BOOKING ═══════════════ -->
+<div id="view-booking" class="view">
+  <div class="bk-wrap">
+    <div class="bk-salon-bar">
+      <div class="bk-salon-icon" id="bk-icon">✂️</div>
+      <div>
+        <div class="bk-salon-name" id="bk-name">Mkass — Réservation</div>
+        <div class="bk-salon-addr" id="bk-addr">Choisissez un salon depuis Explorer</div>
+      </div>
+    </div>
+    <div class="steps-bar">
+      <div class="stp active" id="si-1"><div class="stp-n">1</div><span class="stp-lbl">Services</span></div>
+      <div class="stp-line"></div>
+      <div class="stp" id="si-2"><div class="stp-n">2</div><span class="stp-lbl">Date &amp; heure</span></div>
+      <div class="stp-line"></div>
+      <div class="stp" id="si-3"><div class="stp-n">3</div><span class="stp-lbl">Vos infos</span></div>
+      <div class="stp-line"></div>
+      <div class="stp" id="si-4"><div class="stp-n">4</div><span class="stp-lbl">Confirmation</span></div>
+    </div>
+    <!-- Step 1 -->
+    <div id="sp-1" class="sp active">
+      <div class="sp-title">Choisissez vos services</div>
+      <div class="msvc-grid" id="msvc-grid"></div>
+      <div id="bk-sel-summary" style="margin-top:1rem"></div>
+      <div class="step-acts">
+        <button class="btn btn-lime" id="bs1" onclick="goStep(2)" disabled>Continuer →</button>
+      </div>
+    </div>
+    <!-- Step 2 -->
+    <div id="sp-2" class="sp">
+      <div class="sp-title">Date &amp; heure</div>
+      <div id="pill-2" class="sel-summary"></div>
+      <div class="cal-layout">
+        <div class="cal-box">
+          <div class="cal-hdr">
+            <button class="cal-arr" onclick="chMon(-1)">‹</button>
+            <span class="cal-month" id="cal-lbl"></span>
+            <button class="cal-arr" onclick="chMon(1)">›</button>
+          </div>
+          <div class="cal-wds"><div class="cal-wd">Lu</div><div class="cal-wd">Ma</div><div class="cal-wd">Me</div><div class="cal-wd">Je</div><div class="cal-wd">Ve</div><div class="cal-wd">Sa</div><div class="cal-wd">Di</div></div>
+          <div class="cal-days" id="cal-days"></div>
+        </div>
+        <div class="slots-box">
+          <div class="slots-lbl">Créneaux disponibles</div>
+          <div id="slots" class="slots-grid"><div class="no-msg" style="grid-column:1/-1">Sélectionnez une date</div></div>
+        </div>
+      </div>
+      <div class="step-acts">
+        <button class="btn btn-ghost" onclick="goStep(1)">← Retour</button>
+        <button class="btn btn-lime" id="bs2" onclick="goStep(3)" disabled>Continuer →</button>
+      </div>
+    </div>
+    <!-- Step 3 -->
+    <div id="sp-3" class="sp">
+      <div class="sp-title">Vos coordonnées</div>
+      <div id="pill-3" class="sel-summary"></div>
+      <div class="card" style="padding:1.25rem;max-width:440px">
+        <div class="f-row"><label class="f-label">Nom complet</label><input class="f-input" id="c-name" placeholder="Fatima Ben Ali" oninput="chk3()"></div>
+        <div class="f-row"><label class="f-label">Téléphone</label><input class="f-input" id="c-phone" placeholder="+216 XX XXX XXX" oninput="chk3()"></div>
+        <div class="f-row" style="margin-bottom:0"><label class="f-label">Notes (optionnel)</label><input class="f-input" id="c-note" placeholder="Préférence coiffeur, allergie..."></div>
+      </div>
+      <div class="step-acts">
+        <button class="btn btn-ghost" onclick="goStep(2)">← Retour</button>
+        <button class="btn btn-lime" id="bs3" onclick="confirmBooking()" disabled>Confirmer ✓</button>
+      </div>
+    </div>
+    <!-- Step 4 -->
+    <div id="sp-4" class="sp">
+      <div class="succ">
+        <div class="succ-icon">✓</div>
+        <h2>Réservation confirmée !</h2>
+        <p style="color:var(--gray);font-size:14px">Votre réservation a bien été enregistrée.</p>
+        <div class="ref-pill" id="bk-ref">MKS-0000</div>
+        <div class="succ-detail" id="bk-detail"></div>
+        <button class="btn btn-ghost" onclick="resetBooking()">Nouvelle réservation</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ MES RÉSERVATIONS ═══════════════ -->
+<div id="view-my-bookings" class="view">
+  <div class="my-bookings-wrap">
+    <div class="my-bookings-hero">
+      <div class="my-bookings-title">Mes réservations</div>
+      <div class="my-bookings-sub">
+        Entrez votre numéro de téléphone pour retrouver vos rendez-vous.
+      </div>
+      <div class="my-bookings-form">
+        <input class="f-input" id="mb-phone" placeholder="+216 XX XXX XXX">
+        <button class="btn btn-lime" onclick="loadMyBookings()">Voir mes réservations</button>
+      </div>
+    </div>
+
+    <div id="my-bookings-list">
+      <div class="booking-empty">Aucune recherche pour le moment.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ DASHBOARD ═══════════════ -->
+<div id="view-dashboard" class="view">
+  <!-- LOGIN -->
+  <div id="dash-login" class="login-screen">
+    <div class="login-card">
+      <div class="login-logo">
+        <div class="logo-mark">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="6" cy="6" r="3" stroke="#0A0A0A" stroke-width="2"/>
+            <circle cx="6" cy="18" r="3" stroke="#0A0A0A" stroke-width="2"/>
+            <path d="M8.5 8.5L20 20" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round"/>
+            <path d="M8.5 15.5L20 4" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="logo-text mkass-word">MKASS</div>
+      </div>
+      <h2>Espace Gérant</h2>
+      <p>Connectez-vous avec vos identifiants</p>
+      <div class="f-row"><label class="f-label">Nom d'utilisateur</label><input class="f-input" id="dash-user" placeholder="ex: salon-nour" onkeydown="if(event.key==='Enter')tryLogin()"></div>
+      <div class="f-row"><label class="f-label">Mot de passe</label><input class="f-input" type="password" id="dash-pw" placeholder="••••••••" onkeydown="if(event.key==='Enter')tryLogin()"></div>
+      <button class="btn btn-lime" style="width:100%;justify-content:center;margin-top:0.25rem" onclick="tryLogin()">Se connecter →</button>
+      <div style="margin-top:1.25rem;padding:10px 14px;background:var(--ink3);border-radius:var(--rs);font-size:11px;color:var(--gray);line-height:1.8">
+        <strong style="color:var(--gray);display:block;margin-bottom:4px">Comptes démo :</strong>
+        salon-nour / <strong style="color:var(--white)">1234</strong><br>
+        barber-one / <strong style="color:var(--white)">5678</strong><br>
+      </div>
+    </div>
+  </div>
+
+  <!-- DASH CONTENT -->
+  <div id="dash-content" style="display:none">
+    <div class="dash-grid">
+      <aside class="sidebar">
+        <div class="sb-lbl">Mon salon</div>
+        <button class="sb-btn active" onclick="swTab(this,'dt-today')"><span>📅</span> Aujourd'hui <span class="sb-badge" id="sb-today-n">0</span></button>
+        <button class="sb-btn" onclick="swTab(this,'dt-all')"><span>📋</span> Tous les RDV</button>
+        <button class="sb-btn" onclick="swTab(this,'dt-walkin')"><span>💵</span> Caisse / Walk-in</button>
+        <button class="sb-btn" onclick="swTab(this,'dt-balance')"><span>📊</span> Balance totale</button>
+        <button class="sb-btn" onclick="swTab(this,'dt-services')"><span>✂️</span> Mes services</button>
+        <button class="sb-btn" onclick="swTab(this,'dt-settings')"><span>⚙️</span> Paramètres</button>
+        <div id="sb-admin-link" style="display:none">
+          <div class="sb-lbl" style="margin-top:1rem">Admin</div>
+          <button class="sb-btn" onclick="swTab(this,'dt-admin')"><span>🔑</span> Gérer les salons</button>
+        </div>
+        <div style="margin-top:auto;padding-top:1.5rem">
+          <div style="font-size:11px;color:var(--gray);padding:8px 11px;border-top:1px solid var(--border);margin-bottom:6px" id="sb-salon-lbl"></div>
+          <button class="sb-btn" onclick="logout()"><span>↩</span> Déconnexion</button>
+        </div>
+      </aside>
+
+      <main class="dash-main">
+        <!-- TODAY -->
+        <div id="dt-today" class="dtab active">
+          <div class="dash-hdr">
+            <div><div class="dash-title" id="d-greeting"></div><div class="dash-sub" id="d-date"></div></div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button class="btn btn-ghost btn-sm" onclick="swTab(document.querySelector('.sb-btn[onclick*=walkin]'),'dt-walkin')">+ Walk-in</button>
+              <button class="btn btn-lime btn-sm" onclick="showView('booking')">+ RDV en ligne</button>
+            </div>
+          </div>
+          <div class="stats-row" id="d-stats"></div>
+          <div class="t-card">
+            <div class="t-hdr"><h3>Aujourd'hui</h3></div>
+            <table><thead><tr><th>Client</th><th>Services</th><th>Heure</th><th>Total</th><th>Statut</th><th>Actions</th></tr></thead>
+            <tbody id="d-today-tb"></tbody></table>
+          </div>
+        </div>
+
+        <!-- ALL -->
+        <div id="dt-all" class="dtab">
+          <div class="dash-hdr"><div class="dash-title">Tous les rendez-vous</div>
+            <div class="ftabs">
+              <button class="ftab active" onclick="setFlt(this,'all')">Tous</button>
+              <button class="ftab" onclick="setFlt(this,'confirmed')">Confirmés</button>
+              <button class="ftab" onclick="setFlt(this,'pending')">En attente</button>
+              <button class="ftab" onclick="setFlt(this,'done')">Terminés</button>
+            </div>
+          </div>
+          <div class="t-card">
+            <table><thead><tr><th>Client</th><th>Services</th><th>Date</th><th>Heure</th><th>Total</th><th>Statut</th><th>Actions</th></tr></thead>
+            <tbody id="d-all-tb"></tbody></table>
+          </div>
+        </div>
+
+        <!-- WALK-IN / CAISSE -->
+        <div id="dt-walkin" class="dtab">
+          <div class="dash-hdr"><div><div class="dash-title">Caisse / Walk-in</div><div class="dash-sub">Enregistrez un client venu sans réservation</div></div></div>
+          <div class="walkin-panel">
+            <h3>Nouveau client walk-in</h3>
+            <div class="f-row"><label class="f-label">Nom client (optionnel)</label><input class="f-input" id="wi-name" placeholder="Nom ou anonyme"></div>
+            <div class="f-row"><label class="f-label">Services effectués</label>
+              <div class="walkin-svc-check" id="wi-svcs"></div>
+            </div>
+            <div class="total-display"><span>Total</span><strong id="wi-total">0 TND</strong></div>
+            <div class="f-row"><label class="f-label">Mode de paiement</label>
+              <div class="pay-types">
+                <button class="pt active" onclick="setPay(this,'cash')">💵 Espèces</button>
+                <button class="pt" onclick="setPay(this,'card')">💳 Carte</button>
+                <button class="pt" onclick="setPay(this,'transfer')">📱 Virement</button>
+              </div>
+            </div>
+            <button class="btn btn-lime" style="width:100%;justify-content:center" onclick="addWalkin()">Enregistrer le paiement ✓</button>
+          </div>
+          <!-- Today walk-ins list -->
+          <div class="t-card">
+            <div class="t-hdr"><h3>Paiements d'aujourd'hui</h3></div>
+            <table><thead><tr><th>Client</th><th>Services</th><th>Heure</th><th>Montant</th><th>Paiement</th><th>Type</th></tr></thead>
+            <tbody id="wi-hist-tb"></tbody></table>
+          </div>
+        </div>
+
+        <!-- BALANCE -->
+        <div id="dt-balance" class="dtab">
+          <div class="dash-hdr"><div class="dash-title">Balance totale</div></div>
+          <div class="balance-header" id="bal-header"></div>
+          <div class="t-card">
+            <div class="t-hdr"><h3>Historique des recettes</h3>
+              <div class="ftabs">
+                <button class="ftab active" onclick="setBalFlt(this,'all')">Tout</button>
+                <button class="ftab" onclick="setBalFlt(this,'booking')">Réservations</button>
+                <button class="ftab" onclick="setBalFlt(this,'walkin')">Walk-in</button>
+              </div>
+            </div>
+            <div id="bal-hist"></div>
+          </div>
+        </div>
+
+        <!-- SERVICES MANAGEMENT -->
+        <div id="dt-services" class="dtab">
+          <div class="dash-hdr">
+            <div><div class="dash-title">Mes services &amp; tarifs</div><div class="dash-sub">Gérez les services proposés dans votre salon</div></div>
+          </div>
+          <div class="svc-manage-grid" id="d-svc-grid"></div>
+          <div class="add-svc-form">
+            <h3>+ Ajouter un service</h3>
+            <div class="f-row"><label class="f-label">Catégorie</label>
+              <select class="f-input" id="as-cat"><option>Coupe</option><option>Couleur</option><option>Soin</option><option>Barbe</option><option>Ongles</option><option>Épilation</option><option>Formule</option><option>Autre</option></select>
+            </div>
+            <div class="form-row-2">
+              <div class="f-row"><label class="f-label">Nom du service</label><input class="f-input" id="as-name" placeholder="Ex: Coupe dégradée"></div>
+              <div class="f-row"><label class="f-label">Durée</label><input class="f-input" id="as-dur" placeholder="Ex: 30 min"></div>
+            </div>
+            <div class="f-row"><label class="f-label">Prix (TND)</label><input class="f-input" type="number" id="as-price" placeholder="Ex: 25"></div>
+            <button class="btn btn-lime" onclick="addService()">Ajouter ce service</button>
+          </div>
+        </div>
+
+        <!-- SETTINGS -->
+        <div id="dt-settings" class="dtab">
+          <div class="dash-hdr"><div class="dash-title">Paramètres du salon</div></div>
+          <div class="settings-form">
+            <div class="f-row">
+              <label class="f-label">Photo de couverture</label>
+              <div class="cover-upload" id="cover-upload" onclick="document.getElementById('cover-file-inp').click()">
+                <input type="file" id="cover-file-inp" accept="image/*" onchange="handleCoverUpload(event)">
+                <div class="cover-upload-txt" id="cover-upload-txt">
+                  <div style="font-size:28px">🖼️</div>
+                  <p>Cliquez pour importer<br>une photo de votre salon</p>
+                </div>
+                <div class="cover-overlay-btn" id="cover-overlay-btn">
+                  <span style="background:rgba(0,0,0,0.7);padding:6px 14px;border-radius:6px;font-size:12px">Changer la photo</span>
+                </div>
+              </div>
+            </div>
+            <div class="f-row"><label class="f-label">Nom du salon</label><input class="f-input" id="sett-name" oninput="saveSettings()"></div>
+            <div class="f-row"><label class="f-label">Adresse</label><input class="f-input" id="sett-addr" oninput="saveSettings()"></div>
+            <div class="f-row"><label class="f-label">Statut</label>
+              <select class="f-input" id="sett-status" onchange="saveSettings()">
+                <option value="open">Ouvert</option>
+                <option value="busy">Très demandé</option>
+                <option value="closed">Fermé</option>
+              </select>
+            </div>
+            <div class="f-row"><label class="f-label">Nouveau mot de passe</label><input class="f-input" type="password" id="sett-pw" placeholder="Laisser vide = pas de changement"></div>
+            <button class="btn btn-lime" onclick="saveSettingsBtn()">Sauvegarder les paramètres</button>
+          </div>
+        </div>
+
+        <!-- ADMIN -->
+        <div id="dt-admin" class="dtab">
+          <div class="dash-hdr"><div class="dash-title">Gestion des gérants</div></div>
+          <div class="admin-notice">🔑 Vous êtes connecté en tant qu'administrateur Mkass.</div>
+          <div class="new-salon-form" style="margin-bottom:1.5rem">
+            <h3>Ajouter un nouveau salon</h3>
+            <div class="f-row"><label class="f-label">Nom du salon</label><input class="f-input" id="ns-name" placeholder="Ex: Studio Zina"></div>
+            <div class="f-row"><label class="f-label">Adresse</label><input class="f-input" id="ns-addr" placeholder="Rue, quartier, ville"></div>
+            <div class="f-row"><label class="f-label">Lien Google Maps</label><input class="f-input" id="ns-map-url" placeholder="https://maps.app.goo.gl/..."></div>
+            <div class="f-row"><label class="f-label">Emoji / icône</label><input class="f-input" id="ns-icon" placeholder="Ex: 💇" value="✂️"></div>
+            <div class="form-row-2">
+              <div class="f-row"><label class="f-label">Type</label>
+                <select class="f-input" id="ns-type"><option value="salon">Salon femme</option><option value="barbershop">Barbershop</option><option value="mixte">Mixte</option><option value="enfant">Enfants</option></select>
+              </div>
+              <div class="f-row"><label class="f-label">Mot de passe</label><input class="f-input" id="ns-pw" placeholder="Code d'accès gérant"></div>
+            </div>
+            <button class="btn btn-lime" onclick="addSalon()">Créer ce salon →</button>
+          </div>
+          <!-- All salons table -->
+          <div class="t-card">
+            <div class="t-hdr"><h3>Tous les salons enregistrés</h3></div>
+            <table><thead><tr><th>Salon</th><th>Type</th><th>Adresse</th><th>Statut</th><th>RDV total</th><th>Actions</th></tr></thead>
+            <tbody id="admin-salons-tb"></tbody></table>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+</div>
+
+
+<footer class="mk-footer">
+  <div class="mk-footer-inner">
+    <div class="mk-footer-brand">
+      <div class="footer-logo">
+        <div class="logo-mark">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="6" cy="6" r="3" stroke="#0A0A0A" stroke-width="2"/>
+            <circle cx="6" cy="18" r="3" stroke="#0A0A0A" stroke-width="2"/>
+            <path d="M8.5 8.5L20 20" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round"/>
+            <path d="M8.5 15.5L20 4" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="logo-text mkass-word">MKASS</div>
+      </div>
+      <p>La plateforme de réservation en ligne pour trouver les meilleurs salons et barbiers près de chez vous.</p>
+      <a class="mk-download" href="#" aria-label="Télécharger l'application Mkass"><span class="mk-download-text">Télécharger l'app</span><span class="mk-store"><svg class="mk-apple" viewBox="0 0 24 29" aria-hidden="true"><path d="M19.33 15.42c-.03-3.12 2.55-4.62 2.67-4.69-1.46-2.13-3.72-2.43-4.52-2.46-1.92-.2-3.74 1.13-4.71 1.13-.97 0-2.47-1.1-4.06-1.07-2.09.03-4.02 1.22-5.1 3.1-2.18 3.78-.56 9.37 1.57 12.43 1.04 1.5 2.28 3.19 3.91 3.13 1.57-.06 2.16-1.01 4.05-1.01s2.42 1.01 4.08.98c1.68-.03 2.75-1.53 3.78-3.04 1.19-1.74 1.68-3.43 1.71-3.52-.04-.02-3.35-1.28-3.38-4.98z"/><path d="M16.22 6.25c.86-1.04 1.44-2.48 1.28-3.92-1.24.05-2.73.83-3.62 1.86-.79.91-1.49 2.38-1.3 3.78 1.38.11 2.78-.7 3.64-1.72z"/></svg><span class="mk-g-logo">G</span></span></a>
+    </div>
+    <div class="mk-footer-grid">
+      <div><h4>À propos de Mkass</h4><a>Carrières</a><a>Aide et assistance</a><a>Blog</a><a>Plan du site</a></div>
+      <div><h4>Pour les professionnels</h4><a>Pour les partenaires</a><a>Tarifs</a><a>Aide</a><a>Statut</a></div>
+      <div><h4>Mentions légales</h4><a>Politique de confidentialité</a><a>Conditions d'utilisation</a><a>Cookies</a></div>
+      <div><h4>Retrouvez-nous sur les réseaux sociaux</h4><a>↗ Facebook</a><a>↗ X (Twitter)</a><a>↗ Linkedin</a><a>↗ Instagram</a></div>
+    </div>
+  </div>
+  <div class="mk-footer-bottom"><span>◎ français (FR)</span><span>© 2026 Mkass. Tous droits réservés.</span></div>
+</footer>
+
+<!-- MOBILE / DESKTOP NAV TABS (bottom on phone) -->
+  <div class="nav-tabs" aria-label="Navigation principale">
+    <button class="ntab active" id="nt-explore" onclick="showView('explore')">Explorer</button>
+    <button class="ntab" id="nt-my-bookings" onclick="showView('my-bookings')">Mes réservations</button>
+    <button class="ntab" id="nt-login-mobile" onclick="showView('dashboard')">Se connecter</button>
+    <button class="ntab" id="nt-dash" onclick="showView('dashboard')" style="display:none">Mon salon</button>
+  </div>
+<!-- REVIEW MODAL -->
+<div class="overlay hidden" id="review-modal" onclick="closeReviewModal(event)">
+  <div class="modal">
+    <div class="modal-handle"></div>
+
+    <div class="sp-title" style="font-size:24px;margin-bottom:10px">
+      Laisser un avis
+    </div>
+
+    <p style="color:var(--gray);font-size:14px;margin-bottom:1rem">
+      Partagez votre expérience avec ce salon.
+    </p>
+
+    <input type="hidden" id="review-appointment-id">
+
+    <div class="f-row">
+      <label class="f-label">Note</label>
+      <select class="f-input" id="review-rating">
+        <option value="5">★★★★★ — Excellent</option>
+        <option value="4">★★★★ — Très bien</option>
+        <option value="3">★★★ — Correct</option>
+        <option value="2">★★ — Moyen</option>
+        <option value="1">★ — Mauvais</option>
+      </select>
+    </div>
+
+    <div class="f-row">
+      <label class="f-label">Commentaire</label>
+      <textarea
+        class="f-input"
+        id="review-comment"
+        placeholder="Votre avis..."
+        style="min-height:110px;resize:none"
+      ></textarea>
+    </div>
+
+    <button class="btn btn-lime" style="width:100%;justify-content:center" onclick="submitReview()">
+      Envoyer l’avis
+    </button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════
+// DATABASE
+// ═══════════════════════════
+let SALONS = [
+  {id:'salon-nour',name:'Salon Nour',icon:'💇',type:'salon',address:'Rue de Marseille, Lafayette, Tunis',dist:'0.3 km',rating:4.8,reviewCount:124,status:'open',tags:['Coloration','Kératine','Mariée'],childCut:true,password:'1234',color:'#a78bfa',coverImg:null,
+   reviews:[{name:'Sarra M.',date:'Il y a 2 jours',stars:5,text:'Service impeccable ! Ma couleur est exactement ce que je voulais.'},{name:'Amira K.',date:'Il y a 1 semaine',stars:5,text:'Très professionnel et accueillant. Je recommande vivement !'},{name:'Leila B.',date:'Il y a 2 semaines',stars:4,text:'Brushing parfait, réservation en ligne super pratique.'}]},
+  {id:'barber-one',name:'Barber One',icon:'💈',type:'barbershop',address:'Avenue Habib Bourguiba, Centre-Ville',dist:'0.7 km',rating:4.9,reviewCount:89,status:'open',tags:['Barbe','Rasage','Coupe moderne'],childCut:true,password:'5678',color:'#34d399',coverImg:null,
+   reviews:[{name:'Khalil T.',date:'Hier',stars:5,text:'Le meilleur barbershop de Tunis. Ambiance top, coupe parfaite.'},{name:'Mohamed A.',date:'Il y a 3 jours',stars:5,text:'Yassine est un vrai pro. Rapport qualité/prix excellent.'}]},
+  {id:'studio-bella',name:'Studio Bella',icon:'🌸',type:'mixte',address:'Rue du Lac, Les Berges du Lac',dist:'2.1 km',rating:4.6,reviewCount:67,status:'busy',tags:['Soin','Extensions','Nail art'],childCut:false,password:'0000',color:'#f472b6',coverImg:null,
+   reviews:[{name:'Ines H.',date:'Il y a 4 jours',stars:5,text:'Extensions superbes, résultat naturel !'},{name:'Farah N.',date:'Il y a 2 semaines',stars:4,text:'Nail art superbe, un peu cher mais qualité au rendez-vous.'}]},
+  {id:'coiff-kids',name:'Coiff & Kids',icon:'🧒',type:'enfant',address:'Centre Commercial, La Marsa',dist:'5.4 km',rating:4.7,reviewCount:203,status:'open',tags:['Enfants','Bébés','Fun'],childCut:true,password:'0000',color:'#fbbf24',coverImg:null,
+   reviews:[{name:'Mama de Yassin',date:'Il y a 1 jour',stars:5,text:'Mon fils adorait pleurer — ici il rigole ! Équipe magique.'},{name:'Rim C.',date:'Il y a 3 jours',stars:5,text:'Spécialiste enfants, résultat propre et rapide !'}]},
+];
+
+const ADMIN_PW = 'admin';
+
+// Per-salon services (starts with defaults filtered by type)
+let SALON_SERVICES = {};
+const DEFAULT_SERVICES = [
+  {id:1,cat:'Coupe',name:'Coupe femme',dur:'45 min',price:35,types:['salon','mixte']},
+  {id:2,cat:'Coupe',name:'Coupe homme',dur:'30 min',price:20,types:['barbershop','mixte']},
+  {id:3,cat:'Coupe',name:'Coupe enfant',dur:'20 min',price:15,types:['salon','barbershop','mixte','enfant']},
+  {id:4,cat:'Coupe',name:'Coupe bébé',dur:'15 min',price:12,types:['enfant','mixte']},
+  {id:5,cat:'Couleur',name:'Coloration complète',dur:'90 min',price:80,types:['salon','mixte']},
+  {id:6,cat:'Couleur',name:'Balayage / Mèches',dur:'120 min',price:120,types:['salon','mixte']},
+  {id:7,cat:'Couleur',name:'Kératine',dur:'150 min',price:150,types:['salon','mixte']},
+  {id:8,cat:'Soin',name:'Brushing',dur:'30 min',price:25,types:['salon','mixte','enfant']},
+  {id:9,cat:'Soin',name:'Soin profond',dur:'45 min',price:45,types:['salon','mixte']},
+  {id:10,cat:'Soin',name:'Soin visage',dur:'60 min',price:55,types:['salon','mixte']},
+  {id:11,cat:'Barbe',name:'Taille de barbe',dur:'20 min',price:15,types:['barbershop','mixte']},
+  {id:12,cat:'Barbe',name:'Rasage rasoir droit',dur:'30 min',price:20,types:['barbershop']},
+  {id:13,cat:'Barbe',name:'Barbe + coupe',dur:'50 min',price:35,types:['barbershop','mixte']},
+  {id:14,cat:'Ongles',name:'Manucure',dur:'40 min',price:30,types:['salon','mixte']},
+  {id:15,cat:'Ongles',name:'Nail art',dur:'60 min',price:50,types:['salon','mixte']},
+  {id:16,cat:'Épilation',name:'Épilation visage',dur:'20 min',price:18,types:['salon','mixte']},
+  {id:17,cat:'Épilation',name:'Épilation corps',dur:'45 min',price:40,types:['salon','mixte']},
+  {id:18,cat:'Formule',name:'Forfait Mariée',dur:'180 min',price:250,types:['salon']},
+];
+// Init per-salon services
+SALONS.forEach(s=>{
+  SALON_SERVICES[s.id]=DEFAULT_SERVICES.filter(sv=>sv.types.includes(s.type)).map(sv=>({...sv,salonId:s.id}));
+});
+
+let appointments = [
+  {id:'MKS-1001',salonId:'salon-nour',client:'Sarra Mansour',phone:'+216 22 345 678',services:['Coloration complète'],prices:[80],total:80,date:todayStr(),time:'09:00',status:'done',note:'',type:'booking'},
+  {id:'MKS-1002',salonId:'salon-nour',client:'Mariem Trabelsi',phone:'+216 55 789 012',services:['Coupe femme','Brushing'],prices:[35,25],total:60,date:todayStr(),time:'10:30',status:'confirmed',note:'Préfère Hanène',type:'booking'},
+  {id:'MKS-1003',salonId:'salon-nour',client:'Amira Khelifi',phone:'+216 98 234 567',services:['Brushing'],prices:[25],total:25,date:todayStr(),time:'14:00',status:'pending',note:'',type:'booking'},
+  {id:'MKS-1004',salonId:'barber-one',client:'Khalil Trabelsi',phone:'+216 27 654 321',services:['Barbe + coupe'],prices:[35],total:35,date:todayStr(),time:'11:00',status:'confirmed',note:'',type:'booking'},
+  {id:'MKS-1005',salonId:'barber-one',client:'Anonyme',phone:'',services:['Coupe homme','Taille de barbe'],prices:[20,15],total:35,date:todayStr(),time:'09:30',status:'done',note:'',type:'walkin',payMode:'cash'},
+  {id:'MKS-1006',salonId:'salon-nour',client:'Walk-in',phone:'',services:['Coupe femme'],prices:[35],total:35,date:todayStr(),time:'08:45',status:'done',note:'',type:'walkin',payMode:'card'},
+];
+
+// STATE
+let loggedSalonId=null,isAdmin=false;
+let chipFilt='all',apptFilt='all',balFilt='all';
+let selSalonId=null;
+let pickedSvcs=[];
+let selDate=null,selTime=null,bkStep=1;
+let calY,calM;
+let wiPayMode='cash';
+let pickedWiSvcs=[];
+let modalPickedSvcs=[];
+let svcIdCounter=100;
+
+function todayStr(){return new Date().toISOString().slice(0,10)}
+function tomorrowStr(){const d=new Date();d.setDate(d.getDate()+1);return d.toISOString().slice(0,10)}
+  function formatDate(d){
+  if(!d) return "--";
+
+  d = String(d).slice(0, 10);
+
+  const parts = d.split("-");
+  if(parts.length !== 3) return "--";
+
+  const [year, month, day] = parts;
+  return `${day}/${month}/${year}`;
+}
+const MONTHS=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+const AV_COLS=['#a78bfa','#34d399','#f472b6','#fbbf24','#60a5fa','#fb923c','#e879f9'];
+
+// ═══════════════════════════
+// NAVIGATION
+// ═══════════════════════════
+function showView(v){
+  document.querySelectorAll('.view').forEach(e=>e.classList.remove('active'));
+  document.getElementById('view-'+v).classList.add('active');
+
+  document.querySelectorAll('.ntab').forEach(e=>e.classList.remove('active'));
+  if(v === 'explore') document.getElementById('nt-explore')?.classList.add('active');
+  if(v === 'my-bookings') document.getElementById('nt-my-bookings')?.classList.add('active');
+  if(v === 'dashboard') {
+    if(loggedSalonId || isAdmin) document.getElementById('nt-dash')?.classList.add('active');
+    else document.getElementById('nt-login-mobile')?.classList.add('active');
+  }
+
+  if(v==='explore')renderShops();
+  if(v==='booking')renderMsvcGrid();
+  if(v==='my-bookings')prefillMyBookingsPhone();
+  if(v==='dashboard')initDash();
+}
+
+// ═══════════════════════════
+// EXPLORE
+// ═══════════════════════════
+function renderShops(){
+  const q=document.getElementById('search-inp').value.toLowerCase();
+  const shops=SALONS.filter(s=>{
+    const mq=!q||(s.name.toLowerCase().includes(q)||s.address.toLowerCase().includes(q)||s.tags.some(t=>t.toLowerCase().includes(q)));
+    const mc=chipFilt==='all'||(chipFilt==='open'&&s.status==='open')||(chipFilt==='enfant'&&s.childCut)||s.type===chipFilt;
+    return mq&&mc;
+  });
+  document.getElementById('shop-count').textContent=shops.length+' salon'+(shops.length>1?'s':'')+' trouvé'+(shops.length>1?'s':'');
+  document.getElementById('shops-grid').innerHTML=shops.map(shopCard).join('');
+}
+function shopCard(s){
+  const bc=s.status==='open'?'badge-open':s.status==='busy'?'badge-busy':'badge-closed';
+  const bt=s.status==='open'?'● Ouvert':s.status==='busy'?'◐ Très demandé':'● Fermé';
+  const svcs=SALON_SERVICES[s.id]||[];
+  const minP=svcs.length?Math.min(...svcs.map(v=>v.price)):0;
+  const coverHtml=s.coverImg?`<img src="${s.coverImg}" alt="cover">`:'';
+  return`<div class="shop-card" onclick="openModal('${s.id}')">
+    <div class="shop-cover" style="background:linear-gradient(135deg,${s.color}20,${s.color}08)">
+      ${coverHtml}
+      <div class="shop-cover-overlay"></div>
+      <div class="shop-cover-placeholder">${s.icon}</div>
+      <div class="cover-badge"><span class="badge ${bc}">${bt}</span></div>
+      <div class="cover-dist">📍 ${s.dist}</div>
+    </div>
+    <div class="shop-body">
+      <div class="shop-row1">
+        <div class="shop-name">${s.name}</div>
+        <div class="shop-rating"><span class="star">★</span>${s.rating} <span style="color:var(--gray)">(${s.reviewCount})</span></div>
+      </div>
+      <div class="shop-type-lbl">${typeLabel(s.type)}</div>
+      <div class="shop-tags">${s.tags.map(t=>`<span class="shop-tag">${t}</span>`).join('')}${s.childCut?'<span class="shop-tag lime">✂ Enfants</span>':''}</div>
+      <div class="shop-foot">
+        <div class="shop-from">À partir de <strong>${minP} TND</strong></div>
+        <button class="book-btn" onclick="event.stopPropagation();bookSalon('${s.id}')">Réserver →</button>
+      </div>
+    </div>
+  </div>`;
+}
+function typeLabel(t){return{salon:'Salon femme',barbershop:'Barbershop',mixte:'Salon mixte',enfant:'Salon enfants'}[t]||t}
+function setChip(el,v){chipFilt=v;document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');renderShops()}
+
+// MODAL
+async function openModal(id){
+  const s=SALONS.find(x=>x.id===id);
+  const svcs=SALON_SERVICES[id]||[];
+  modalPickedSvcs=[];
+  const coverHtml=s.coverImg?`<img src="${s.coverImg}">`:`<div class="modal-cover-ph">${s.icon}</div>`;
+  const svcHtml=svcs.map(sv=>`
+    <div class="modal-svc-item" id="msv-${id}-${sv.id}" onclick="toggleModalSvc('${id}',${sv.id},${sv.price},'${sv.name}')">
+      <div class="modal-svc-left">
+        <div class="modal-svc-check">✓</div>
+        <div><div class="modal-svc-name">${sv.name}</div><div class="modal-svc-dur">⏱ ${sv.dur}</div></div>
+      </div>
+      <div class="modal-svc-price">${sv.price} TND</div>
+    </div>`).join('');
+  let reviews = s.reviews || [];
+  try {
+    const apiReviews = await apiCall('GET', `/reviews/salon/${id}`);
+    if (Array.isArray(apiReviews)) {
+      reviews = apiReviews.map(r => ({
+        name: r.client_name || r.author_name || 'Client',
+        date: r.created_at ? new Date(r.created_at).toLocaleDateString('fr-FR') : '',
+        stars: Number(r.rating || r.stars || 5),
+        text: r.comment || r.text || ''
+      }));
+    }
+  } catch (err) {
+    console.warn('Avis non chargés:', err.message);
+  }
+
+  const revHtml = reviews.length ? reviews.map(r=>`
+    <div class="review">
+      <div class="rev-top">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="rev-av" style="background:${s.color}">${(r.name || 'C')[0]}</div>
+          <div><div class="rev-name">${r.name || 'Client'}</div><div class="rev-date">${r.date || ''}</div></div>
+        </div>
+        <div class="rev-stars">${'★'.repeat(Number(r.stars || 5))}</div>
+      </div>
+      <div class="rev-text">"${r.text || ''}"</div>
+    </div>`).join('') : `<div class="review"><div class="rev-text">Aucun avis pour le moment.</div></div>`;
+  document.getElementById('modal-body').innerHTML=`
+    <div class="modal-cover">${coverHtml}</div>
+    <div class="modal-hdr">
+      <div class="modal-icon" style="background:${s.color}25;font-size:26px">${s.icon}</div>
+      <div><div class="modal-title">${s.name}</div><div class="modal-addr map-link" onclick="openDirections('${encodeURIComponent(s.mapUrl || s.address || '')}')">📍 ${s.address || 'Adresse non disponible'}</div></div>
+    </div>
+    <div class="modal-stats">
+      <div class="mstat"><div class="mstat-val lime">${s.rating}</div><div class="mstat-lbl">Note</div></div>
+      <div class="mstat"><div class="mstat-val">${s.reviewCount}</div><div class="mstat-lbl">Avis</div></div>
+      <div class="mstat"><div class="mstat-val">${s.dist}</div><div class="mstat-lbl">Distance</div></div>
+    </div>
+    <div class="modal-svcs-title">Choisissez vos services</div>
+    <div class="modal-svc-list">${svcHtml}</div>
+    <div class="modal-total-bar"><span>Total sélectionné</span><strong id="modal-total">0 TND</strong></div>
+    <button class="modal-book-btn" id="modal-book-btn" onclick="bookFromModal('${id}')" disabled>Sélectionnez au moins un service</button>
+    <div class="reviews-section">
+      <div class="reviews-lbl">Avis clients</div>
+      ${revHtml}
+    </div>`;
+  document.getElementById('shop-modal').classList.remove('hidden');
+}
+function toggleModalSvc(salonId,svcId,price,name){
+  const el=document.getElementById(`msv-${salonId}-${svcId}`);
+  const idx=modalPickedSvcs.findIndex(s=>s.id===svcId);
+  if(idx>-1){modalPickedSvcs.splice(idx,1);el.classList.remove('picked')}
+  else{modalPickedSvcs.push({id:svcId,price,name});el.classList.add('picked')}
+  const total=modalPickedSvcs.reduce((s,x)=>s+x.price,0);
+  document.getElementById('modal-total').textContent=total+' TND';
+  const btn=document.getElementById('modal-book-btn');
+  btn.disabled=modalPickedSvcs.length===0;
+  btn.textContent=modalPickedSvcs.length>0?`Réserver — ${total} TND →`:'Sélectionnez au moins un service';
+}
+function bookFromModal(id){
+  document.getElementById('shop-modal').classList.add('hidden');
+  const preSelected=[...modalPickedSvcs];
+  bookSalon(id,preSelected);
+}
+function mayCloseModal(e){if(e.target.id==='shop-modal')document.getElementById('shop-modal').classList.add('hidden')}
+function openDirections(destination){
+  const decoded = decodeURIComponent(destination || '');
+  if(!decoded){ toast('Adresse introuvable'); return; }
+  const isUrl = decoded.startsWith('http');
+  const url = isUrl ? decoded : `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(decoded)}`;
+  window.open(url, '_blank');
+}
+function bookSalon(id,preSelected=[]){
+  selSalonId=id;
+  const s=SALONS.find(x=>x.id===id);
+  document.getElementById('bk-icon').textContent=s.icon;
+  document.getElementById('bk-name').textContent=s.name;
+  document.getElementById('bk-addr').textContent=s.address;
+  pickedSvcs=[...preSelected];
+  selDate=null;selTime=null;bkStep=1;
+  resetSteps();
+  renderMsvcGrid();
+  showView('booking');
+}
+
+// ═══════════════════════════
+// BOOKING
+// ═══════════════════════════
+function renderMsvcGrid(){
+  const svcs=selSalonId?(SALON_SERVICES[selSalonId]||[]):DEFAULT_SERVICES;
+  document.getElementById('msvc-grid').innerHTML=svcs.map(s=>{
+    const picked=pickedSvcs.some(p=>p.id===s.id);
+    return`<div class="msvc-card${picked?' picked':''}" id="bsv-${s.id}" onclick="toggleBkSvc(${s.id})">
+      <div class="msvc-chk">✓</div>
+      <div class="msvc-cat">${s.cat}</div>
+      <div class="msvc-name">${s.name}</div>
+      <div class="msvc-dur">⏱ ${s.dur}</div>
+      <div class="msvc-price">${s.price} <span style="font-size:12px;font-weight:400;color:var(--gray)">TND</span></div>
+    </div>`;
+  }).join('');
+  updateBkSummary1();
+}
+function toggleBkSvc(id){
+  const svcs=selSalonId?(SALON_SERVICES[selSalonId]||[]):DEFAULT_SERVICES;
+  const svc=svcs.find(s=>s.id===id);
+  const idx=pickedSvcs.findIndex(s=>s.id===id);
+  if(idx>-1)pickedSvcs.splice(idx,1);else if(svc)pickedSvcs.push(svc);
+  const card=document.getElementById('bsv-'+id);
+  if(card)card.classList.toggle('picked',pickedSvcs.some(s=>s.id===id));
+  updateBkSummary1();
+}
+function updateBkSummary1(){
+  const total=pickedSvcs.reduce((s,x)=>s+x.price,0);
+  const el=document.getElementById('bk-sel-summary');
+  if(pickedSvcs.length===0){el.innerHTML='';document.getElementById('bs1').disabled=true;return}
+  el.innerHTML=`<div class="sel-summary">${pickedSvcs.map(s=>`<div class="sel-summary-row"><span>${s.name}</span><span>${s.price} TND</span></div>`).join('')}<div class="sel-summary-row total"><span>Total</span><span>${total} TND</span></div></div>`;
+  document.getElementById('bs1').disabled=false;
+}
+function setPill(id){
+  const total=pickedSvcs.reduce((s,x)=>s+x.price,0);
+  const dl=selDate?new Date(selDate+'T12:00').toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short'}):'';
+  document.getElementById(id).innerHTML=
+    pickedSvcs.map(s=>`<div class="sel-summary-row"><span>${s.name}</span><span>${s.price} TND</span></div>`).join('')+
+    `<div class="sel-summary-row total"><span>Total${dl?' · '+dl+(selTime?' '+selTime:''):''}</span><span>${total} TND</span></div>`;
+}
+
+function goStep(n){
+  if(n>bkStep){document.getElementById('si-'+bkStep).classList.remove('active');document.getElementById('si-'+bkStep).classList.add('done')}
+  document.getElementById('sp-'+bkStep).classList.remove('active');
+  bkStep=n;
+  document.getElementById('sp-'+n).classList.add('active');
+  document.getElementById('si-'+n).classList.add('active');
+  if(n===2){initCal();setPill('pill-2')}
+  if(n===3)setPill('pill-3');
+}
+function resetSteps(){
+  for(let i=1;i<=4;i++){
+    document.getElementById('si-'+i).classList.remove('active','done');
+    document.getElementById('sp-'+i).classList.remove('active');
+  }
+  document.getElementById('si-1').classList.add('active');
+  document.getElementById('sp-1').classList.add('active');
+  bkStep=1;
+  document.getElementById('bs1').disabled=true;
+  ['c-name','c-phone','c-note'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=''});
+}
+function resetBooking(){pickedSvcs=[];selDate=null;selTime=null;resetSteps();renderMsvcGrid()}
+
+// CALENDAR
+function initCal(){const n=new Date();calY=n.getFullYear();calM=n.getMonth();renderCal()}
+function chMon(d){calM+=d;if(calM<0){calM=11;calY--}if(calM>11){calM=0;calY++}renderCal();selDate=null;selTime=null;document.getElementById('bs2').disabled=true;document.getElementById('slots').innerHTML='<div class="no-msg" style="grid-column:1/-1">Sélectionnez une date</div>'}
+function renderCal(){
+  document.getElementById('cal-lbl').textContent=MONTHS[calM]+' '+calY;
+  const first=new Date(calY,calM,1).getDay(),off=(first===0)?6:first-1,dim=new Date(calY,calM+1,0).getDate();
+  const today=new Date();today.setHours(0,0,0,0);
+  const minBookDate = new Date(today);
+minBookDate.setDate(minBookDate.getDate() + 1);
+  let h='';
+  for(let i=0;i<off;i++)h+='<div class="cday emp"></div>';
+  for(let d=1;d<=dim;d++){
+    const dt=new Date(calY,calM,d),past=dt<minBookDate,sun=dt.getDay()===0;
+    const ds=`${calY}-${String(calM+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const cls=[past||sun?'off':'',dt.toDateString()===today.toDateString()?'today':'',selDate===ds?'sel':''].filter(Boolean).join(' ');
+    h+=`<div class="cday ${cls}" onclick="${past||sun?'':`pickDate('${ds}')`}">${d}</div>`;
+  }
+  document.getElementById('cal-days').innerHTML=h;
+}
+function pickDate(ds){selDate=ds;selTime=null;document.getElementById('bs2').disabled=true;renderCal();renderSlots()}
+const ALL_SLOTS=['09:00','09:30','10:00','10:30','11:00','11:30','12:00','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30'];
+async function renderSlots(){
+  let taken = [];
+  try {
+    const rows = await apiCall("GET", `/salons/${selSalonId}/slots?date=${selDate}`);
+    taken = rows.filter(s => !s.available).map(s => s.time);
+  } catch (err) {
+    taken = appointments
+      .filter(a => a.date === selDate && (!selSalonId || a.salonId === selSalonId))
+      .map(a => a.time);
+  }
+  document.getElementById('slots').innerHTML = ALL_SLOTS.map(t => {
+    const tk = taken.includes(t);
+    return `<button class="slot${tk ? ' taken' : ''}" onclick="${tk ? '' : `pickSlot('${t}')`}">${t}</button>`;
+  }).join('');
+}
+function pickSlot(t){selTime=t;document.querySelectorAll('.slot').forEach(s=>s.classList.remove('sel'));event.target.classList.add('sel');document.getElementById('bs2').disabled=false}
+function chk3(){const n=document.getElementById('c-name').value.trim(),p=document.getElementById('c-phone').value.trim();document.getElementById('bs3').disabled=!(n&&p)}
+function confirmBooking(){
+  const name=document.getElementById('c-name').value.trim(),phone=document.getElementById('c-phone').value.trim(),note=document.getElementById('c-note').value.trim();
+  const ref='MKS-'+(1010+appointments.length);
+  const sId=selSalonId||SALONS[0].id;
+  const total=pickedSvcs.reduce((s,x)=>s+x.price,0);
+  appointments.push({id:ref,salonId:sId,client:name,phone,services:pickedSvcs.map(s=>s.name),prices:pickedSvcs.map(s=>s.price),total,date:selDate,time:selTime,status:'confirmed',note,type:'booking'});
+  document.getElementById('bk-ref').textContent=ref;
+  const salon=SALONS.find(s=>s.id===sId);
+  const dl=new Date(selDate+'T12:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+  document.getElementById('bk-detail').innerHTML=
+    `<div class="sd-row"><span>Salon</span><strong>${salon?.name||'Mkass'}</strong></div>`+
+    pickedSvcs.map(s=>`<div class="sd-row"><span>${s.name}</span><strong>${s.price} TND</strong></div>`).join('')+
+    `<div class="sd-row"><span>Total</span><strong style="color:var(--lime)">${total} TND</strong></div>`+
+    `<div class="sd-row"><span>Date</span><strong>${dl}</strong></div>`+
+    `<div class="sd-row"><span>Heure</span><strong>${selTime}</strong></div>`+
+    `<div class="sd-row"><span>Client</span><strong>${name}</strong></div>`;
+  goStep(4);
+  toast('✓ Réservation confirmée — '+ref);
+}
+
+
+// ═══════════════════════════
+// MES RÉSERVATIONS
+// ═══════════════════════════
+function cleanPhoneForLookup(phone){
+  return String(phone || '').replace(/\s+/g,'').trim();
+}
+
+function prefillMyBookingsPhone(){
+  const savedPhone = localStorage.getItem('mkass_customer_phone') || '';
+  const inp = document.getElementById('mb-phone');
+  if(inp && !inp.value) inp.value = savedPhone;
+}
+
+function bookingStatusLabel(status){
+  return STATUS[status] || {
+    confirmed:'Confirmé',
+    pending:'En attente',
+    done:'Terminé',
+    cancelled:'Annulé'
+  }[status] || status || '—';
+}
+
+function bookingStatusBadge(status){
+  const s = status || 'pending';
+  return `<span class="badge badge-${s}">${bookingStatusLabel(s)}</span>`;
+}
+
+function normalizeCustomerBooking(row){
+  const appt = typeof normalizeApiAppointment === 'function'
+    ? normalizeApiAppointment(row)
+    : {
+        id: row.id,
+        salonId: row.salon_id || row.salonId,
+        client: row.client_name || row.client || 'Client',
+        phone: row.client_phone || row.phone || '',
+        services: row.services || row.service_names || [],
+        total: Number(row.total || 0),
+        date: row.appt_date || row.date,
+        time: String(row.appt_time || row.time || '').slice(0,5),
+        status: row.status || 'pending',
+        type: row.type || 'booking',
+        payMode: row.pay_mode || row.payMode || 'online'
+      };
+
+  appt.salonName = row.salon_name || row.salonName || SALONS.find(s => s.id === appt.salonId)?.name || 'Salon';
+  return appt;
+}
+
+function renderMyBookings(rows){
+  const list = document.getElementById('my-bookings-list');
+
+  if(!rows || rows.length === 0){
+    list.innerHTML = `<div class="booking-empty">Aucune réservation trouvée pour ce numéro.</div>`;
+    return;
+  }
+
+  const bookings = rows.map(normalizeCustomerBooking);
+  const upcoming = bookings.filter(b => b.status !== 'done' && b.status !== 'cancelled');
+  const history = bookings.filter(b => b.status === 'done' || b.status === 'cancelled');
+
+  const renderSection = (title, items) => items.length ? `
+    <div class="section-label" style="margin-top:1.25rem">${title}</div>
+    ${items.map(b => `
+      <div class="booking-card">
+        <div class="booking-card-top">
+          <div>
+            <div class="booking-card-title">${b.salonName}</div>
+            <div class="booking-card-meta">${formatDate(b.date)} · ${b.time || '--'}</div>
+          </div>
+          ${bookingStatusBadge(b.status)}
+        </div>
+        <div class="booking-card-row"><span>Client</span><strong>${b.client || 'Client'}</strong></div>
+        <div class="booking-card-row"><span>Services</span><strong>${Array.isArray(b.services) ? b.services.join(', ') : (b.services || '—')}</strong></div>
+        <div class="booking-card-row"><span>Total</span><strong>${Number(b.total || 0)} TND</strong></div>
+        ${b.status === 'done' ? `   <div class="booking-card-row">     <span>Avis</span>     <button class="btn btn-lime btn-sm" onclick="openReviewModal('${b.id}')">       Laisser un avis     </button>   </div> ` : ''}
+      </div>
+    `).join('')}
+  ` : '';
+
+  list.innerHTML =
+    renderSection('À venir', upcoming) +
+    renderSection('Historique', history);
+}
+
+async function loadMyBookings(){
+  const input = document.getElementById('mb-phone');
+  const phone = cleanPhoneForLookup(input?.value);
+
+  if(!phone){
+    toast('Entrez votre numéro de téléphone');
+    return;
+  }
+
+  localStorage.setItem('mkass_customer_phone', phone);
+
+  const list = document.getElementById('my-bookings-list');
+  list.innerHTML = `<div class="booking-empty">Chargement de vos réservations...</div>`;
+
+  try{
+    const rows = await apiCall('GET', `/salons/appointments/by-phone?phone=${encodeURIComponent(phone)}`);
+    renderMyBookings(Array.isArray(rows) ? rows : unwrapApi(rows, 'appointments'));
+  }catch(err){
+    console.error(err);
+    list.innerHTML = `<div class="booking-empty">Impossible de charger vos réservations.</div>`;
+    toast(err.message || 'Erreur chargement réservations');
+  }
+}
+
+
+
+// ═══════════════════════════
+// REVIEWS
+// ═══════════════════════════
+window.openReviewModal = function(appointmentId){
+  const modal = document.getElementById('review-modal');
+  const appointmentInput = document.getElementById('review-appointment-id');
+  const ratingInput = document.getElementById('review-rating');
+  const commentInput = document.getElementById('review-comment');
+
+  if(!modal || !appointmentInput || !ratingInput || !commentInput){
+    toast('Formulaire avis introuvable');
+    return;
+  }
+
+  appointmentInput.value = appointmentId;
+  ratingInput.value = '5';
+  commentInput.value = '';
+  modal.classList.remove('hidden');
+};
+
+window.closeReviewModal = function(e){
+  if(!e || e.target.id === 'review-modal'){
+    const modal = document.getElementById('review-modal');
+    if(modal) modal.classList.add('hidden');
+  }
+};
+
+window.submitReview = async function(){
+  const appointmentId = document.getElementById('review-appointment-id')?.value;
+  const rating = Number(document.getElementById('review-rating')?.value || 5);
+  const comment = document.getElementById('review-comment')?.value.trim() || '';
+
+  if(!appointmentId){
+    toast('Rendez-vous introuvable');
+    return;
+  }
+
+  try{
+    await apiCall('POST', '/reviews', {
+      appointmentId,
+      rating,
+      comment
+    });
+
+    document.getElementById('review-modal')?.classList.add('hidden');
+    toast('Merci pour votre avis');
+
+    if(typeof loadMyBookings === 'function'){
+      loadMyBookings();
+    }
+  }catch(err){
+    console.error(err);
+    toast(err.message || 'Erreur avis');
+  }
+};
+
+// ═══════════════════════════
+// DASHBOARD
+// ═══════════════════════════
+let loginSelId=null;
+function initDash(){
+  if(loggedSalonId||isAdmin){showDash();return}
+  document.getElementById('dash-login').style.display='flex';
+  document.getElementById('dash-content').style.display='none';
+}
+function tryLogin(){
+  const user=document.getElementById('dash-user').value.trim().toLowerCase();
+  const pw=document.getElementById('dash-pw').value;
+  if(!user){toast('Entrez votre nom d\'utilisateur');return}
+  // Check admin
+  if((user==='admin'||user==='administrateur')&&pw===ADMIN_PW){
+    isAdmin=true;loggedSalonId='__admin__';showDash();document.getElementById('dash-pw').value='';return;
+  }
+  // Check salons by username (id or name slug)
+  const s=SALONS.find(x=>x.id===user||x.username===user||(x.name.toLowerCase().replace(/\s+/g,'-')===user));
+  if(s&&pw===s.password){loggedSalonId=s.id;isAdmin=false;showDash()}
+  else toast('Identifiants incorrects');
+  document.getElementById('dash-pw').value='';
+}
+function showDash(){
+  document.body.classList.add('admin-logged');
+  document.getElementById('nt-dash').style.display = 'inline-flex';
+  document.getElementById('nt-login-mobile') && (document.getElementById('nt-login-mobile').style.display = 'none');
+  document.getElementById('nav-login-btn') && (document.getElementById('nav-login-btn').style.display = 'none');
+  document.getElementById('dash-login').style.display='none';
+  document.getElementById('dash-content').style.display='block';
+  const s=SALONS.find(x=>x.id===loggedSalonId);
+  document.getElementById('sb-salon-lbl').textContent=(s?.icon||'🔑')+' '+(s?.name||'Admin');
+  document.getElementById('d-greeting').textContent='Bonjour, '+(s?.name||'Admin')+' 👋';
+  document.getElementById('d-date').textContent=new Date().toLocaleDateString('fr-FR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  document.getElementById('sb-admin-link').style.display=isAdmin?'block':'none';
+  loadSettings();
+  renderWiSvcs();
+  renderDToday();renderDAll();renderWiHist();renderBalance();renderDSvcs();renderAdminTable();
+}
+function logout(){loggedSalonId=null;isAdmin=false;loginSelId=null;document.body.classList.remove('admin-logged');document.getElementById('nt-dash').style.display='none';document.getElementById('nt-login-mobile') && (document.getElementById('nt-login-mobile').style.display='inline-flex');document.getElementById('nav-login-btn') && (document.getElementById('nav-login-btn').style.display='inline-flex');document.getElementById('dash-login').style.display='flex';document.getElementById('dash-content').style.display='none';document.getElementById('dash-pw').value='';document.querySelectorAll('.salon-opt').forEach(e=>e.classList.remove('sel'))}
+
+function swTab(btn,id){
+  document.querySelectorAll('.sb-btn').forEach(e=>e.classList.remove('active'));btn.classList.add('active');
+  document.querySelectorAll('.dtab').forEach(e=>e.classList.remove('active'));document.getElementById(id).classList.add('active');
+  if(id==='dt-balance')renderBalance();
+  if(id==='dt-services')renderDSvcs();
+  if(id==='dt-walkin'){renderWiSvcs();renderWiHist()}
+  if(id==='dt-admin')renderAdminTable();
+}
+
+// TODAY
+function myAppts(){return appointments.filter(a=>a.salonId===loggedSalonId)}
+function renderDToday(){
+  const td=todayStr(),all=myAppts(),todayA=all.filter(a=>a.date===td);
+  const rev=todayA.filter(a=>a.status==='done').reduce((s,a)=>s+a.total,0);
+  document.getElementById('sb-today-n').textContent=todayA.length;
+  document.getElementById('d-stats').innerHTML=`
+    <div class="stat-c"><div class="stat-lbl">RDV aujourd'hui</div><div class="stat-val lime">${todayA.length}</div><div class="stat-sub">${todayA.filter(a=>a.status==='confirmed').length} confirmés</div></div>
+    <div class="stat-c"><div class="stat-lbl">En attente</div><div class="stat-val warn">${todayA.filter(a=>a.status==='pending').length}</div><div class="stat-sub">à confirmer</div></div>
+    <div class="stat-c"><div class="stat-lbl">Recettes du jour</div><div class="stat-val">${rev}</div><div class="stat-sub">TND encaissés</div></div>
+    <div class="stat-c"><div class="stat-lbl">Walk-ins</div><div class="stat-val info">${todayA.filter(a=>a.type==='walkin').length}</div><div class="stat-sub">clients sans RDV</div></div>`;
+  document.getElementById('d-today-tb').innerHTML=todayA.length?todayA.map(a=>aRow(a,false)).join(''):'<tr class="empty-row"><td colspan="6">Aucun RDV aujourd\'hui</td></tr>';
+}
+function renderDAll(){
+  const f=apptFilt==='all'?myAppts():myAppts().filter(a=>a.status===apptFilt);
+  document.getElementById('d-all-tb').innerHTML=f.length?f.map(a=>aRow(a,true)).join(''):'<tr class="empty-row"><td colspan="7">Aucun résultat</td></tr>';
+}
+const STATUS={confirmed:'Confirmé',pending:'En attente',done:'Terminé',cancelled:'Annulé'};
+function aRow(a,showDate){
+  const init=a.client.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()||'?';
+  const col=AV_COLS[a.id.slice(-1)%AV_COLS.length];
+  const dl = showDate ? `<td>${formatDate(a.date)}</td>` : '';
+  const svcStr=a.services?a.services.join(', '):'—';
+  const typePill=a.type==='walkin'?`<span class="badge badge-done" style="margin-left:4px;font-size:10px">Walk-in</span>`:'';
+  return`<tr>
+    <td><div class="av-cell"><div class="av" style="background:${col}">${init}</div><div><div class="cl-name">${a.client}${typePill}</div><div class="cl-ph">${a.phone||''}</div></div></div></td>
+    <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${svcStr}</td>
+    ${dl}
+    <td>${a.time||'—'}</td>
+    <td><strong>${a.total} TND</strong></td>
+    <td><span class="badge badge-${a.status}">${STATUS[a.status]||a.status}</span></td>
+    <td>
+      ${a.status==='pending'?`<button class="ab ok" onclick="chSt('${a.id}','confirmed')">✓</button>`:''}
+      ${a.status!=='done'&&a.status!=='cancelled'?`<button class="ab ok" onclick="chSt('${a.id}','done')">Terminé</button>`:''}
+      ${a.status!=='cancelled'&&a.status!=='done'?`<button class="ab bad" onclick="chSt('${a.id}','cancelled')">✗</button>`:''}
+    </td></tr>`;
+}
+function chSt(id,st){const a=appointments.find(x=>x.id===id);if(a){a.status=st;renderDToday();renderDAll();renderBalance();toast('Statut → '+STATUS[st])}}
+function setFlt(btn,f){apptFilt=f;document.querySelectorAll('.ftab').forEach(e=>e.classList.remove('active'));btn.classList.add('active');renderDAll()}
+
+// WALK-IN
+function renderWiSvcs(){
+  const svcs=SALON_SERVICES[loggedSalonId]||[];
+  pickedWiSvcs=[];
+  document.getElementById('wi-svcs').innerHTML=svcs.map(s=>`
+    <div class="wsc" id="wsc-${s.id}" onclick="toggleWiSvc(${s.id},${s.price},'${s.name}')">
+      <input type="checkbox" id="wscb-${s.id}">
+      <span>${s.name} — ${s.price} TND</span>
+    </div>`).join('');
+  updateWiTotal();
+}
+function toggleWiSvc(id,price,name){
+  const el=document.getElementById('wsc-'+id);
+  const idx=pickedWiSvcs.findIndex(s=>s.id===id);
+  if(idx>-1){pickedWiSvcs.splice(idx,1);el.classList.remove('picked')}
+  else{pickedWiSvcs.push({id,price,name});el.classList.add('picked')}
+  updateWiTotal();
+}
+function updateWiTotal(){const t=pickedWiSvcs.reduce((s,x)=>s+x.price,0);document.getElementById('wi-total').textContent=t+' TND'}
+function setPay(btn,m){wiPayMode=m;document.querySelectorAll('.pt').forEach(e=>e.classList.remove('active'));btn.classList.add('active')}
+function addWalkin(){
+  if(pickedWiSvcs.length===0){toast('Choisissez au moins un service');return}
+  const name=document.getElementById('wi-name').value.trim()||'Anonyme';
+  const total=pickedWiSvcs.reduce((s,x)=>s+x.price,0);
+  const ref='MKS-WI-'+(Date.now()%10000);
+  const now=new Date(),h=String(now.getHours()).padStart(2,'0'),m=String(now.getMinutes()).padStart(2,'0');
+  appointments.push({id:ref,salonId:loggedSalonId,client:name,phone:'',services:pickedWiSvcs.map(s=>s.name),prices:pickedWiSvcs.map(s=>s.price),total,date:todayStr(),time:h+':'+m,status:'done',note:'',type:'walkin',payMode:wiPayMode});
+  document.getElementById('wi-name').value='';
+  pickedWiSvcs=[];
+  renderWiSvcs();
+  renderDToday();renderBalance();renderWiHist();
+  toast('💵 Paiement enregistré — '+total+' TND');
+}
+function renderWiHist(){
+  const today=todayStr();
+  const items=myAppts().filter(a=>a.date===today);
+  const payIcon={cash:'💵',card:'💳',transfer:'📱'};
+  document.getElementById('wi-hist-tb').innerHTML=items.length?items.map(a=>`
+    <tr>
+      <td>${a.client}</td>
+      <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${(a.services||[]).join(', ')}</td>
+      <td>${a.time}</td>
+      <td><strong style="color:var(--success)">+${a.total} TND</strong></td>
+      <td>${payIcon[a.payMode]||''} ${a.payMode||'en ligne'}</td>
+      <td><span class="badge ${a.type==='walkin'?'badge-done':'badge-confirmed'}">${a.type==='walkin'?'Walk-in':'Réservation'}</span></td>
+    </tr>`).join(''):'<tr class="empty-row"><td colspan="6">Aucun paiement aujourd\'hui</td></tr>';
+}
+
+// BALANCE
+let balFiltVal='all';
+function setBalFlt(btn,f){balFiltVal=f;document.querySelectorAll('.ftab').forEach(e=>e.classList.remove('active'));btn.classList.add('active');renderBalance()}
+function renderBalance(){
+  const done=myAppts().filter(a=>a.status==='done');
+  const filtered=balFiltVal==='all'?done:done.filter(a=>a.type===balFiltVal);
+  const total=done.reduce((s,a)=>s+a.total,0);
+  const today=done.filter(a=>a.date===todayStr()).reduce((s,a)=>s+a.total,0);
+  document.getElementById('bal-header').innerHTML=`
+    <div><div class="balance-title">Balance totale (encaissée)</div><div class="balance-amount">${total} TND</div><div class="balance-sub">Dont ${today} TND aujourd'hui</div></div>
+    <div style="text-align:right"><div class="balance-title">Transactions</div><div class="balance-amount" style="font-size:28px">${done.length}</div></div>`;
+  const payIcon={cash:'💵',card:'💳',transfer:'📱'};
+  document.getElementById('bal-hist').innerHTML=`<div>${filtered.length?filtered.slice().reverse().map(a=>`
+    <div class="hist-item">
+      <div class="hist-left">
+        <div class="hist-dot" style="background:${a.type==='walkin'?'var(--info)':'var(--success)'}"></div>
+        <div><div class="hist-label">${a.client}</div><div class="hist-meta">${a.date} · ${a.time} · ${payIcon[a.payMode]||'🌐'} ${a.type==='walkin'?'Walk-in':'Réservation'}</div></div>
+      </div>
+      <div class="hist-amount positive">+${a.total} TND</div>
+    </div>`).join(''):'<div style="text-align:center;padding:2rem;color:var(--gray);font-size:13px">Aucune transaction</div>'}</div>`;
+}
+
+// SERVICES MANAGEMENT
+function renderDSvcs(){
+  const svcs=SALON_SERVICES[loggedSalonId]||[];
+  document.getElementById('d-svc-grid').innerHTML=svcs.map(s=>`
+    <div class="svc-manage-card">
+      <div class="smc-cat">${s.cat}</div>
+      <div class="smc-name">${s.name}</div>
+      <div class="smc-dur">⏱ ${s.dur}</div>
+      <div class="smc-price">${s.price} TND</div>
+      <div class="smc-actions">
+        <button class="btn btn-ghost btn-sm" onclick="editSvcPrice(${s.id})">Modifier prix</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteSvc(${s.id})">Supprimer</button>
+      </div>
+    </div>`).join('');
+}
+function addService(){
+  const cat=document.getElementById('as-cat').value;
+  const name=document.getElementById('as-name').value.trim();
+  const dur=document.getElementById('as-dur').value.trim();
+  const price=parseFloat(document.getElementById('as-price').value);
+  if(!name||!dur||isNaN(price)){toast('Remplissez tous les champs');return}
+  const id=++svcIdCounter;
+  if(!SALON_SERVICES[loggedSalonId])SALON_SERVICES[loggedSalonId]=[];
+  SALON_SERVICES[loggedSalonId].push({id,cat,name,dur,price,types:[],salonId:loggedSalonId});
+  ['as-name','as-dur','as-price'].forEach(i=>document.getElementById(i).value='');
+  renderDSvcs();renderWiSvcs();toast('✓ Service ajouté: '+name);
+}
+function editSvcPrice(id){
+  const svcs=SALON_SERVICES[loggedSalonId];
+  const svc=svcs.find(s=>s.id===id);
+  if(!svc)return;
+  const newP=prompt(`Nouveau prix pour "${svc.name}" (actuellement ${svc.price} TND):`,svc.price);
+  if(newP===null)return;
+  const p=parseFloat(newP);
+  if(isNaN(p)||p<0){toast('Prix invalide');return}
+  svc.price=p;renderDSvcs();renderWiSvcs();toast('Prix mis à jour → '+p+' TND');
+}
+function deleteSvc(id){
+  if(!confirm('Supprimer ce service ?'))return;
+  SALON_SERVICES[loggedSalonId]=SALON_SERVICES[loggedSalonId].filter(s=>s.id!==id);
+  renderDSvcs();renderWiSvcs();toast('Service supprimé');
+}
+
+// SETTINGS + COVER
+function loadSettings(){
+  const s=SALONS.find(x=>x.id===loggedSalonId);if(!s)return;
+  document.getElementById('sett-name').value=s.name;
+  document.getElementById('sett-addr').value=s.address;
+  document.getElementById('sett-status').value=s.status;
+  if(s.coverImg){
+    const cu=document.getElementById('cover-upload');
+    let img=cu.querySelector('img');
+    if(!img){img=document.createElement('img');img.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:cover';cu.appendChild(img)}
+    img.src=s.coverImg;
+    document.getElementById('cover-upload-txt').style.display='none';
+  }
+}
+function saveSettings(){
+  const s=SALONS.find(x=>x.id===loggedSalonId);if(!s)return;
+  s.name=document.getElementById('sett-name').value;
+  s.address=document.getElementById('sett-addr').value;
+  s.status=document.getElementById('sett-status').value;
+}
+function saveSettingsBtn(){
+  saveSettings();
+  const s=SALONS.find(x=>x.id===loggedSalonId);
+  const newPw=document.getElementById('sett-pw').value;
+  if(newPw.length>=4){s.password=newPw;document.getElementById('sett-pw').value='';toast('✓ Mot de passe mis à jour')}
+  document.getElementById('d-greeting').textContent='Bonjour, '+s.name+' 👋';
+  toast('✓ Paramètres sauvegardés');
+}
+function handleCoverUpload(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    const src=ev.target.result;
+    const s=SALONS.find(x=>x.id===loggedSalonId);
+    s.coverImg=src;
+    const cu=document.getElementById('cover-upload');
+    let img=cu.querySelector('img');
+    if(!img){img=document.createElement('img');img.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:cover';cu.appendChild(img)}
+    img.src=src;
+    document.getElementById('cover-upload-txt').style.display='none';
+    toast('✓ Photo de couverture mise à jour');
+  };
+  reader.readAsDataURL(file);
+}
+
+// ADMIN
+function addSalon(){
+  const name=document.getElementById('ns-name').value.trim();
+  const addr=document.getElementById('ns-addr').value.trim();
+  const mapUrl=document.getElementById('ns-map-url')?.value.trim() || '';
+  const icon=document.getElementById('ns-icon').value.trim()||'✂️';
+  const type=document.getElementById('ns-type').value;
+  const pw=document.getElementById('ns-pw').value.trim();
+  if(!name||!addr||!pw){toast('Remplissez tous les champs');return}
+  const id='salon-'+Date.now();
+  const colors=['#a78bfa','#34d399','#f472b6','#fbbf24','#60a5fa'];
+  const newS={id,name,icon,type,address:addr,mapUrl,dist:'?',rating:5.0,reviewCount:0,status:'open',tags:[],childCut:type==='enfant'||type==='mixte',password:pw,color:colors[SALONS.length%colors.length],coverImg:null,reviews:[]};
+  SALONS.push(newS);
+  SALON_SERVICES[id]=DEFAULT_SERVICES.filter(sv=>sv.types.includes(type)).map(sv=>({...sv,salonId:id}));
+  ['ns-name','ns-addr','ns-map-url','ns-pw'].forEach(i=>document.getElementById(i).value='');
+  document.getElementById('ns-icon').value='✂️';
+  renderAdminTable();
+  // rebuild login list
+  initDash();
+  toast('✓ Salon créé: '+name);
+}
+function removeSalon(id){
+  if(id===loggedSalonId){toast('Vous ne pouvez pas supprimer votre propre salon');return}
+  if(!confirm('Supprimer ce salon ?'))return;
+  const idx=SALONS.findIndex(s=>s.id===id);if(idx>-1)SALONS.splice(idx,1);
+  renderAdminTable();toast('Salon supprimé');
+}
+function renderAdminTable(){
+  if(!isAdmin)return;
+  document.getElementById('admin-salons-tb').innerHTML=SALONS.map(s=>{
+    const cnt=appointments.filter(a=>a.salonId===s.id).length;
+    return`<tr>
+      <td><div class="av-cell"><div style="font-size:20px">${s.icon}</div><div class="cl-name">${s.name}</div></div></td>
+      <td>${typeLabel(s.type)}</td>
+      <td style="font-size:12px;color:var(--gray)">${s.address}</td>
+      <td><span class="badge badge-${s.status==='open'?'confirmed':s.status==='busy'?'pending':'cancelled'}">${s.status}</span></td>
+      <td>${cnt}</td>
+      <td><button class="ab bad" onclick="removeSalon('${s.id}')">Supprimer</button></td>
+    </tr>`;}).join('');
+}
+
+// TOAST
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000)}
+
+window.onload=()=>{renderShops()};
+</script>
+
+
+<!-- MKASS RAILWAY API INTEGRATION - ADDED BY CHATGPT -->
+<script>
+/*
+  IMPORTANT: Replace this with your real Railway API URL.
+  Example:
+  const API = "https://mkass-backend-production.up.railway.app/api";
+*/
+const API = "https://mkass-backend-production.up.railway.app/api";
+let authToken = localStorage.getItem("mkass_auth_token") || null;
+let authRole = localStorage.getItem("mkass_auth_role") || null;
+let authSalonId = localStorage.getItem("mkass_salon_id") || null;
+let authSalonName = localStorage.getItem("mkass_salon_name") || null;
+
+function apiReady() {
+  return API && !API.includes("YOUR-RAILWAY-APP");
+}
+
+function unwrapApi(payload, key) {
+  if (Array.isArray(payload)) return payload;
+  if (!payload) return [];
+  if (key && Array.isArray(payload[key])) return payload[key];
+  if (Array.isArray(payload.data)) return payload.data;
+  if (Array.isArray(payload.items)) return payload.items;
+  if (Array.isArray(payload.results)) return payload.results;
+  if (payload.salon || payload.appointment || payload.service) return payload.salon || payload.appointment || payload.service;
+  return payload;
+}
+
+async function apiCall(method, path, body = null, requireAuth = false) {
+  if (!apiReady()) {
+    throw new Error("Set your Railway API URL first inside the API constant.");
+  }
+
+  const res = await fetch(API + path, {
+    method,
+    headers: {
+      "Content-Type": "application/json",
+      ...(authToken ? { Authorization: "Bearer " + authToken } : {}),
+    },
+    body: body ? JSON.stringify(body) : null,
+  });
+
+  let data = null;
+  try { data = await res.json(); } catch { data = null; }
+
+  if (!res.ok) {
+    const msg = data?.error || data?.message || `API error ${res.status}`;
+    console.error("Mkass API error:", method, path, data);
+    throw new Error(msg);
+  }
+
+  return data;
+}
+
+function slugifyName(name) {
+  return String(name || "salon")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "") || "salon";
+}
+
+function normalizeApiSalon(row) {
+  return {
+    id: row.id || row.salonId || row.username || slugifyName(row.name),
+    username: row.username || row.id || slugifyName(row.name),
+    name: row.name || row.salonName || "Salon",
+    icon: row.icon || "✂️",
+    type: row.type || "salon",
+    address: row.address || "",
+    dist: row.dist || row.distance || "",
+    rating: Number(row.rating ?? 5),
+    reviewCount: Number(row.reviewCount ?? row.review_count ?? row.reviews_count ?? row.reviews ?? 0),
+    status: row.status || "open",
+    tags: Array.isArray(row.tags) ? row.tags : [],
+    childCut: Boolean(row.childCut ?? row.child_cut ?? false),
+    password: row.password || "",
+    color: row.color || "#a78bfa",
+    coverImg: row.coverImg || row.cover_img || row.cover_url || null,
+    mapUrl: row.mapUrl || row.map_url || row.google_maps_url || "",
+    reviews: Array.isArray(row.reviews) ? row.reviews : [],
+  };
+}
+
+function normalizeApiService(row, salonId) {
+  const duration = row.duration ?? row.duration_minutes ?? row.dur ?? 30;
+  return {
+    id: row.id || row.serviceId || (salonId + "-" + slugifyName(row.name)),
+    cat: row.cat || row.category || "Service",
+    name: row.name || "Service",
+    dur: typeof duration === "string" ? duration : `${duration} min`,
+    duration: Number.parseInt(duration, 10) || 30,
+    price: Number(row.price || 0),
+    types: [],
+    salonId: row.salonId || row.salon_id || salonId,
+  };
+}
+
+function normalizeApiAppointment(row) {
+  return {
+    id: row.id || row.appointmentId || row.ref || ("MKS-" + Date.now()),
+    salonId: row.salonId || row.salon_id,
+    client: row.client || row.client_name || row.customer_name || row.customerName || row.name || "Client",
+    phone: row.phone || row.client_phone || row.customer_phone || "",
+    services: row.services || row.service_names || row.serviceNames || [],
+    prices: row.prices || [],
+    total: Number(row.total || 0),
+    date: row.date || row.appt_date || row.appointment_date,
+    time: row.time || row.appt_time?.slice(0,5) || row.appointment_time,
+    status: row.status || "confirmed",
+    note: row.note || "",
+    type: row.type || "booking",
+    payMode: row.payMode || row.payment || row.payment_mode || "online",
+  };
+}
+
+async function loadServicesForSalon(salonId) {
+  try {
+    const payload = await apiCall("GET", `/salons/${salonId}/services`);
+    const rows = unwrapApi(payload, "services");
+    SALON_SERVICES[salonId] = Array.isArray(rows)
+      ? rows.map((row) => normalizeApiService(row, salonId))
+      : [];
+  } catch (err) {
+    console.warn("Could not load services for salon", salonId, err.message);
+    SALON_SERVICES[salonId] = SALON_SERVICES[salonId] || [];
+  }
+}
+
+async function loadPublicDataFromApi() {
+  const payload = await apiCall("GET", "/salons");
+  const rows = unwrapApi(payload, "salons");
+  if (!Array.isArray(rows)) throw new Error("/salons did not return an array");
+
+  SALONS = rows.map(normalizeApiSalon);
+  SALON_SERVICES = {};
+  await Promise.all(SALONS.map((s) => loadServicesForSalon(s.id)));
+  renderShops();
+}
+
+async function loadOwnerAppointments() {
+  if (!loggedSalonId || loggedSalonId === "__admin__") return;
+  try {
+    const payload = await apiCall("GET", `/salons/${loggedSalonId}/appointments`, null, true);
+    const rows = unwrapApi(payload, "appointments");
+    const mine = Array.isArray(rows) ? rows.map(normalizeApiAppointment) : [];
+    appointments = appointments.filter((a) => a.salonId !== loggedSalonId).concat(mine);
+  } catch (err) {
+    console.warn("Could not load owner appointments:", err.message);
+  }
+}
+
+async function loadAdminData() {
+  try {
+    const salonsPayload = await apiCall("GET", "/admin/salons", null, true);
+    const salonRows = unwrapApi(salonsPayload, "salons");
+    if (Array.isArray(salonRows) && salonRows.length) {
+      SALONS = salonRows.map(normalizeApiSalon);
+      await Promise.all(SALONS.map((s) => loadServicesForSalon(s.id)));
+    }
+  } catch (err) {
+    console.warn("Could not load admin salons:", err.message);
+  }
+
+  try {
+    const apptPayload = await apiCall("GET", "/admin/appointments", null, true);
+    const apptRows = unwrapApi(apptPayload, "appointments");
+    if (Array.isArray(apptRows)) appointments = apptRows.map(normalizeApiAppointment);
+  } catch (err) {
+    console.warn("Could not load admin appointments:", err.message);
+  }
+}
+
+// Override login to use Railway JWT auth.
+tryLogin = async function tryLoginApi() {
+  const user = document.getElementById("dash-user").value.trim().toLowerCase();
+  const pw = document.getElementById("dash-pw").value;
+  if (!user || !pw) { toast("Entrez vos identifiants"); return; }
+
+  if (!apiReady()) {
+    toast("Ajoutez votre URL Railway dans la constante API");
+    return;
+  }
+
+  try {
+    const data = await apiCall("POST", "/auth/login", { username: user, password: pw });
+    authToken = data.token;
+    authRole = data.role;
+    authSalonId = data.salonId || data.salon_id || null;
+    authSalonName = data.salonName || data.salon_name || user;
+
+    localStorage.setItem("mkass_auth_token", authToken || "");
+    localStorage.setItem("mkass_auth_role", authRole || "");
+    localStorage.setItem("mkass_salon_id", authSalonId || "");
+    localStorage.setItem("mkass_salon_name", authSalonName || "");
+
+    isAdmin = authRole === "admin";
+    loggedSalonId = isAdmin ? "__admin__" : authSalonId;
+
+    if (isAdmin) await loadAdminData();
+    else await loadOwnerAppointments();
+
+    showDash();
+    document.getElementById("dash-pw").value = "";
+    toast("Connexion réussie");
+  } catch (err) {
+    toast(err.message || "Identifiants incorrects");
+  }
+};
+
+// Override booking creation.
+confirmBooking = async function confirmBookingApi() {
+  const name = document.getElementById("c-name").value.trim();
+  const phone = document.getElementById("c-phone").value.trim();
+  const note = document.getElementById("c-note").value.trim();
+  localStorage.setItem("mkass_customer_phone", phone);
+  const sId = selSalonId || SALONS[0]?.id;
+  if (!sId || !name || !phone || !selDate || !selTime || pickedSvcs.length === 0) {
+    toast("Complétez la réservation");
+    return;
+  }
+
+  const total = pickedSvcs.reduce((s, x) => s + Number(x.price || 0), 0);
+
+  try {
+    const payload = await apiCall("POST", `/salons/${sId}/appointments`, {
+      customer_name: name,
+      customerName: name,
+      phone,
+      service_names: pickedSvcs.map((s) => s.name),
+      services: pickedSvcs.map((s) => s.name),
+      prices: pickedSvcs.map((s) => s.price),
+      total,
+      appointment_date: selDate,
+      date: selDate,
+      appointment_time: selTime,
+      time: selTime,
+      note,
+      status: "confirmed",
+      type: "booking",
+      payment: "online",
+    });
+
+    const appt = normalizeApiAppointment(unwrapApi(payload, "appointment") || payload || {});
+    if (!appt.salonId) appt.salonId = sId;
+    if (!appt.date) appt.date = selDate;
+    if (!appt.time) appt.time = selTime;
+    if (!appt.services?.length) appt.services = pickedSvcs.map((s) => s.name);
+    if (!appt.total) appt.total = total;
+    if (!appt.client) appt.client = name;
+    appointments.push(appt);
+
+    document.getElementById("bk-ref").textContent = appt.id;
+    const salon = SALONS.find((s) => s.id === sId);
+    const dl = new Date(selDate + "T12:00").toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
+    document.getElementById("bk-detail").innerHTML =
+      `<div class="sd-row"><span>Salon</span><strong>${salon?.name || "Mkass"}</strong></div>` +
+      pickedSvcs.map((s) => `<div class="sd-row"><span>${s.name}</span><strong>${s.price} TND</strong></div>`).join("") +
+      `<div class="sd-row"><span>Total</span><strong style="color:var(--lime)">${total} TND</strong></div>` +
+      `<div class="sd-row"><span>Date</span><strong>${dl}</strong></div>` +
+      `<div class="sd-row"><span>Heure</span><strong>${selTime}</strong></div>` +
+      `<div class="sd-row"><span>Client</span><strong>${name}</strong></div>`;
+
+    goStep(4);
+    toast("✓ Réservation confirmée — " + appt.id);
+  } catch (err) {
+    toast(err.message || "Erreur réservation");
+  }
+};
+
+// Override status updates.
+chSt = async function chStApi(id, st) {
+  const a = appointments.find((x) => x.id === id);
+  if (!a) return;
+  try {
+    await apiCall("PATCH", `/salons/${a.salonId}/appointments/${id}/status`, { status: st }, true);
+    a.status = st;
+    renderDToday(); renderDAll(); renderBalance();
+    toast("Statut → " + STATUS[st]);
+  } catch (err) {
+    toast(err.message || "Erreur statut");
+  }
+};
+
+// Override walk-in creation.
+addWalkin = async function addWalkinApi() {
+  if (pickedWiSvcs.length === 0) { toast("Choisissez au moins un service"); return; }
+  const name = document.getElementById("wi-name").value.trim() || "Anonyme";
+  const total = pickedWiSvcs.reduce((s, x) => s + Number(x.price || 0), 0);
+  const now = new Date();
+  const time = String(now.getHours()).padStart(2, "0") + ":" + String(now.getMinutes()).padStart(2, "0");
+
+  try {
+    const payload = await apiCall("POST", `/salons/${loggedSalonId}/appointments/walkin`, {
+      customer_name: name,
+      customerName: name,
+      services: pickedWiSvcs.map((s) => s.name),
+      service_names: pickedWiSvcs.map((s) => s.name),
+      prices: pickedWiSvcs.map((s) => s.price),
+      total,
+      payment: wiPayMode,
+      paymentMode: wiPayMode,
+    }, true);
+
+    const appt = normalizeApiAppointment(unwrapApi(payload, "appointment") || payload || {});
+    if (!appt.salonId) appt.salonId = loggedSalonId;
+    if (!appt.client) appt.client = name;
+    if (!appt.services?.length) appt.services = pickedWiSvcs.map((s) => s.name);
+    if (!appt.total) appt.total = total;
+    if (!appt.date) appt.date = todayStr();
+    if (!appt.time) appt.time = time;
+    appt.status = appt.status || "done";
+    appt.type = appt.type || "walkin";
+    appt.payMode = appt.payMode || wiPayMode;
+    appointments.push(appt);
+
+    document.getElementById("wi-name").value = "";
+    pickedWiSvcs = [];
+    renderWiSvcs(); renderDToday(); renderBalance(); renderWiHist();
+    toast("💵 Paiement enregistré — " + total + " TND");
+  } catch (err) {
+    toast(err.message || "Erreur walk-in");
+  }
+};
+
+// Override service add/delete.
+addService = async function addServiceApi() {
+  const cat = document.getElementById("as-cat").value;
+  const name = document.getElementById("as-name").value.trim();
+  const dur = document.getElementById("as-dur").value.trim();
+  const price = parseFloat(document.getElementById("as-price").value);
+  if (!name || !dur || isNaN(price)) { toast("Remplissez tous les champs"); return; }
+  const duration = parseInt(dur, 10) || 30;
+
+  try {
+    const payload = await apiCall("POST", `/salons/${loggedSalonId}/services`, {
+      category: cat,
+      cat,
+      name,
+      duration,
+      dur,
+      price,
+    }, true);
+    const svc = normalizeApiService(unwrapApi(payload, "service") || payload || { cat, name, dur, price }, loggedSalonId);
+    if (!SALON_SERVICES[loggedSalonId]) SALON_SERVICES[loggedSalonId] = [];
+    SALON_SERVICES[loggedSalonId].push(svc);
+    ["as-name", "as-dur", "as-price"].forEach((i) => document.getElementById(i).value = "");
+    renderDSvcs(); renderWiSvcs();
+    toast("✓ Service ajouté: " + name);
+  } catch (err) {
+    toast(err.message || "Erreur ajout service");
+  }
+};
+
+deleteSvc = async function deleteSvcApi(id) {
+  if (!confirm("Supprimer ce service ?")) return;
+  try {
+    await apiCall("DELETE", `/salons/${loggedSalonId}/services/${id}`, null, true);
+    SALON_SERVICES[loggedSalonId] = (SALON_SERVICES[loggedSalonId] || []).filter((s) => String(s.id) !== String(id));
+    renderDSvcs(); renderWiSvcs();
+    toast("Service supprimé");
+  } catch (err) {
+    toast(err.message || "Erreur suppression service");
+  }
+};
+
+// Override settings save.
+saveSettingsBtn = async function saveSettingsBtnApi() {
+  const s = SALONS.find((x) => x.id === loggedSalonId);
+  if (!s) return;
+  const patch = {
+    name: document.getElementById("sett-name").value,
+    address: document.getElementById("sett-addr").value,
+    status: document.getElementById("sett-status").value,
+  };
+  try {
+    const payload = await apiCall("PUT", `/salons/${loggedSalonId}`, patch, true);
+    Object.assign(s, normalizeApiSalon(unwrapApi(payload, "salon") || { ...s, ...patch }));
+    document.getElementById("d-greeting").textContent = "Bonjour, " + s.name + " 👋";
+    toast("✓ Paramètres sauvegardés");
+  } catch (err) {
+    toast(err.message || "Erreur paramètres");
+  }
+};
+
+// Override admin create/delete salon.
+addSalon = async function addSalonApi() {
+  const name = document.getElementById("ns-name").value.trim();
+  const addr = document.getElementById("ns-addr").value.trim();
+  const mapUrl = document.getElementById("ns-map-url")?.value.trim() || "";
+  const icon = document.getElementById("ns-icon").value.trim() || "✂️";
+  const type = document.getElementById("ns-type").value;
+  const pw = document.getElementById("ns-pw").value.trim();
+  if (!name || !addr || !pw) { toast("Remplissez tous les champs"); return; }
+
+  try {
+    const payload = await apiCall("POST", "/salons", {
+      username: slugifyName(name),
+      name,
+      address: addr,
+      map_url: mapUrl,
+      mapUrl: mapUrl,
+      icon,
+      type,
+      password: pw,
+      status: "open",
+    }, true);
+    const salon = normalizeApiSalon(unwrapApi(payload, "salon") || payload || {});
+    SALONS.push(salon);
+    await loadServicesForSalon(salon.id);
+    ["ns-name", "ns-addr", "ns-map-url", "ns-pw"].forEach((i) => document.getElementById(i).value = "");
+    document.getElementById("ns-icon").value = "✂️";
+    renderAdminTable(); renderShops();
+    toast("✓ Salon créé: " + name);
+  } catch (err) {
+    toast(err.message || "Erreur création salon");
+  }
+};
+
+removeSalon = async function removeSalonApi(id) {
+  if (!confirm("Supprimer ce salon ?")) return;
+  try {
+    await apiCall("DELETE", `/salons/${id}`, null, true);
+    SALONS = SALONS.filter((s) => s.id !== id);
+    delete SALON_SERVICES[id];
+    appointments = appointments.filter((a) => a.salonId !== id);
+    renderAdminTable(); renderShops();
+    toast("Salon supprimé");
+  } catch (err) {
+    toast(err.message || "Erreur suppression salon");
+  }
+};
+
+// On startup, load real data if API URL is configured. Otherwise keep demo mode.
+window.onload = async () => {
+  if (!apiReady()) {
+    renderShops();
+    toast("Mode démo: remplacez YOUR-RAILWAY-APP par votre URL Railway");
+    return;
+  }
+  try {
+    await loadPublicDataFromApi();
+    toast("Connecté à Railway API");
+  } catch (err) {
+    console.error(err);
+    renderShops();
+    toast("API non disponible: mode démo conservé");
+  }
+};
+</script>
+
+
 <script>
 function toggleTheme(){
   document.documentElement.classList.toggle('dark');
