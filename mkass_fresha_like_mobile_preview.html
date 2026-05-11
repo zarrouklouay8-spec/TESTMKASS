@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mkass — Réservez votre coiffeur</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#101010;
+  --muted:#656760;
+  --soft:#f7f6f1;
+  --line:#dedbd2;
+  --card:#ffffff;
+  --footer:#efeeeb;
+
+  /* Palette from your reference */
+  --green:#28d36b;
+  --mint:rgba(11,100,87,.10);
+  --sand:#e8dfd5;
+
+  --radius:24px;
+}
+html.dark{
+  --ink:#f6f6f1;
+  --muted:#b7b8b0;
+  --soft:#0f1210;
+  --line:rgba(255,255,255,.14);
+  --card:#171b18;
+  --footer:#151815;
+  --mint:rgba(40,211,107,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{font-family:'Plus Jakarta Sans',Inter,Arial,sans-serif;background:var(--soft);color:var(--ink)}
+button,input{font-family:inherit}
+button{cursor:pointer}
+.page{min-height:100vh;background:var(--soft)}
+html.dark .word,html.dark .word em,html.dark h1,html.dark .section-head h2{color:#fff}
+html.dark .nav-links{color:#f0f0ea}
+html.dark .floating{background:rgba(23,27,24,.92);border-color:rgba(255,255,255,.16)}
+html.dark .floating h3,html.dark .floating .rating{color:#fff}
+html.dark .floating p{color:#d0d1c9}
+html.dark .floating button{color:#07110b}
+html.dark .header{background:rgba(15,18,16,.92);border-bottom-color:rgba(255,255,255,.1)}
+html.dark .ghost,html.dark .search,html.dark .venue,html.dark .chip,html.dark .download{background:var(--card);color:#fff;border-color:var(--line)}
+html.dark .field input,html.dark .field small,html.dark .venue-name,html.dark .price strong,html.dark .footer-col h4,html.dark .footer-col a{color:#fff}
+html.dark .hero-copy p,html.dark .addr,html.dark .type,html.dark .price,html.dark .footer-text,html.dark .footer-bottom{color:var(--muted)}
+html.dark .footer{background:var(--footer);border-top-color:var(--line)}
+html.dark .footer-bottom{border-top-color:var(--line)}
+html.dark .service{background:rgba(255,255,255,.08);color:#e8e8e3}
+html.dark .chip.active{background:#fff;border-color:#fff;color:#111}
+html.dark .icon.searchIcon::before,html.dark .icon.pinIcon::before{border-color:#fff}
+html.dark .icon.searchIcon::after,html.dark .icon.pinIcon::after{background:#fff}
+
+/* HEADER */
+.header{
+  height:76px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 clamp(18px,4vw,56px);
+  background:rgba(247,246,241,.94);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(16,16,16,.08);
+  position:sticky;
+  top:0;
+  z-index:20;
+}
+.brand,.footer-logo{display:flex;align-items:center;gap:10px}
+.mark{width:38px;height:38px;border-radius:11px;background:var(--green);display:grid;place-items:center;box-shadow:0 1px 0 rgba(255,255,255,.45) inset}
+.mark svg{width:23px;height:23px}
+.word{font-family:'Space Grotesk','Plus Jakarta Sans',Inter,sans-serif;font-size:26px;font-weight:700;letter-spacing:-.055em;color:#000;line-height:1;text-transform:uppercase}
+.word em{font-style:normal;color:#000}
+.nav-links{display:flex;align-items:center;gap:30px;font-family:Inter,Arial,sans-serif;font-size:14px;font-weight:650;color:#32332f}
+.nav-links span{cursor:pointer;white-space:nowrap}.nav-links span:hover{opacity:.62}
+.nav-actions{display:flex;align-items:center;gap:10px}
+.theme-toggle{height:42px;width:42px;border-radius:999px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;position:relative}
+.theme-toggle::before{content:"";width:17px;height:17px;border-radius:50%;background:#111;display:block;box-shadow:inset -5px -3px 0 rgba(255,255,255,.75)}
+html.dark .theme-toggle{background:var(--card);border-color:var(--line)}
+html.dark .theme-toggle::before{background:var(--green);box-shadow:0 0 0 4px rgba(40,211,107,.14)}
+.ghost{height:42px;padding:0 18px;border:1px solid var(--line);background:#fff;border-radius:999px;font-family:Inter,Arial,sans-serif;font-size:14px;font-weight:600;color:#111}
+.primary{height:42px;padding:0 18px;border:0;background:var(--green);color:#07110b;border-radius:999px;font-family:Inter,Arial,sans-serif;font-size:14px;font-weight:700;box-shadow:0 10px 22px rgba(40,211,107,.18)}
+
+/* HERO */
+.hero-wrap{max-width:1280px;margin:0 auto;padding:54px clamp(18px,4vw,56px) 28px}
+.hero{
+  display:grid;
+  grid-template-columns:minmax(0,1.04fr) minmax(330px,.96fr);
+  gap:46px;
+  align-items:center;
+}
+.hero-copy{max-width:650px}
+.label{display:inline-flex;align-items:center;gap:9px;padding:8px 13px;background:var(--card);border:1px solid var(--line);border-radius:999px;font-size:13px;font-weight:850;color:var(--green);margin-bottom:24px}
+.label::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green)}
+h1{font-family:'Plus Jakarta Sans',Inter,Arial,sans-serif;font-size:clamp(44px,5.7vw,76px);line-height:.98;letter-spacing:-.055em;font-weight:800;margin-bottom:20px;color:#000;max-width:720px}
+h1 span{color:var(--green);font-weight:800}
+.hero-copy p{font-size:18px;line-height:1.6;color:#55574f;max-width:550px;margin-bottom:30px}
+.search{
+  background:#fff;
+  border:1px solid rgba(16,16,16,.10);
+  border-radius:24px;
+  box-shadow:0 28px 70px rgba(28,36,30,.12);
+  padding:8px;
+  display:grid;
+  grid-template-columns:1fr 1fr auto;
+  align-items:center;
+  max-width:780px;
+  position:relative;
+  z-index:3;
+}
+.field{height:58px;display:flex;align-items:center;gap:13px;padding:0 17px;border-right:1px solid #eceae3}
+.field:last-of-type{border-right:none}
+.icon{width:22px;height:22px;position:relative;flex-shrink:0;opacity:.85}
+.icon.searchIcon::before{content:"";position:absolute;left:2px;top:2px;width:12px;height:12px;border:2px solid #111;border-radius:50%}
+.icon.searchIcon::after{content:"";position:absolute;left:14px;top:15px;width:8px;height:2px;background:#111;transform:rotate(45deg);border-radius:2px}
+.icon.pinIcon::before{content:"";position:absolute;left:5px;top:2px;width:12px;height:12px;border:2px solid #111;border-radius:50%}
+.icon.pinIcon::after{content:"";position:absolute;left:10px;top:15px;width:2px;height:6px;background:#111;border-radius:2px}
+.field small{display:block;font-family:Inter,Arial,sans-serif;font-size:11px;color:#86877f;font-weight:600;text-transform:uppercase;letter-spacing:.08em}
+.field input{border:0;outline:0;width:100%;font-family:Inter,Arial,sans-serif;font-size:15px;font-weight:500;color:#111;background:transparent;margin-top:2px}
+.searchBtn{height:58px;border:0;border-radius:18px;background:var(--green);color:#07110b;padding:0 26px;font-family:Inter,Arial,sans-serif;font-size:15px;font-weight:700;white-space:nowrap}
+.hero-visual{height:520px;border-radius:34px;position:relative;overflow:hidden;background:#ddd;box-shadow:0 30px 90px rgba(0,0,0,.13)}
+.hero-visual img{width:100%;height:100%;object-fit:cover;display:block}
+.floating{position:absolute;left:22px;right:22px;bottom:22px;background:rgba(255,255,255,.92);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.72);border-radius:24px;padding:16px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.floating h3{font-size:17px;letter-spacing:-.03em;margin-bottom:4px;color:#111}.floating p{font-size:13px;color:#666}.floating .rating{font-weight:900;color:#111}.floating button{border:0;background:var(--green);height:44px;padding:0 16px;border-radius:14px;font-family:Inter,Arial,sans-serif;font-size:14px;font-weight:700;color:#07110b}
+
+/* TRUST ROW - outside picture, not overlay */
+.trust-row{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:28px;padding:0 2px}
+.trust-item{display:flex;align-items:center;gap:11px;color:#4b4d46;font-size:14px;font-weight:750}
+.trust-icon{width:28px;height:28px;border-radius:50%;background:var(--mint);border:1px solid rgba(11,100,87,.12);position:relative;flex-shrink:0}
+.trust-icon::after{content:"";position:absolute;left:9px;top:7px;width:8px;height:12px;border-right:2px solid var(--green);border-bottom:2px solid var(--green);transform:rotate(40deg)}
+
+/* LISTINGS */
+.section{max-width:1280px;margin:0 auto;padding:24px clamp(18px,4vw,56px) 58px}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:18px;gap:20px}
+.section-head h2{font-family:'Plus Jakarta Sans',Inter,Arial,sans-serif;font-size:34px;letter-spacing:-.04em;font-weight:800;color:#000}
+.section-head p{font-size:14px;color:#686962;font-weight:750}
+.filters{display:flex;gap:10px;overflow:auto;padding-bottom:18px;scrollbar-width:none}.filters::-webkit-scrollbar{display:none}
+.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:11px 15px;font-family:Inter,Arial,sans-serif;font-size:14px;font-weight:600;white-space:nowrap;color:#222}
+.chip.active{background:#111;border-color:#111;color:#fff}
+.venues{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.venue{background:#fff;border:1px solid var(--line);border-radius:26px;overflow:hidden;box-shadow:0 12px 34px rgba(0,0,0,.055);transition:.18s}
+.venue:hover{transform:translateY(-2px);box-shadow:0 18px 45px rgba(0,0,0,.075)}
+.photo{height:230px;position:relative;background:#ddd;overflow:hidden}.photo img{width:100%;height:100%;object-fit:cover;transition:.25s}.venue:hover .photo img{transform:scale(1.035)}
+.save{position:absolute;right:14px;top:14px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.94);display:grid;place-items:center;font-size:19px;color:#111}
+.status{position:absolute;left:14px;top:14px;background:rgba(255,255,255,.94);border-radius:999px;padding:8px 11px;font-size:12px;font-weight:900;color:var(--green)}
+.dist{position:absolute;left:14px;bottom:14px;background:rgba(17,17,17,.82);color:#fff;border-radius:999px;padding:8px 11px;font-size:12px;font-weight:900}
+.venue-body{padding:16px}.venue-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.venue-name{font-family:Inter,Arial,sans-serif;font-size:20px;font-weight:700;letter-spacing:-.015em}.rate{font-family:Inter,Arial,sans-serif;font-size:13px;font-weight:700;white-space:nowrap}.type{font-family:Inter,Arial,sans-serif;font-size:13px;font-weight:500;color:#777;margin-top:4px}.addr{font-family:Inter,Arial,sans-serif;font-size:13px;font-weight:500;color:#676761;margin-top:8px;line-height:1.4}.services{display:flex;gap:7px;flex-wrap:wrap;margin-top:13px}.service{background:#f4f3ee;border-radius:999px;padding:7px 9px;font-family:Inter,Arial,sans-serif;font-size:12px;font-weight:600;color:#444}.service.hot{background:var(--mint);color:var(--green)}.venue-action{display:flex;align-items:center;justify-content:space-between;margin-top:16px}.price{font-size:13px;color:#777}.price strong{display:block;font-size:15px;color:#111;margin-top:2px}.book{height:42px;border:0;border-radius:14px;background:#111;color:#fff;padding:0 16px;font-family:Inter,Arial,sans-serif;font-size:14px;font-weight:700}.book.green{background:var(--green);color:#07110b}
+
+/* FOOTER */
+.footer{background:var(--footer);margin-top:20px;border-top:1px solid #e2e0da}
+.footer-inner{max-width:1280px;margin:0 auto;padding:70px clamp(18px,4vw,56px) 54px;display:grid;grid-template-columns:280px 1fr;gap:72px}.footer-brand{display:flex;flex-direction:column;align-items:flex-start;gap:24px}.footer-text{font-size:14px;line-height:1.6;color:#55574f;max-width:245px}.footer-logo .mark{width:34px;height:34px;border-radius:10px}.footer-logo .word{font-size:24px}.download{height:61px;width:285px;padding:0 22px;border-radius:999px;background:#fff;border:1px solid #d4d3cf;color:#111;font-family:Inter,Arial,sans-serif;font-size:20px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;gap:12px;text-decoration:none;line-height:1;box-shadow:0 1px 0 rgba(255,255,255,.9) inset;white-space:nowrap}.download-text{display:inline-block;transform:translateY(-1px)}.store{display:inline-flex;align-items:center;gap:9px;transform:translateY(-1px)}.apple-svg{width:24px;height:29px;display:block;fill:#111}.g-logo{font-family:Inter,Arial,sans-serif;font-size:29px;font-weight:900;line-height:1;color:#111;letter-spacing:-.085em}html.dark .apple-svg{fill:#fff}html.dark .g-logo{color:#fff}.footer-grid{display:grid;grid-template-columns:repeat(4,minmax(150px,1fr));gap:40px}.footer-col h4{font-family:Inter,Arial,sans-serif;font-size:17px;font-weight:700;letter-spacing:-.015em;margin-bottom:22px}.footer-col a{display:block;color:#111;text-decoration:none;font-family:Inter,Arial,sans-serif;font-size:15px;font-weight:500;margin-bottom:16px;line-height:1.35}.footer-col a:hover{opacity:.62}.footer-bottom{border-top:1px solid #deddd8;max-width:1280px;margin:0 auto;padding:24px clamp(18px,4vw,56px);display:flex;justify-content:space-between;color:#60605a;font-size:14px;font-weight:650}.lang{color:var(--green)}
+.mobile-nav{display:none}
+
+@media(max-width:900px){
+  .nav-links,.nav-actions{display:none}.header{height:68px;padding:0 18px}.word{font-size:25px}.hero-wrap{padding:28px 18px 18px}.hero{display:block}.label{margin-bottom:18px}h1{font-size:40px;line-height:1.02;letter-spacing:-.045em}.hero-copy p{font-size:15px;margin-bottom:20px}.search{display:block;border-radius:22px}.field{border-right:0;border-bottom:1px solid #eceae3;height:56px}.field:nth-child(2){border-bottom:0}.searchBtn{width:100%;height:52px;margin-top:6px}.hero-visual{display:none}.trust-row{grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}.trust-item{font-size:12px}.section{padding:10px 18px 94px}.section-head{align-items:flex-start}.section-head h2{font-size:28px}.section-head p{display:none}.venues{grid-template-columns:1fr;gap:14px}.photo{height:220px}.venue{border-radius:24px}.footer{margin-top:8px}.footer-inner{padding:46px 20px 34px;grid-template-columns:1fr;gap:38px}.footer-grid{grid-template-columns:1fr;gap:24px}.footer-col h4{margin-bottom:14px}.footer-col a{margin-bottom:12px}.footer-bottom{padding:20px 20px 28px;display:block}.footer-bottom .copy{margin-top:18px}.mobile-nav{position:fixed;left:14px;right:14px;bottom:max(14px, env(safe-area-inset-bottom));height:72px;background:rgba(16,16,16,.96);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.14);border-radius:24px;display:grid;grid-template-columns:repeat(3,1fr);gap:7px;padding:7px;z-index:40;box-shadow:0 18px 50px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.05)}.mobile-nav button{border:0;background:transparent;border-radius:18px;font-family:Inter,Arial,sans-serif;font-size:13px;font-weight:800;color:#a8a8a2;display:flex;align-items:center;justify-content:center;text-align:center}.mobile-nav button.active{color:var(--green);background:rgba(40,211,107,.15);box-shadow:inset 0 0 0 1px rgba(40,211,107,.06)}.mobile-nav span{display:none!important}.page{padding-bottom:104px}
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="header">
+    <div class="brand">
+      <div class="mark">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="6" cy="6" r="3" stroke="#111" stroke-width="2"/><circle cx="6" cy="18" r="3" stroke="#111" stroke-width="2"/><path d="M8.5 8.5L20 20" stroke="#111" stroke-width="2" stroke-linecap="round"/><path d="M8.5 15.5L20 4" stroke="#111" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <div class="word">MKASS</div>
+    </div>
+    <nav class="nav-links">
+      <span>Explorer</span>
+      <span>Mes réservations</span>
+      <span>Pour les professionnels</span>
+      <span>Tarifs</span>
+      <span>Aide</span>
+    </nav>
+    <div class="nav-actions">
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Changer le mode sombre"></button>
+      <button class="ghost">Se connecter</button>
+      <button class="primary">S'inscrire</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero-wrap">
+      <div class="hero">
+        <div class="hero-copy">
+          <div class="label">Tunis & environs</div>
+          <h1>Trouvez votre <span>coiffeur idéal</span></h1>
+          <p>Réservez en ligne dans les meilleurs salons et barbershops près de chez vous.</p>
+          <div class="search">
+            <div class="field"><div class="icon pinIcon"></div><div><small>Lieu</small><input value="Tunis" /></div></div>
+            <div class="field"><div class="icon searchIcon"></div><div><small>Service</small><input placeholder="Coupe, brushing, barbe..." /></div></div>
+            <button class="searchBtn">Rechercher</button>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <img src="https://images.unsplash.com/photo-1622287162716-f311baa1a2b8?q=80&w=1200&auto=format&fit=crop" alt="Barbershop moderne" />
+          <div class="floating">
+            <div><h3>Barber One</h3><p>Centre-ville · Disponible demain</p></div>
+            <div class="rating">★ 4,9</div>
+            <button>Réserver</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="trust-row" aria-label="Avantages Mkass">
+        <div class="trust-item"><span class="trust-icon"></span>Réservation instantanée</div>
+        <div class="trust-item"><span class="trust-icon"></span>Annulation gratuite</div>
+        <div class="trust-item"><span class="trust-icon"></span>Paiement au salon</div>
+        <div class="trust-item"><span class="trust-icon"></span>Avis vérifiés</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Salons à proximité</h2>
+          <p>Les meilleurs établissements disponibles autour de vous</p>
+        </div>
+        <p>Voir tout →</p>
+      </div>
+
+      <div class="filters">
+        <button class="chip active">Tous</button>
+        <button class="chip">Près de moi</button>
+        <button class="chip">Ouvert maintenant</button>
+        <button class="chip">Les mieux notés</button>
+        <button class="chip">Barbershops</button>
+        <button class="chip">Salons femme</button>
+      </div>
+
+      <div class="venues">
+        <article class="venue">
+          <div class="photo">
+            <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?q=80&w=1000&auto=format&fit=crop" alt="Salon Nour" />
+            <div class="status">Disponible</div><div class="save">♡</div><div class="dist">0,3 km</div>
+          </div>
+          <div class="venue-body">
+            <div class="venue-top"><div><div class="venue-name">Salon Nour</div><div class="type">Salon de coiffure · Lafayette</div></div><div class="rate">★ 4,8</div></div>
+            <div class="addr">Rue de Marseille, Tunis · 124 avis</div>
+            <div class="services"><span class="service hot">Brushing</span><span class="service">Coloration</span><span class="service">Kératine</span></div>
+            <div class="venue-action"><div class="price">Prestations dès <strong>25 TND</strong></div><button class="book green">Réserver</button></div>
+          </div>
+        </article>
+
+        <article class="venue">
+          <div class="photo">
+            <img src="https://images.unsplash.com/photo-1517832606299-7ae9b720a186?q=80&w=1000&auto=format&fit=crop" alt="Barber One" />
+            <div class="status">Disponible</div><div class="save">♡</div><div class="dist">0,7 km</div>
+          </div>
+          <div class="venue-body">
+            <div class="venue-top"><div><div class="venue-name">Barber One</div><div class="type">Barbershop · Centre-ville</div></div><div class="rate">★ 4,9</div></div>
+            <div class="addr">Avenue Habib Bourguiba, Tunis · 89 avis</div>
+            <div class="services"><span class="service hot">Coupe homme</span><span class="service">Barbe</span><span class="service">Rasage</span></div>
+            <div class="venue-action"><div class="price">Prestations dès <strong>15 TND</strong></div><button class="book">Réserver</button></div>
+          </div>
+        </article>
+
+        <article class="venue">
+          <div class="photo">
+            <img src="https://images.unsplash.com/photo-1600948836101-f9ffda59d250?q=80&w=1000&auto=format&fit=crop" alt="Studio Bella" />
+            <div class="status">Très demandé</div><div class="save">♡</div><div class="dist">2,1 km</div>
+          </div>
+          <div class="venue-body">
+            <div class="venue-top"><div><div class="venue-name">Studio Bella</div><div class="type">Salon mixte · Lac 1</div></div><div class="rate">★ 4,6</div></div>
+            <div class="addr">Rue du Lac, Tunis · 67 avis</div>
+            <div class="services"><span class="service hot">Soin</span><span class="service">Extensions</span><span class="service">Nails</span></div>
+            <div class="venue-action"><div class="price">Prestations dès <strong>30 TND</strong></div><button class="book">Réserver</button></div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <div class="mark"><svg viewBox="0 0 24 24" fill="none"><circle cx="6" cy="6" r="3" stroke="#111" stroke-width="2"/><circle cx="6" cy="18" r="3" stroke="#111" stroke-width="2"/><path d="M8.5 8.5L20 20" stroke="#111" stroke-width="2" stroke-linecap="round"/><path d="M8.5 15.5L20 4" stroke="#111" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <div class="word">MKASS</div>
+        </div>
+        <p class="footer-text">La plateforme de réservation en ligne pour trouver les meilleurs salons et barbiers près de chez vous.</p>
+        <a class="download" href="#" aria-label="Télécharger l'application Mkass"><span class="download-text">Télécharger l'app</span><span class="store"><svg class="apple-svg" viewBox="0 0 24 29" aria-hidden="true"><path d="M19.33 15.42c-.03-3.12 2.55-4.62 2.67-4.69-1.46-2.13-3.72-2.43-4.52-2.46-1.92-.2-3.74 1.13-4.71 1.13-.97 0-2.47-1.1-4.06-1.07-2.09.03-4.02 1.22-5.1 3.1-2.18 3.78-.56 9.37 1.57 12.43 1.04 1.5 2.28 3.19 3.91 3.13 1.57-.06 2.16-1.01 4.05-1.01s2.42 1.01 4.08.98c1.68-.03 2.75-1.53 3.78-3.04 1.19-1.74 1.68-3.43 1.71-3.52-.04-.02-3.35-1.28-3.38-4.98z"/><path d="M16.22 6.25c.86-1.04 1.44-2.48 1.28-3.92-1.24.05-2.73.83-3.62 1.86-.79.91-1.49 2.38-1.3 3.78 1.38.11 2.78-.7 3.64-1.72z"/></svg><span class="g-logo">G</span></span></a>
+      </div>
+
+      <div class="footer-grid">
+        <div class="footer-col"><h4>À propos de Mkass</h4><a href="#">Carrières</a><a href="#">Aide et assistance</a><a href="#">Blog</a><a href="#">Plan du site</a></div>
+        <div class="footer-col"><h4>Pour les professionnels</h4><a href="#">Pour les partenaires</a><a href="#">Tarifs</a><a href="#">Aide</a><a href="#">Statut</a></div>
+        <div class="footer-col"><h4>Mentions légales</h4><a href="#">Politique de confidentialité</a><a href="#">Conditions d'utilisation</a><a href="#">Cookies</a></div>
+        <div class="footer-col"><h4>Retrouvez-nous sur les réseaux sociaux</h4><a href="#">↗ Facebook</a><a href="#">↗ X (Twitter)</a><a href="#">↗ Linkedin</a><a href="#">↗ Instagram</a></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="lang">◎ français (FR)</div>
+      <div class="copy">© 2026 Mkass. Tous droits réservés.</div>
+    </div>
+  </footer>
+
+  <nav class="mobile-nav">
+    <button class="active">Explorer</button>
+    <button>Mes réservations</button>
+    <button>Se connecter</button>
+  </nav>
+</div>
+<script>
+function toggleTheme(){
+  document.documentElement.classList.toggle('dark');
+}
+</script>
+</body>
+</html>
